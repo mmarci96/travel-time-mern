@@ -1,9 +1,7 @@
-import { Db } from "mongodb";
+// types.d.ts or a file in your src folder
 
 declare global {
-    namespace Express {
-        interface Request {
-            db?: Db; // Add the `db` property to the `Request` interface
-        }
-    }
+    
 }
+
+export {};
