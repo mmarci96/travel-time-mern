@@ -28,7 +28,8 @@ router.post('/login', async(req: Request, res: Response, next: NextFunction): Pr
         if (!email || !password) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        const newToken = createToken(email,password)
+        const newToken = await createToken(email,password)
+        console.log(newToken)
         return res.status(200).json(newToken)
     } catch(err:any){
         if (err.message === "No user with email" ||
