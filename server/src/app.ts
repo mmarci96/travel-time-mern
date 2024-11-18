@@ -1,4 +1,8 @@
 import express from 'express';
+import { MongoClient } from "mongodb";
+
+const connectionUrl: string = process.env.MONGO_DB_CONNECTION
+const client = new MongoClient(connectionUrl);
 
 const app = express();
 const port = 8080;
