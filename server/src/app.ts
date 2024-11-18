@@ -1,31 +1,36 @@
-import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
-import ensureDbConnection from './middlewares/ensureDbConnection'; // Import the middleware
-
+import dotenv from "dotenv";
+import express from 'express';
+import mongoose from 'mongoose';
+import errorHandler from "./middlewares/errorHandler";
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 dotenv.config();
 
 const app = express();
-const port = 8080;
+const { MONGO_URL, PORT = 8080 } = process.env;
+console.log(MONGO_URL)
+
+if (!MONGO_URL) {
+  console.error("Missing MONGO_URL environment variable");
+  process.exit(1);
+}
 
 app.use(express.json());
-app.use(ensureDbConnection);
+app.use(errorHandler);
 
-// Routes
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, TypeScript Node Express!');
-});
+app.use('/api/users', userRoutes)
+app.use('/api/auth', authRoutes)
 
-app.get('/data', async (req: Request, res: Response) => {
-    try {
-        const collection = req.db?.collection("FunCollection"); // Using the database instance
-        const data = await collection?.find({}).toArray();
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).send("Failed to fetch data.");
-    }
-});
+const main = async () => {
+    const url = MONGO_URL 
+    await mongoose.connect(url);
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    app.listen(PORT, () => {
+        console.log("App is listening on ", PORT);
+    });
+};
+
+main().catch((err) => {
+    console.error(err);
+    process.exit(1);
 });

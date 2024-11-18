@@ -12,6 +12,7 @@ const userDetailsSchema = new Schema({
     gender: { type: String, default: null },
     socialMediaLinks: { platform: String, link: String, default: {} },
     languagesSpoken: { type: Array, default: [] },
+    avatarUrl: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
 })
