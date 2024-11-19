@@ -5,6 +5,10 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "src/types"]
+  },
+
+  "include": ["types/**/*.d.ts", "src/**/*", "populate/**/*"],
+  "exclude": ["node_modules"]
 }
