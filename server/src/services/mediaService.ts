@@ -21,7 +21,7 @@ export const getStorage = () => {
             );
         },
     });
-    
+
     return multer({ storage: storage });
 };
 
