@@ -1,34 +1,23 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { getStorage } from '../services/mediaService';
+import {
+    getStorage,
+    saveImage,
+    mapUploadedFiles,
+} from '../services/mediaService';
 
 const router = express.Router();
-
 const imageUpload = getStorage();
 
-// I guess the argument we send in will handle the upload?
 router.post(
     '/img',
     imageUpload.array('image-file'),
     async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-        if (!req.files) {
-            return res.status(400).send('No file uploaded.');
-        }
         try {
-            // Type assertion for req.files
-            const files = req.files as Express.Multer.File[];
+            const files = mapUploadedFiles(req.files);
 
-            // Extract filenames
-            const fileNames = files.map((file) => ({
-                name: file.filename,
-                path: file.path,
-            }));
+            const image = await saveImage(files[0].name, files[0].path);
 
-            // Send response with file names
-            res.status(201).json({
-                status: 'uploaded',
-                name: fileNames[0].name,
-                path: fileNames[0].path,
-            });
+            res.status(201).json(image);
         } catch (err) {
             next(err);
         }

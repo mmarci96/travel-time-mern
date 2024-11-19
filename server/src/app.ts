@@ -1,20 +1,20 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
-import multer from 'multer';
-import bodyParser from 'body-parser';
 import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
 import mediaRoutes from './routes/mediaRoutes';
+import userRoutes from './routes/userRoutes';
 dotenv.config();
 
 const app = express();
 const { MONGO_URL, PORT = 8080 } = process.env;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(errorHandler);
+app.use(cors());
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
