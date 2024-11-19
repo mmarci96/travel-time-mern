@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { createUser } from '../services/userService';
 import { createToken } from '../services/authService';
-import { toUserDTO } from '../dtos/user.dto';
+import { toUserDTO } from '../dto/user.dto';
 
 const router = express.Router();
 

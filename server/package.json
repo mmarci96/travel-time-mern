@@ -1,13 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/app.js",
     "format": "prettier --write .",
-    "dev": "npm run format && nodemon --watch 'src/**/*' --exec 'ts-node' -r dotenv/config src/app.ts",
+    "dev": "npm run format && nodemon --watch 'src/**/*' --exec 'ts-node -r dotenv/config' src/app.ts",
     "predev": "npm run format"
   },
   "keywords": [],
