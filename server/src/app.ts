@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
-import uploadRoutes from './routes/uploadRoutes';
+import mediaRoutes from './routes/mediaRoutes';
 dotenv.config();
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(errorHandler);
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/upload', uploadRoutes);
+app.use('/api/media', mediaRoutes);
 
 const main = async () => {
     const url = MONGO_URL;
