@@ -135,4 +135,4 @@ dist
 .mvn
 
 # Exclude the temporary img uploads dir
-# img_uploads_temp
+img_uploads_temp
