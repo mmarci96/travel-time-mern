@@ -1,27 +1,32 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
+import multer from 'multer'
+import bodyParser from 'body-parser';
 import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 dotenv.config();
 
 const app = express();
 const { MONGO_URL, PORT = 8080 } = process.env;
 
-if (!MONGO_URL) {
-    console.error('Missing MONGO_URL environment variable');
-    process.exit(1);
-}
 
 app.use(express.json());
 app.use(errorHandler);
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes)
 
 const main = async () => {
     const url = MONGO_URL;
+    if(!url){
+        console.error('Missing MONGO_URL environment variable');
+        process.exit(1);
+    }
     await mongoose.connect(url);
 
     app.listen(PORT, () => {
