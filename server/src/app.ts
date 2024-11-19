@@ -8,7 +8,6 @@ dotenv.config();
 
 const app = express();
 const { MONGO_URL, PORT = 8080 } = process.env;
-console.log(MONGO_URL);
 
 if (!MONGO_URL) {
     console.error('Missing MONGO_URL environment variable');
