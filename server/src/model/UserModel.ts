@@ -7,8 +7,8 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
-    userDetails: { type: Schema.Types.ObjectId, ref: 'UserDetails' },
+    userDetails: { type: Schema.Types.ObjectId, ref: 'UserDetailsModel' }, // Updated ref name
 });
 
-const User = mongoose.model('User', userSchema);
-export default User;
+const UserModel = mongoose.model('User', userSchema);
+export default UserModel;

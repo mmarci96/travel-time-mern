@@ -7,6 +7,7 @@
     "start": "tsc && node dist/app.js",
     "format": "prettier --write .",
     "dev": "npm run format && nodemon --watch 'src/**/*' --exec 'ts-node -r dotenv/config' src/app.ts",
+    "seed": "ts-node -r dotenv/config src/scripts/seed.ts",
     "predev": "npm run format"
   },
   "keywords": [],
