@@ -82,7 +82,7 @@ export const updatePost = async (
             ...updateData,
             updated_at: new Date(),
         },
-        { new: true }, // Returns the updated document
+        { new: true },
     );
 
     if (!updatedPost) throw new Error('Failed to update post');

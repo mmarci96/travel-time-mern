@@ -6,8 +6,8 @@ import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
-import commentRoutes from './routes/commentRoutes'
-import postRoutes from './routes/postRoutes'
+import commentRoutes from './routes/commentRoutes';
+import postRoutes from './routes/postRoutes';
 dotenv.config();
 
 const app = express();
