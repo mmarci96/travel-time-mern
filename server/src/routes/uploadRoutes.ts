@@ -24,7 +24,7 @@ router.post('/img', imageUpload.array("image-file"), async (req, res, next) => {
     try{
         console.log('img post request recieved!');
         console.log('Axios POST body: ', req.body);
-        res.send('POST request recieved on server to /api/upload/img.');
+        res.send({'status':'uploaded'});
     }catch(err){
         next(err)
     }
