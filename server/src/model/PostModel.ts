@@ -12,4 +12,4 @@ const postSchema = new Schema({
 })
 
 const PostModel = mongoose.model('Post', postSchema)
-export default c
+export default PostModel
