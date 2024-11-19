@@ -17,5 +17,5 @@ const userDetailsSchema = new Schema({
     updatedAt: { type: Date },
 });
 
-const UserDetails = mongoose.model('UserDetails', userDetailsSchema);
-export default UserDetails;
+const UserDetailsModel = mongoose.model('UserDetails', userDetailsSchema);
+export default UserDetailsModel;

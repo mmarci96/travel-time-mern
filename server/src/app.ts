@@ -9,7 +9,7 @@ import userRoutes from './routes/userRoutes';
 dotenv.config();
 
 const app = express();
-const { MONGO_URL, PORT = 8080 } = process.env;
+const { MONGO_URI, PORT = 8080 } = process.env;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,7 +21,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 
 const main = async () => {
-    const url = MONGO_URL;
+    const url = MONGO_URI;
     if (!url) {
         console.error('Missing MONGO_URL environment variable');
         process.exit(1);

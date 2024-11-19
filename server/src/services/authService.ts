@@ -1,4 +1,4 @@
-import User from '../model/User';
+import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -8,7 +8,7 @@ dotenv.config();
 const secret_key = process.env.JWT_SECRET_KEY || '';
 
 export const createToken = async (email: string, password: string) => {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) {
         throw new Error('No user with email');
     }

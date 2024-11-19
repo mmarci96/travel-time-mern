@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Image } from '../model/Image';
+import { ImageModel } from '../model/ImageModel';
 import multer from 'multer';
 dotenv.config();
 
@@ -45,7 +45,7 @@ export const saveImage = async (filename: string, filepath: string) => {
         );
     }
 
-    const image = new Image({
+    const image = new ImageModel({
         filename: filename,
         filepath: filepath,
     });

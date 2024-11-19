@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 interface IImage extends Document {
     filename: string;
     filepath: string;
-    userId?: string | null; // Optional field for the user who uploaded the image
+    userId?: string | null; // TODO: Set it required when rdy. Optional field for the user who uploaded the image
     uploadedAt: Date;
 }
 
@@ -17,6 +17,6 @@ const ImageSchema = new Schema<IImage>({
 });
 
 // Create and export the model
-const Image = mongoose.model<IImage>('Image', ImageSchema);
+const ImageModel = mongoose.model<IImage>('Image', ImageSchema);
 
-export { Image, IImage };
+export { ImageModel, IImage };
