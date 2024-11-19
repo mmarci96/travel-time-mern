@@ -18,7 +18,7 @@ const ImageUpload = () => {
       return;
     }
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('image-file', image);
     setLoading(true);
     setError(null);
     try {
