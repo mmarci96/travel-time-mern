@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/app.js",
-    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node' -r dotenv/config src/app.ts"
+    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node' -r dotenv/config src/app.ts",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },

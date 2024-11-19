@@ -1,5 +1,5 @@
 // No need to get crazy but I just dont want to serve the password even if its hashed.
-// Took some notes last modules 
+// Took some notes last modules
 export interface UserDTO {
     id: string;
     username: string;

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 const userDetailsSchema = new Schema({
     firstName: { type: String, required: true },
@@ -15,7 +15,7 @@ const userDetailsSchema = new Schema({
     avatarUrl: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
-})
+});
 
-const UserDetails = mongoose.model('UserDetails', userDetailsSchema)
-export default UserDetails
+const UserDetails = mongoose.model('UserDetails', userDetailsSchema);
+export default UserDetails;

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username: { type: String, required: true },
@@ -7,8 +7,8 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
-    userDetails: {type: Schema.Types.ObjectId, ref: 'UserDetails'}
-})
+    userDetails: { type: Schema.Types.ObjectId, ref: 'UserDetails' },
+});
 
-const User = mongoose.model('User', userSchema)
-export default User
+const User = mongoose.model('User', userSchema);
+export default User;
