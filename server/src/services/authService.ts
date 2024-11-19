@@ -23,7 +23,7 @@ export const createToken = async (email: string, password: string) => {
 };
 
 interface CustomJwtPayload extends JwtPayload {
-    userId: string; // This should match the actual payload structure of your JWT
+    userId: string; 
 }
 
 export const verifyToken = (token: string, id: Types.ObjectId) => {
