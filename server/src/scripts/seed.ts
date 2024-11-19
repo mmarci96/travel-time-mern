@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker';
 import UserModel from '../model/UserModel';
 import UserDetailsModel from '../model/UserDetailsModel';
-dotenv.config()
+dotenv.config();
 
 // MongoDB Connection
 const mongoUri = process.env.MONGO_URI || '';
@@ -14,8 +14,8 @@ mongoose
     .catch((err) => console.error('MongoDB connection error:', err));
 
 const generateFakeUsers = async (count: number) => {
-    await UserDetailsModel.deleteMany()
-    await UserModel.deleteMany()
+    await UserDetailsModel.deleteMany();
+    await UserModel.deleteMany();
     // Generate fake user details
     const fakeUserDetails = Array.from({ length: count }).map(() => ({
         firstName: faker.person.firstName(),
@@ -32,7 +32,8 @@ const generateFakeUsers = async (count: number) => {
     }));
 
     // Insert fake user details and fetch their `_id`s
-    const insertedUserDetails = await UserDetailsModel.insertMany(fakeUserDetails);
+    const insertedUserDetails =
+        await UserDetailsModel.insertMany(fakeUserDetails);
 
     // Generate fake users with references to the inserted user details
     const fakeUsers = insertedUserDetails.map((userDetails) => ({
@@ -40,7 +41,7 @@ const generateFakeUsers = async (count: number) => {
         email: faker.internet.email().toLowerCase(),
         password: faker.internet.password(),
         createdAt: faker.date.past(),
-        userDetails: userDetails._id // Properly reference `_id`
+        userDetails: userDetails._id, // Properly reference `_id`
     }));
 
     await UserModel.insertMany(fakeUsers);

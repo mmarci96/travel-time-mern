@@ -1,4 +1,3 @@
-
 export interface PostCreateDTO {
     image_url: string;
     title: string;
