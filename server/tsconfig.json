@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "target": "ES6",
+    "module": "CommonJS", // Use CommonJS for Node.js compatibility
+    "moduleResolution": "node", // Node.js module resolution strategy
+    "esModuleInterop": true, // Allow default imports from modules without default exports
+    "skipLibCheck": true, // Skip library checks for performance
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist", // Output directory for compiled files
+    "strict": true // Enable strict type checking
   },
-
-  "include": ["types/**/*.d.ts", "src/**/*", "populate/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

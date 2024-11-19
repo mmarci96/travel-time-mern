@@ -7,7 +7,7 @@ export interface UserDTO {
 }
 
 export const toUserDTO = (user: any): UserDTO => ({
-    id: user._id.toString(), // Convert ObjectId to string
+    id: user._id.toString(),
     username: user.username,
     email: user.email,
 });
