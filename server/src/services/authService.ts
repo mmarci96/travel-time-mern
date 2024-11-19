@@ -29,15 +29,10 @@ interface CustomJwtPayload extends JwtPayload {
 export const verifyToken = (token: string, id: Types.ObjectId) => {
     if (!token) throw new Error('Token missing!');
 
-    // Use a type assertion here to tell TypeScript the expected type of the decoded token
     const decoded = jwt.verify(token, secret_key) as CustomJwtPayload;
-
-    // Access userId safely now that TypeScript knows it exists
     const uid: Types.ObjectId = new Types.ObjectId(decoded.userId);
-
     if (uid.equals(id)) {
         return true;
     }
-
     return false;
 };
