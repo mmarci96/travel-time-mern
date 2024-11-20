@@ -7,7 +7,7 @@ import {
     getPostByAuthorId,
     deletePost,
     updatePost,
-} from '../services/postServices'; // Assuming a postService.ts file
+} from '../services/postService'; // Assuming a postService.ts file
 
 const router = express.Router();
 
