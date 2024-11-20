@@ -7,7 +7,7 @@ const Button = ({ children, onClick, color = 'cyan', type = 'button' }) => {
 
   return (
     <button
-      className={`${colorClasses[color]} text-white font-bold py-2 px-4 rounded hover:opacity-80 transition duration-300 ease-in-out`}
+      className={`${colorClasses[color]} text-white font-bold my-2 mx-auto py-2 px-4 rounded hover:opacity-80 transition duration-300 ease-in-out`}
       onClick={onClick}
       type={type}
     >

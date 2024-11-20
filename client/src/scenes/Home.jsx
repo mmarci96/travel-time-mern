@@ -1,4 +1,4 @@
-import ImageUpload from '../components/ImageUpload';
+import ImageUpload from '../components/common/ImageUpload';
 
 const Home = () => {
   return (

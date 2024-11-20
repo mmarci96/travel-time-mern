@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Button from './Button'; // Import the reusable Button component
-import FormField from './FormField'; // Import the reusable FormField component
+import Button from './Button'; 
+import FormField from './FormField';
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
@@ -27,7 +27,7 @@ const ImageUpload = () => {
     try {
       const res = await axios.post('/api/media/img', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Fixed content type to match the correct one
+          'Content-Type': 'multipart/form-data',
         },
       });
       alert('Image uploaded successfully!');
@@ -43,14 +43,12 @@ const ImageUpload = () => {
   return (
     <div className="p-4 max-w-sm mx-auto">
       <form onSubmit={handleSubmit}>
-        {/* Use FormField for file input */}
         <FormField
           label="Choose an image"
           type="file"
           accept="image/*"
           onChange={handleFileChange}
         />
-        {/* Use Button for submitting the form */}
         <Button type="submit" color="green" disabled={loading}>
           {loading ? 'Uploading...' : 'Upload Image'}
         </Button>
