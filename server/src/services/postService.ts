@@ -4,15 +4,24 @@ import { PostCreateDTO } from '../dto/post.dto';
 
 export const createPost = async (
     author_id: Types.ObjectId,
-    postDto: PostCreateDTO,
+    description: string,
+    image_url: string,
+    location: string,
+    title: string
+    
 ) => {
-    if (!author_id || !postDto) {
+    console.log('create post');
+    console.log(author_id, description, image_url, location, title);
+    if (!author_id || !description || !image_url || !location || !title) {
         throw new Error('Empty request, failed to post');
     }
 
     const post = new PostModel({
         author_id,
-        ...postDto,
+        image_url,
+        title,
+        description,
+        location,
     });
 
     const savedPost = await post.save();
