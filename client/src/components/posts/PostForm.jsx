@@ -27,7 +27,7 @@ const PostForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleImageUpload = async () => {
+  const uploadImage = async () => {
     const formData = new FormData();
     formData.append('image-file', image);
     setLoading(true);
@@ -51,7 +51,8 @@ const PostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { filename } = await handleImageUpload();
+      setLoading(true);
+      const { filename } = await uploadImage();
 
       formData.image_url = filename;
 
@@ -73,6 +74,8 @@ const PostForm = () => {
     } catch (err) {
       setError('Post creation failed!');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
