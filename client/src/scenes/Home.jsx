@@ -1,10 +1,10 @@
-import ImageUpload from '../components/ImageUpload';
+import PostForm from '../components/posts/PostForm';
 
 const Home = () => {
   return (
     <div>
       Home
-      <ImageUpload />
+      <PostForm />
     </div>
   );
 };

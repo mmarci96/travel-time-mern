@@ -7,15 +7,21 @@ import {
     getPostByAuthorId,
     deletePost,
     updatePost,
-} from '../services/postServices'; // Assuming a postService.ts file
+} from '../services/postService'; // Assuming a postService.ts file
 
 const router = express.Router();
 
 // Create a new post
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { author_id, postDto } = req.body;
-        const newPost = await createPost(author_id, postDto);
+        const { author_id, image_url, title, description, location } = req.body;
+        const newPost = await createPost(
+            author_id,
+            image_url,
+            title,
+            description,
+            location,
+        );
         res.status(201).json(newPost);
     } catch (error) {
         next(error);
