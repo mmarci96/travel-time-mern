@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Button from './Button'; 
+import Button from './Button';
 import FormField from './FormField';
 
 const ImageUpload = () => {

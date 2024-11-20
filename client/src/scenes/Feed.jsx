@@ -1,4 +1,4 @@
-import PostList from "../components/posts/PostList"
+import PostList from '../components/posts/PostList';
 const Feed = () => {
   return (
     <div>

@@ -1,7 +1,5 @@
 const PostList = () => {
-  return (
-    <div>PostList</div>
-  )
+  return <div>PostList</div>;
 };
 
-export default PostList
+export default PostList;

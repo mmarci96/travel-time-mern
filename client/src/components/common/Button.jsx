@@ -1,4 +1,9 @@
-const Button = ({ children, onClick = () => {}, color = 'cyan', type = 'button' }) => {
+const Button = ({
+  children,
+  onClick = () => {},
+  color = 'cyan',
+  type = 'button',
+}) => {
   const colorClasses = {
     cyan: 'bg-cyan-500 hover:bg-cyan-700',
     red: 'bg-red-500 hover:bg-red-700',

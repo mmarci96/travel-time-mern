@@ -7,8 +7,7 @@ export const createPost = async (
     description: string,
     image_url: string,
     location: string,
-    title: string
-    
+    title: string,
 ) => {
     console.log('create post');
     console.log(author_id, description, image_url, location, title);

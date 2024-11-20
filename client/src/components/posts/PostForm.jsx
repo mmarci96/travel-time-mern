@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Popup from '../common/Popup';
-import Accepted from '../common/Accepted';
 
 const PostForm = () => {
   const navigate = useNavigate();
@@ -70,7 +69,6 @@ const PostForm = () => {
       }
       console.log(res);
       setIsAccepted(true);
-      
     } catch (err) {
       setError('Post creation failed!');
       console.error(err);
@@ -116,21 +114,14 @@ const PostForm = () => {
         <Button type="submit">
           {loading ? 'Uploading...' : 'Create Post'}
         </Button>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
       {isAccepted && (
-        <Popup>
-          <Accepted>
-            <p className="mt-2">Post created successfully!</p>
-            <Button
-              color="green"
-              onClick={() => navigate('/feed')}
-              className="mt-4"
-            >
-              Back
-            </Button>
-          </Accepted>
-        </Popup>
+        <Popup
+          status={'success'}
+          message={'Post created successfully'}
+          onClose={() => navigate('/feed')}
+        />
       )}
     </div>
   );
