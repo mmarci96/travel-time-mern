@@ -19,7 +19,7 @@ router.post(
             const newUser = await createUser(username, email, password);
             const userDTO = toUserDTO(newUser); // Use the DTO to sanitize the response
 
-            return res.status(201).json(userDTO);
+            return res.status(201).send(userDTO);
         } catch (err: any) {
             if (
                 err.message === 'Username is already taken' ||
@@ -44,7 +44,7 @@ router.post(
             }
             const newToken = await createToken(email, password);
             console.log(newToken);
-            return res.status(200).json(newToken);
+            return res.status(200).send(newToken);
         } catch (err: any) {
             if (
                 err.message === 'No user with email' ||
