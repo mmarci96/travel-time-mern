@@ -1,5 +1,14 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose, { Schema, Document } from 'mongoose';
+
+interface IPost extends Document {
+    author_id: Schema.Types.ObjectId;
+    image_url: string;
+    title: string;
+    description?: string;
+    location?: string;
+    created_at: Date;
+    updated_at?: Date;
+}
 
 const postSchema = new Schema({
     author_id: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -11,5 +20,5 @@ const postSchema = new Schema({
     updated_at: { type: Date },
 });
 
-const PostModel = mongoose.model('Post', postSchema);
+const PostModel = mongoose.model<IPost>('Post', postSchema);
 export default PostModel;
