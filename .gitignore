@@ -133,6 +133,7 @@ dist
 
 # In case anyone opens Intellij IDEA
 .mvn
+.IDEA
 
 # Exclude the temporary img uploads dir
 img_uploads_temp

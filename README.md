@@ -27,3 +27,10 @@ Make sure to step into each sub folder and run:
 
     npm install
 
+# Naming conventions
+mongo: snake_case
+branches: hyphen-separated
+jsx, ts: camelCase, Capital
+models: Capital, single case
+
+
