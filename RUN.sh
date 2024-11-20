@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Paths
-SERVER_PATH="/home/meirl/Documents/travel-time-mern/server"
-CLIENT_PATH="/home/meirl/Documents/travel-time-mern/client"
+SERVER_PATH="./server"
+CLIENT_PATH="./client"
 
 # Commands
 SERVER_CMD="npm run dev"
