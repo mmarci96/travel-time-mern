@@ -6,6 +6,8 @@ import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
+import commentRoutes from './routes/commentRoutes';
+import postRoutes from './routes/postRoutes';
 dotenv.config();
 
 const app = express();
@@ -31,6 +33,8 @@ app.use(cors());
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
 
 const main = async () => {
     const url = MONGO_URI;
