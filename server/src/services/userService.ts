@@ -34,15 +34,13 @@ export const createUser = async (
     };
 };
 
-export const getUserById=async(
-   userId: Types.ObjectId
-)=>{
-const user= await UserModel.findById(userId);
-if (!user){
-    throw new Error ("No user found");
-}
-return {
-    username: user.username,
-    email: user.email,
+export const getUserById = async (userId: Types.ObjectId) => {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new Error('No user found');
+    }
+    return {
+        username: user.username,
+        email: user.email,
+    };
 };
-}

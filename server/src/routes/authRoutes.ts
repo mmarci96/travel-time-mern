@@ -18,7 +18,10 @@ router.post(
 
             const newUser = await createUser(username, email, password);
             // const userDTO = toUserDTO(newUser); // Use the DTO to sanitize the response
-            const response={username:newUser.username, email: newUser.email}
+            const response = {
+                username: newUser.username,
+                email: newUser.email,
+            };
 
             return res.status(201).send(response);
         } catch (err: any) {
