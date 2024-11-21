@@ -8,34 +8,35 @@ import {
     deletePost,
     updatePost,
 } from '../services/postService';
-import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
+import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
 import { authenticateToken } from '../middleware/authenticateToken';
+import { CustomRequest } from '../types/CustomRequest';
 
 const router = express.Router();
 
 // Create a new post
-router.post('/', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { image_url, title, description, location } = req.body;
-        const authorId = req.userId as string
-        const authorUsername = req.username as string;
+router.post(
+    '/',
+    authenticateToken,
+    async (req: CustomRequest, res: Response, next: NextFunction) => {
+        try {
+            const { image_url, title, description, location } = req.body;
+            const authorId = req.userId as string;
+            const authorUsername = req.username as string;
 
-        const post: PostCreateDTO = {
-            title,
-            description,
-            location,
-            image_url
+            const post: PostCreateDTO = {
+                title,
+                description,
+                location,
+                image_url,
+            };
+            const newPost = await createPost(authorId, authorUsername, post);
+            res.status(201).json(newPost);
+        } catch (error) {
+            next(error);
         }
-        const newPost = await createPost(
-            authorId,
-            authorUsername,
-            post
-        );
-        res.status(201).json(newPost);
-    } catch (error) {
-        next(error);
-    }
-});
+    },
+);
 
 // Get all posts
 router.get('/all', async (req: Request, res: Response, next: NextFunction) => {

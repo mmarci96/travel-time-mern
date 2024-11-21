@@ -1,4 +1,3 @@
-
 export interface PostCreateDTO {
     title: string;
     description?: string;
@@ -7,7 +6,7 @@ export interface PostCreateDTO {
 }
 
 export interface PostUpdateDTO {
-    author_name?: string,
+    author_name?: string;
     title?: string;
     description?: string;
     location?: string;
