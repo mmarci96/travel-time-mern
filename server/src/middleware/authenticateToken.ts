@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { AuthRequest } from '../types/AuthRequest';
+import { Types } from 'mongoose';
 
 dotenv.config();
 const secret_key = process.env.JWT_SECRET_KEY || '';

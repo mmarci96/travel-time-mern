@@ -5,7 +5,7 @@ import {
     createPost,
     getAllPost,
     getPostById,
-    getPostByAuthorId,
+    getPostsByAuthorId,
     deletePost,
     updatePost,
 } from '../services/postService';
@@ -21,7 +21,7 @@ router.post(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { image_url, title, description, location } = req.body;
-            const authorId = req.userId as string;
+            const authorId = req.userId as Types.ObjectId;
             const authorUsername = req.username as string;
 
             const post: PostCreateDTO = {
@@ -30,7 +30,7 @@ router.post(
                 location,
                 image_url,
             };
-            
+
             const newPost = await createPost(authorId, authorUsername, post);
             res.status(201).json(newPost);
         } catch (error) {
@@ -69,7 +69,9 @@ router.get(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { authorId } = req.params;
-            const posts = await getPostByAuthorId(new Types.ObjectId(authorId));
+            const posts = await getPostsByAuthorId(
+                new Types.ObjectId(authorId),
+            );
             res.status(200).json(posts);
         } catch (error) {
             next(error);
@@ -80,14 +82,24 @@ router.get(
 // Update a post
 router.put(
     '/:postId',
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.params;
-            const { author_id, updateData } = req.body;
+            const author_id = req.userId as Types.ObjectId;
+            const authorName = req.username;
+            const { title, description, location, image_url, author_name } =
+                req.body;
+            const update = {
+                title,
+                description,
+                location,
+                image_url,
+                author_name,
+            };
             const updatedPost = await updatePost(
                 new Types.ObjectId(postId),
                 author_id,
-                updateData,
+                update,
             );
             res.status(200).json(updatedPost);
         } catch (error) {
@@ -99,9 +111,10 @@ router.put(
 // Delete a post
 router.delete(
     '/:postId',
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { postId, author_id } = req.body;
+            const { postId } = req.body;
+            const author_id = req.userId  as Types.ObjectId;
             await deletePost(postId, author_id);
             res.status(200).json({ message: 'Post deleted successfully' });
         } catch (error) {
