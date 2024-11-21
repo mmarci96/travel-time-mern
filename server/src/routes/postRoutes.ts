@@ -45,7 +45,8 @@ router.get(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const userId = req.userId as Types.ObjectId;
-            if (!userId) throw new Error("{ status: 403, messege: 'Acces denied' }");
+            if (!userId)
+                throw new Error("{ status: 403, messege: 'Acces denied' }");
             const posts = await getAllPost();
             res.status(200).json(posts);
         } catch (error) {
@@ -119,9 +120,9 @@ router.delete(
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { postId } = req.body;
+            const { postId } = req.params;
             const author_id = req.userId as Types.ObjectId;
-            await deletePost(postId, author_id);
+            await deletePost(new Types.ObjectId(postId), author_id);
             res.status(200).json({ message: 'Post deleted successfully' });
         } catch (error) {
             next(error);
