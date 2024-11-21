@@ -7,20 +7,26 @@ import {
     getPostByAuthorId,
     deletePost,
     updatePost,
-} from '../services/postService'; // Assuming a postService.ts file
+} from '../services/postService';
+import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
 
 const router = express.Router();
 
 // Create a new post
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { author_id, image_url, title, description, location } = req.body;
-        const newPost = await createPost(
-            author_id,
-            image_url,
+        // author id will be later extracted from middleware
+        const { author_id, author_name, image_url, title, description, location } = req.body;
+        const post: PostCreateDTO = {
             title,
             description,
             location,
+            image_url
+        }
+        const newPost = await createPost(
+            author_id,
+            author_name,
+            post
         );
         res.status(201).json(newPost);
     } catch (error) {
@@ -44,7 +50,7 @@ router.get(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.params;
-            const post = await getPostById(new Types.ObjectId(postId));
+            const post = await getPostById(postId);
             res.status(200).json(post);
         } catch (error) {
             next(error);
