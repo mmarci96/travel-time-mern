@@ -39,20 +39,25 @@ router.post(
     },
 );
 
-// Get all posts
-router.get('/all', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const posts = await getAllPost();
-        res.status(200).json(posts);
-    } catch (error) {
-        next(error);
-    }
-});
+router.get(
+    '/',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId as Types.ObjectId;
+            if (!userId) throw new Error("{ status: 403, messege: 'Acces denied' }");
+            const posts = await getAllPost();
+            res.status(200).json(posts);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
-// Get a post by ID
 router.get(
     '/:postId',
-    async (req: Request, res: Response, next: NextFunction) => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.params;
             const post = await getPostById(postId);
@@ -66,7 +71,8 @@ router.get(
 // Get posts by author ID
 router.get(
     '/by-author/:authorId',
-    async (req: Request, res: Response, next: NextFunction) => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { authorId } = req.params;
             const posts = await getPostsByAuthorId(
@@ -82,13 +88,13 @@ router.get(
 // Update a post
 router.put(
     '/:postId',
+    authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.params;
             const author_id = req.userId as Types.ObjectId;
-            const authorName = req.username;
-            const { title, description, location, image_url, author_name } =
-                req.body;
+            const author_name = req.username;
+            const { title, description, location, image_url } = req.body;
             const update = {
                 title,
                 description,
@@ -108,13 +114,13 @@ router.put(
     },
 );
 
-// Delete a post
 router.delete(
     '/:postId',
+    authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.body;
-            const author_id = req.userId  as Types.ObjectId;
+            const author_id = req.userId as Types.ObjectId;
             await deletePost(postId, author_id);
             res.status(200).json({ message: 'Post deleted successfully' });
         } catch (error) {
