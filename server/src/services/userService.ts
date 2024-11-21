@@ -7,6 +7,9 @@ export const createUser = async (
     email: string,
     password: string,
 ) => {
+    if (!username || !email || !password) {
+        throw new Error('Missing required fields');
+    }
     const existingUsername = await UserModel.findOne({ username });
     if (existingUsername) {
         throw new Error('Username is already taken');
