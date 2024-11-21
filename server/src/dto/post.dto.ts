@@ -1,6 +1,15 @@
+
 export interface PostCreateDTO {
-    image_url: string;
     title: string;
-    description: string;
-    location: string;
+    description?: string;
+    location?: string;
+    image_url: string;
+}
+
+export interface PostUpdateDTO {
+    author_name?: string,
+    title?: string;
+    description?: string;
+    location?: string;
+    image_url?: string;
 }
