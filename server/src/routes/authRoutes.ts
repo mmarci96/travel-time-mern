@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { createUser } from '../services/userService';
-import { createToken } from '../services/authService';
+import { createToken, createRefreshToken } from '../services/authService';
 import { toUserDTO } from '../dto/user.dto';
 
 const router = express.Router();
@@ -17,9 +17,10 @@ router.post(
             }
 
             const newUser = await createUser(username, email, password);
-            const userDTO = toUserDTO(newUser); // Use the DTO to sanitize the response
+            // const userDTO = toUserDTO(newUser); // Use the DTO to sanitize the response
+            const response={username:newUser.username, email: newUser.email}
 
-            return res.status(201).send(userDTO);
+            return res.status(201).send(response);
         } catch (err: any) {
             if (
                 err.message === 'Username is already taken' ||
@@ -43,8 +44,10 @@ router.post(
                     .json({ error: 'All fields are required' });
             }
             const newToken = await createToken(email, password);
-            console.log(newToken);
-            return res.status(200).send(newToken);
+            const refreshToken = await createRefreshToken(email, password);
+            console.log(newToken, refreshToken);
+            const response = { token: newToken, refreshToken: refreshToken };
+            return res.status(200).send(response);
         } catch (err: any) {
             if (
                 err.message === 'No user with email' ||

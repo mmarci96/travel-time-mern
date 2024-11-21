@@ -17,8 +17,8 @@ const { MONGO_URI, PORT = 8080 } = process.env;
 const allowedOrigins = ['http://localhost:5173'];
 
 const options: cors.CorsOptions = {
-    origin: allowedOrigins
-}
+    origin: allowedOrigins,
+};
 
 // trying to add middlware
 app.use(cors(options));
@@ -26,9 +26,6 @@ app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(errorHandler);
-app.use(cors());
-
-
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);

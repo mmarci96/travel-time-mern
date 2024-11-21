@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
 
@@ -32,3 +33,16 @@ export const createUser = async (
         email: savedUser.email,
     };
 };
+
+export const getUserById=async(
+   userId: Types.ObjectId
+)=>{
+const user= await UserModel.findById(userId);
+if (!user){
+    throw new Error ("No user found");
+}
+return {
+    username: user.username,
+    email: user.email,
+};
+}
