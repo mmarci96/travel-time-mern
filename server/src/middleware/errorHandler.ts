@@ -7,8 +7,9 @@ const errorHandler = (
     next: NextFunction,
 ) => {
     console.error(err.stack);
+    console.error(err);
 
-    res.status(err.status || 500).json({
+    res.status(err.status || err._code || 500).json({
         error: {
             message: err.message || 'Internal Server Error',
         },

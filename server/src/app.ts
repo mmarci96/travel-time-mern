@@ -2,12 +2,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
+import errorHandler from './middleware/errorHandler';
+
 dotenv.config();
 
 const app = express();
@@ -22,13 +23,13 @@ const options: cors.CorsOptions = {
 app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(errorHandler);
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use(errorHandler);
 
 const main = async () => {
     const url = MONGO_URI;
