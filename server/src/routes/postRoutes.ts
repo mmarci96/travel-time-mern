@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import { Types } from 'mongoose';
 import {
     createPost,
@@ -8,31 +9,35 @@ import {
     deletePost,
     updatePost,
 } from '../services/postService';
-import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
+import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
+import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
 
 // Create a new post
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        // author id will be later extracted from middleware
-        const { author_id, author_name, image_url, title, description, location } = req.body;
-        const post: PostCreateDTO = {
-            title,
-            description,
-            location,
-            image_url
+router.post(
+    '/',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const { image_url, title, description, location } = req.body;
+            const authorId = req.userId as string;
+            const authorUsername = req.username as string;
+
+            const post: PostCreateDTO = {
+                title,
+                description,
+                location,
+                image_url,
+            };
+            
+            const newPost = await createPost(authorId, authorUsername, post);
+            res.status(201).json(newPost);
+        } catch (error) {
+            next(error);
         }
-        const newPost = await createPost(
-            author_id,
-            author_name,
-            post
-        );
-        res.status(201).json(newPost);
-    } catch (error) {
-        next(error);
-    }
-});
+    },
+);
 
 // Get all posts
 router.get('/all', async (req: Request, res: Response, next: NextFunction) => {

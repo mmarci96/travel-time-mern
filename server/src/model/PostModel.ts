@@ -13,7 +13,7 @@ interface IPost extends Document {
 
 const postSchema = new Schema({
     author_id: { type: Schema.Types.ObjectId, ref: 'User' },
-    author_name: {type: String, required: true},
+    author_name: { type: String, required: true },
     image_url: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },

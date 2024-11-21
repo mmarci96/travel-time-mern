@@ -1,18 +1,21 @@
-import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
+import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
 import PostModel from '../model/PostModel';
 import { Types } from 'mongoose';
 
 export const createPost = async (
-    author_id: Types.ObjectId,
-    author_name: string,
-    postData: PostCreateDTO
+    authorId: string,
+    authorName: string,
+    postData: PostCreateDTO,
 ) => {
-    if (!postData) throw new Error(`Failed to create post: ${postData}`)
-    
+    const author_id = new Types.ObjectId(authorId);
+    const author_name = authorName;
+
+    if (!postData) throw new Error(`Failed to create post: ${postData}`);
+
     const post = new PostModel({
         author_id,
         author_name,
-        ...postData
+        ...postData,
     });
 
     const savedPost = await post.save();
@@ -21,7 +24,7 @@ export const createPost = async (
 
 export const getAllPost = async () => {
     const posts = await PostModel.find();
-    if(!posts) throw new Error("No post were found")
+    if (!posts) throw new Error('No post were found');
     return posts;
 };
 
@@ -31,7 +34,7 @@ export const getPostById = async (post_id: string) => {
     const post = await PostModel.findById(new Types.ObjectId(post_id));
 
     if (!post) throw new Error('No post found with post id:' + post_id);
-    
+
     return post;
 };
 

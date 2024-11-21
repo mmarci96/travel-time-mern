@@ -1,30 +1,25 @@
-import { NextFunction, Request, Response } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config();
+import { AuthRequest } from '../types/AuthRequest';
 
+dotenv.config();
 const secret_key = process.env.JWT_SECRET_KEY || '';
 
 export const authenticateToken = (
-    req: Request,
+    req: AuthRequest,
     res: Response,
     next: NextFunction,
 ) => {
     const authHeader = req.headers['authorization'];
     const token: string = (authHeader && authHeader.split(' ')[1]) || '';
-    if (token === '') {
-        res.status(401).send();
-        return;
-    }
 
-    let jwtPayload;
     try {
-        jwtPayload = <any>jwt.verify(token, secret_key);
-        res.locals.jwtPayload = jwtPayload;
-        res.locals.userId = jwtPayload['userId'];
+        const jwtPayload = jwt.verify(token, secret_key) as any;
+        req.username = jwtPayload['username'];
+        req.userId = jwtPayload['userId'];
         next();
     } catch (error) {
-        res.status(401).send();
-        return;
+        res.status(401).json({ error: 'Unauthorized' });
     }
 };
