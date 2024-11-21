@@ -12,7 +12,7 @@ router.post(
             const user = await createUser(username, email, password);
 
             return res.status(201).send(user);
-        } catch (err: any) {
+        } catch (err) {
             next(err);
         }
     },
@@ -24,12 +24,12 @@ router.post(
         try {
             const { email, password } = req.body;
 
-            const newToken = await createToken(email, password);
-            const refreshToken = await createRefreshToken(email, password);
+            const token = await createToken(email, password);
+            const refresh_token = await createRefreshToken(email, password);
 
-            const response = { token: newToken, refreshToken: refreshToken };
+            const response = { token,refresh_token };
             return res.status(200).send(response);
-        } catch (err: any) {
+        } catch (err) {
             next(err);
         }
     },
