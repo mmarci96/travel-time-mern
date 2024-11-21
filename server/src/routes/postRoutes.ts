@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import { Types } from 'mongoose';
 import {
     createPost,
@@ -10,7 +11,6 @@ import {
 } from '../services/postService';
 import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
 import { authenticateToken } from '../middleware/authenticateToken';
-import { CustomRequest } from '../types/CustomRequest';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ const router = express.Router();
 router.post(
     '/',
     authenticateToken,
-    async (req: CustomRequest, res: Response, next: NextFunction) => {
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { image_url, title, description, location } = req.body;
             const authorId = req.userId as string;
@@ -30,6 +30,7 @@ router.post(
                 location,
                 image_url,
             };
+            
             const newPost = await createPost(authorId, authorUsername, post);
             res.status(201).json(newPost);
         } catch (error) {

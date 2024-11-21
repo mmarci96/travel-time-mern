@@ -1,9 +1,0 @@
-// src/types/express/app.d.ts
-import 'express';
-
-declare module 'express' {
-    export interface Request {
-        userId?: string;
-        username?: string;
-    }
-}

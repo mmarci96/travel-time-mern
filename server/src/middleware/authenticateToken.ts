@@ -1,13 +1,13 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { CustomRequest } from '../types/CustomRequest';
+import { AuthRequest } from '../types/AuthRequest';
 
 dotenv.config();
 const secret_key = process.env.JWT_SECRET_KEY || '';
 
 export const authenticateToken = (
-    req: CustomRequest,
+    req: AuthRequest,
     res: Response,
     next: NextFunction,
 ) => {
