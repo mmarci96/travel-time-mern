@@ -1,8 +1,7 @@
 import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { Types } from 'mongoose';
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || '';
@@ -28,8 +27,10 @@ export const createToken = async (
     return token;
 };
 
-
-export const createRefreshToken = async (email: string, password: string): Promise<string> => {
+export const createRefreshToken = async (
+    email: string,
+    password: string,
+): Promise<string> => {
     const user = await UserModel.findOne({ email });
     if (!user) {
         throw new Error('No user with email');
