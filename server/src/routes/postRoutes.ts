@@ -9,14 +9,17 @@ import {
     updatePost,
 } from '../services/postService';
 import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
+import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
 
 // Create a new post
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // author id will be later extracted from middleware
-        const { author_id, author_name, image_url, title, description, location } = req.body;
+        const { image_url, title, description, location } = req.body;
+        const authorId = req.userId as string
+        const authorUsername = req.username as string;
+
         const post: PostCreateDTO = {
             title,
             description,
@@ -24,8 +27,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
             image_url
         }
         const newPost = await createPost(
-            author_id,
-            author_name,
+            authorId,
+            authorUsername,
             post
         );
         res.status(201).json(newPost);

@@ -3,10 +3,13 @@ import PostModel from '../model/PostModel';
 import { Types } from 'mongoose';
 
 export const createPost = async (
-    author_id: Types.ObjectId,
-    author_name: string,
+    authorId: string,
+    authorName: string,
     postData: PostCreateDTO
 ) => {
+    const author_id = new Types.ObjectId(authorId);
+    const author_name = authorName
+
     if (!postData) throw new Error(`Failed to create post: ${postData}`)
     
     const post = new PostModel({
