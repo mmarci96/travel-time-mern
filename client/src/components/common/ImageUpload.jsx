@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Button from './Button';
+import FormField from './FormField';
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
@@ -11,6 +13,7 @@ const ImageUpload = () => {
       setImage(event.target.files[0]);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!image) {
@@ -24,13 +27,13 @@ const ImageUpload = () => {
     try {
       const res = await axios.post('/api/media/img', formData, {
         headers: {
-          'Content-Type': 'multipart/formdata',
+          'Content-Type': 'multipart/form-data',
         },
       });
       alert('Image uploaded successfully!');
       console.log(res.data);
     } catch (err) {
-      setError(err);
+      setError('Image upload failed!');
       console.error(err);
     } finally {
       setLoading(false);
@@ -38,14 +41,19 @@ const ImageUpload = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 max-w-sm mx-auto">
       <form onSubmit={handleSubmit}>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button type="submit" disabled={loading}>
+        <FormField
+          label="Choose an image"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        <Button type="submit" color="green" disabled={loading}>
           {loading ? 'Uploading...' : 'Upload Image'}
-        </button>
+        </Button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
 };

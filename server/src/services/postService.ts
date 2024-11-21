@@ -1,18 +1,18 @@
+import { PostCreateDTO, PostUpdateDTO  } from '../dto/post.dto';
 import PostModel from '../model/PostModel';
 import { Types } from 'mongoose';
-import { PostCreateDTO } from '../dto/post.dto';
 
 export const createPost = async (
     author_id: Types.ObjectId,
-    postDto: PostCreateDTO,
+    author_name: string,
+    postData: PostCreateDTO
 ) => {
-    if (!author_id || !postDto) {
-        throw new Error('Empty request, failed to post');
-    }
-
+    if (!postData) throw new Error(`Failed to create post: ${postData}`)
+    
     const post = new PostModel({
         author_id,
-        ...postDto,
+        author_name,
+        ...postData
     });
 
     const savedPost = await post.save();
@@ -21,16 +21,17 @@ export const createPost = async (
 
 export const getAllPost = async () => {
     const posts = await PostModel.find();
+    if(!posts) throw new Error("No post were found")
     return posts;
 };
 
-export const getPostById = async (post_id: Types.ObjectId) => {
+export const getPostById = async (post_id: string) => {
     if (!post_id) throw new Error('No post id provided!');
 
-    const post = await PostModel.findById(post_id);
+    const post = await PostModel.findById(new Types.ObjectId(post_id));
 
     if (!post) throw new Error('No post found with post id:' + post_id);
-
+    
     return post;
 };
 
@@ -64,7 +65,7 @@ export const deletePost = async (
 export const updatePost = async (
     post_id: Types.ObjectId,
     author_id: Types.ObjectId,
-    updateData: Partial<PostCreateDTO>,
+    updateData: Partial<PostUpdateDTO>,
 ) => {
     if (!post_id) throw new Error('No post id provided!');
 

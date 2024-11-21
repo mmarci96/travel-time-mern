@@ -18,6 +18,8 @@ export const createToken = async (
     if (!passwordMatch) {
         throw new Error('Wrong password!');
     }
+
+    //TODO: user role add
     const token = jwt.sign({ userId: user._id }, secret_key, {
         expiresIn: '1h',
     });
