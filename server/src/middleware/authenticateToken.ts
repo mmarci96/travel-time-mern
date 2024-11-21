@@ -19,9 +19,10 @@ export const authenticateToken = (
 
     let jwtPayload;
     try {
-        jwtPayload = <any>jwt.verify(token, secret_key);
-        res.locals.jwtPayload = jwtPayload;
-        res.locals.userId = jwtPayload['userId'];
+        jwtPayload = jwt.verify(token, secret_key) as any;
+        req.username = jwtPayload['username'];
+        req.userId = jwtPayload['userId'];
+        req.userRole = jwtPayload['role'];
         next();
     } catch (error) {
         res.status(401).send();
