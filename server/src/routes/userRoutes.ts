@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import UserModel from '../model/UserModel';
 import { Types } from 'mongoose';
 import { getUserById } from '../services/userService';
-import { authenticateToken } from '../middleware/authentToken';
+import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
 router.get('/', async (req, res, next) => {
