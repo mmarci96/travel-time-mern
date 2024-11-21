@@ -6,6 +6,7 @@ dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || '';
 const refresh_secret_key = process.env.JWT_REFRESH_SECRET_KEY || '';
+
 export const createToken = async (
     email: string,
     password: string,
@@ -20,9 +21,13 @@ export const createToken = async (
     }
 
     //TODO: user role add
-    const token = jwt.sign({ userId: user._id }, secret_key, {
-        expiresIn: '1h',
-    });
+    const token = jwt.sign(
+        { userId: user._id, role: 'user', username: user.username },
+        secret_key,
+        {
+            expiresIn: '1h',
+        },
+    );
     if (!token) {
         throw new Error('Could not create token');
     }
