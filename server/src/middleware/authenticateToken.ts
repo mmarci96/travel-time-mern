@@ -12,10 +12,6 @@ export const authenticateToken = (
 ) => {
     const authHeader = req.headers['authorization'];
     const token: string = (authHeader && authHeader.split(' ')[1]) || '';
-    if (token === '') {
-        res.status(401).send();
-        return;
-    }
 
     let jwtPayload;
     try {
