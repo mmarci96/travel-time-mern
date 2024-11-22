@@ -27,7 +27,7 @@ router.post(
             const token = await createToken(email, password);
             const refresh_token = await createRefreshToken(email, password);
 
-            const response = { token,refresh_token };
+            const response = { token, refresh_token };
             return res.status(200).send(response);
         } catch (err) {
             next(err);

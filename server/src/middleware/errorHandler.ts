@@ -6,8 +6,12 @@ const errorHandler = (
     res: Response,
     next: NextFunction,
 ) => {
-    console.error(err.stack);
-    console.error(err);
+    if (err._logging) {
+        console.log('We pring everything here: ', err);
+    }
+    if (!err._code) {
+        console.error(err);
+    }
 
     res.status(err.status || err._code || 500).json({
         error: {

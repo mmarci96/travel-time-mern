@@ -25,7 +25,7 @@ export const createToken = async (
         throw new BadRequestError({
             code: 400,
             message: 'Wrong password!',
-            logging: true,
+            logging: false,
         });
     }
 
