@@ -51,7 +51,7 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
             logging: true,
         });
     }
-    const comments = await CommentModel.find(post_id);
+    const comments = await CommentModel.find({ post_id });
     if (!comments) {
         throw new BadRequestError({
             code: 404,
@@ -98,7 +98,7 @@ export const deleteComment = async (
 
 export const updateComment = async (
     comment_id: Types.ObjectId,
-    author_name : string,
+    author_name: string,
     author_id: Types.ObjectId,
     content: string,
 ) => {
