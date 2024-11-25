@@ -34,7 +34,7 @@ export const useAuthRequest = (endpoint, method, formData = null) => {
       const res = await fetch(endpoint, options);
       const data = await res.json();
       if (!res.ok) {
-       setError(data.error.message);
+        setError(data.error.message);
       }
 
       setResponse(data);

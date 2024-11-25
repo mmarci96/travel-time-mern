@@ -59,6 +59,6 @@ const SignupForm = () => {
       <Button type={'submit'}>{loading ? 'Signing up...' : 'Signup'}</Button>
     </form>
   );
-}
+};
 
 export default SignupForm;
