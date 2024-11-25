@@ -30,21 +30,22 @@ const SignupForm = () => {
     }
     const data = await response.json();
     console.log(data);
+    setLoading(false);
   };
   return (
     <form onSubmit={handleSubmit}>
-      <FormField
-        name="username"
-        label="Username"
-        type="text"
-        value={formData.username}
-        onChange={handleChange}
-        />
       <FormField
         label="Email"
         name="email"
         type="email"
         value={formData.email}
+        onChange={handleChange}
+      />
+      <FormField
+        name="username"
+        label="Username"
+        type="text"
+        value={formData.username}
         onChange={handleChange}
       />
       <FormField

@@ -30,6 +30,7 @@ const LoginForm = () => {
     console.log(data);
     localStorage.setItem('token', data.token);
     localStorage.setItem('refresh_token', data.refresh_token);
+    setLoading(false);
   };
   return (
     <form onSubmit={handleSubmit}>

@@ -9,16 +9,26 @@ export const createUser = async (
     password: string,
 ) => {
     if (!username || !email || !password) {
-        throw new Error('Missing required fields');
+        throw new BadRequestError({
+            message: 'Missing required field',
+        });
     }
     const existingUsername = await UserModel.findOne({ username });
     if (existingUsername) {
-        throw new Error('Username is already taken');
+        throw new BadRequestError({
+            message:'Username is already taken',
+            code: 400,
+            logging: true,
+          });
     }
 
     const existingEmail = await UserModel.findOne({ email });
     if (existingEmail) {
-        throw new Error('Email is already registered');
+        throw new BadRequestError({
+            message:'Email is already taken',
+            code: 400,
+            logging: true,
+        });
     }
 
     const salt = await bcrypt.genSalt();
@@ -41,7 +51,11 @@ export const createUser = async (
 export const getUserById = async (userId: Types.ObjectId) => {
     const user = await UserModel.findById(userId);
     if (!user) {
-        throw new Error('No user found');
+        throw new BadRequestError({
+            message:'No user found',
+            code: 404,
+            logging: true,
+        });
     }
     return {
         username: user.username,
