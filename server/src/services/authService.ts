@@ -83,28 +83,27 @@ export const createRefreshToken = async (
 };
 
 export const refreshToken = async (userId: Types.ObjectId) => {
-    const user = await UserModel.findById(userId)
+    const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({
             code: 400,
             message: 'No user with id',
             logging: true,
-        })
+        });
     }
     const token = jwt.sign(
-      { userId: user._id, role: 'user', username: user.username },
-      secret_key,
-      {
-          expiresIn: '1h',
-      },
-    )
+        { userId: user._id, role: 'user', username: user.username },
+        secret_key,
+        {
+            expiresIn: '1h',
+        },
+    );
     if (!token) {
         throw new BadRequestError({
             code: 400,
             message: 'Error getting token!',
             logging: true,
-        })
+        });
     }
     return token;
-
-}
+};
