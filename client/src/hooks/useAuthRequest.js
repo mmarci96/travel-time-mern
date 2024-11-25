@@ -3,12 +3,10 @@ import { useState } from 'react';
 export const useAuthRequest = (endpoint, method, formData = null) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [response, setResponse] = useState(null);
 
   const sendRequest = async () => {
     setLoading(true);
     setError(null);
-    setResponse(null);
 
     try {
       const token = localStorage.getItem('token');
@@ -35,16 +33,18 @@ export const useAuthRequest = (endpoint, method, formData = null) => {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error.message);
+        return;
       }
 
-      setResponse(data);
+      return data;
     } catch (err) {
       setError(err.message);
+      return err;
     } finally {
       setLoading(false);
     }
   };
 
-  return { loading, error, response, sendRequest };
+  return { loading, error, sendRequest };
 };
 export default useAuthRequest;
