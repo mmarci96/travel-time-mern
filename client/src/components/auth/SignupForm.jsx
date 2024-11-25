@@ -24,11 +24,11 @@ const SignupForm = () => {
         'Content-Type': 'application/json',
       },
     });
+    const data = await response.json();
     if (!response.ok) {
-      setError('Something went wrong');
+      setError(data.error.message);
       return;
     }
-    const data = await response.json();
     console.log(data);
     setLoading(false);
   };

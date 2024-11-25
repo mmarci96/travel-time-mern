@@ -16,16 +16,16 @@ export const createUser = async (
     const existingUsername = await UserModel.findOne({ username });
     if (existingUsername) {
         throw new BadRequestError({
-            message:'Username is already taken',
+            message: 'Username is already taken',
             code: 400,
             logging: true,
-          });
+        });
     }
 
     const existingEmail = await UserModel.findOne({ email });
     if (existingEmail) {
         throw new BadRequestError({
-            message:'Email is already taken',
+            message: 'Email is already taken',
             code: 400,
             logging: true,
         });
@@ -52,7 +52,7 @@ export const getUserById = async (userId: Types.ObjectId) => {
     const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({
-            message:'No user found',
+            message: 'No user found',
             code: 404,
             logging: true,
         });
