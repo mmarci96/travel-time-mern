@@ -24,8 +24,7 @@ export const createPost = async (
         ...postData,
     });
 
-    const savedPost = await post.save();
-    return savedPost;
+    return await post.save();
 };
 
 export const getAllPost = async () => {
