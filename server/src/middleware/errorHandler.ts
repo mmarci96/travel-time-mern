@@ -6,9 +6,14 @@ const errorHandler = (
     res: Response,
     next: NextFunction,
 ) => {
-    console.error(err.stack);
+    if (err._logging) {
+        console.log('We print everything here: ', err);
+    }
+    if (!err._code) {
+        console.error(err);
+    }
 
-    res.status(err.status || 500).json({
+    res.status(err.status || err._code || 500).json({
         error: {
             message: err.message || 'Internal Server Error',
         },

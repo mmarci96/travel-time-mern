@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
+import BadRequestError from '../errors/BadRequestError';
 
 export const createUser = async (
     username: string,
@@ -46,4 +47,16 @@ export const getUserById = async (userId: Types.ObjectId) => {
         username: user.username,
         email: user.email,
     };
+};
+
+export const getUsers = async () => {
+    const users = await UserModel.find().select('-password');
+    if (!users) {
+        throw new BadRequestError({
+            message: 'No users found',
+            code: 404,
+            logging: true,
+        });
+    }
+    return users;
 };

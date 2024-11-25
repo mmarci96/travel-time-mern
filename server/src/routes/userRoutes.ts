@@ -1,24 +1,31 @@
-import express, { NextFunction, Request, Response } from 'express';
-import UserModel from '../model/UserModel';
+import express, { NextFunction, Response } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import { Types } from 'mongoose';
-import { getUserById } from '../services/userService';
+import { getUserById, getUsers } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
-router.get('/', async (req, res, next) => {
-    try {
-        console.log(req.body);
-        const users = await UserModel.find();
-        res.status(200).send(users);
-    } catch (err) {
-        next(err);
-    }
-});
+router.get(
+    '/',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const users = await getUsers();
+            res.status(200).send(users);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
 router.get(
     '/:userId',
     authenticateToken,
-    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    async (
+        req: AuthRequest,
+        res: Response,
+        next: NextFunction,
+    ): Promise<any> => {
         try {
             const userId: string = req.params.userId;
             const id: Types.ObjectId = new Types.ObjectId(userId);

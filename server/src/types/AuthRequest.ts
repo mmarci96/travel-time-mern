@@ -1,6 +1,7 @@
 import { Request } from 'express';
+import { Types } from 'mongoose';
 
 export interface AuthRequest extends Request {
-    userId?: string;
+    userId?: Types.ObjectId;
     username?: string;
 }

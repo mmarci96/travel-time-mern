@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { Types } from 'mongoose';
 import {
     createComment,
@@ -6,17 +6,27 @@ import {
     updateComment,
     deleteComment,
 } from '../services/commentService';
+import { authenticateToken } from '../middleware/authenticateToken';
+import { AuthRequest } from '../types/AuthRequest';
 
 const router = express.Router();
 
 router.post(
     '/',
-    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { author_id, post_id, content } = req.body;
-            const comment = await createComment(author_id, post_id, content);
+            const author_id = req.userId as Types.ObjectId;
+            const author_name = req.username as string;
+            const { post_id, content } = req.body;
+            const comment = await createComment(
+                author_id,
+                author_name,
+                post_id,
+                content,
+            );
             res.status(201).send(comment);
-        } catch (err: any) {
+        } catch (err) {
             next(err);
         }
     },
@@ -24,13 +34,14 @@ router.post(
 
 router.get(
     '/:post_id',
-    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { post_id } = req.params;
             const _id: Types.ObjectId = new Types.ObjectId(post_id);
             const comments = await getCommentsByPostId(_id);
             res.status(200).send(comments);
-        } catch (err: any) {
+        } catch (err) {
             next(err);
         }
     },
@@ -38,16 +49,20 @@ router.get(
 
 router.put(
     '/',
-    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { content, author_id, comment_id } = req.body;
+            const author_id = req.userId as Types.ObjectId;
+            const author_name = req.username as string;
+            const { content, post_id } = req.body;
             const updatedComment = await updateComment(
                 author_id,
-                comment_id,
+                author_name,
+                post_id,
                 content,
             );
             res.status(200).send(updatedComment);
-        } catch (err: any) {
+        } catch (err) {
             next(err);
         }
     },
@@ -55,12 +70,14 @@ router.put(
 
 router.delete(
     '/',
-    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { comment_id, author_id } = req.body;
-            await deleteComment(comment_id, author_id);
-            res.status(200).send({ message: 'Comment deleted successfully' });
-        } catch (err: any) {
+            const author_id = req.userId as Types.ObjectId;
+            const { comment_id } = req.body;
+            const result = await deleteComment(comment_id, author_id);
+            res.status(200).send(result);
+        } catch (err) {
             next(err);
         }
     },

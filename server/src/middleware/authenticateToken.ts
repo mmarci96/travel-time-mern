@@ -16,7 +16,7 @@ export const authenticateToken = (
 
     try {
         const jwtPayload = jwt.verify(token, secret_key) as any;
-        req.username = jwtPayload['username'];
+        req.username = jwtPayload['username'] || '';
         req.userId = jwtPayload['userId'];
         next();
     } catch (error) {

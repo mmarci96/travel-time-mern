@@ -2,6 +2,8 @@ import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import BadRequestError from '../errors/BadRequestError';
+import { Types } from 'mongoose'; // Import the BadRequestError class
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || '';
@@ -13,11 +15,19 @@ export const createToken = async (
 ): Promise<string> => {
     const user = await UserModel.findOne({ email });
     if (!user) {
-        throw new Error('No user with email');
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user with email',
+            logging: true,
+        });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-        throw new Error('Wrong password!');
+        throw new BadRequestError({
+            code: 400,
+            message: 'Wrong password!',
+            logging: false,
+        });
     }
 
     //TODO: user role add
@@ -29,7 +39,11 @@ export const createToken = async (
         },
     );
     if (!token) {
-        throw new Error('Could not create token');
+        throw new BadRequestError({
+            code: 400,
+            message: 'Could not create token',
+            logging: true,
+        });
     }
     return token;
 };
@@ -40,18 +54,56 @@ export const createRefreshToken = async (
 ): Promise<string> => {
     const user = await UserModel.findOne({ email });
     if (!user) {
-        throw new Error('No user with email');
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user with email',
+            logging: true,
+        });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-        throw new Error('Wrong password!');
+        throw new BadRequestError({
+            code: 400,
+            message: 'Wrong password!',
+            logging: true,
+        });
     }
     const refreshToken = jwt.sign({ userId: user._id }, refresh_secret_key, {
         expiresIn: '7d',
     });
     if (!refreshToken) {
-        throw new Error('Could not create refresh token');
+        throw new BadRequestError({
+            code: 400,
+            message: 'Could not create refresh token',
+            logging: true,
+        });
     }
 
     return refreshToken;
+};
+
+export const refreshToken = async (userId: Types.ObjectId) => {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user with id',
+            logging: true,
+        });
+    }
+    const token = jwt.sign(
+        { userId: user._id, role: 'user', username: user.username },
+        secret_key,
+        {
+            expiresIn: '1h',
+        },
+    );
+    if (!token) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Error getting token!',
+            logging: true,
+        });
+    }
+    return token;
 };
