@@ -7,7 +7,7 @@ const errorHandler = (
     next: NextFunction,
 ) => {
     if (err._logging) {
-        console.log('We pring everything here: ', err);
+        console.log('We print everything here: ', err);
     }
     if (!err._code) {
         console.error(err);

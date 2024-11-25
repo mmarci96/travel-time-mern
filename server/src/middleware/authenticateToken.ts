@@ -2,7 +2,6 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { AuthRequest } from '../types/AuthRequest';
-import { Types } from 'mongoose';
 
 dotenv.config();
 const secret_key = process.env.JWT_SECRET_KEY || '';
@@ -17,7 +16,7 @@ export const authenticateToken = (
 
     try {
         const jwtPayload = jwt.verify(token, secret_key) as any;
-        req.username = jwtPayload['username'];
+        req.username = jwtPayload['username'] || '';
         req.userId = jwtPayload['userId'];
         next();
     } catch (error) {

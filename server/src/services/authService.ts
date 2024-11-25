@@ -2,7 +2,8 @@ import UserModel from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import BadRequestError from '../errors/BadRequestError'; // Import the BadRequestError class
+import BadRequestError from '../errors/BadRequestError';
+import { Types } from 'mongoose'; // Import the BadRequestError class
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || '';
@@ -80,3 +81,30 @@ export const createRefreshToken = async (
 
     return refreshToken;
 };
+
+export const refreshToken = async (userId: Types.ObjectId) => {
+    const user = await UserModel.findById(userId)
+    if (!user) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user with id',
+            logging: true,
+        })
+    }
+    const token = jwt.sign(
+      { userId: user._id, role: 'user', username: user.username },
+      secret_key,
+      {
+          expiresIn: '1h',
+      },
+    )
+    if (!token) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Error getting token!',
+            logging: true,
+        })
+    }
+    return token;
+
+}
