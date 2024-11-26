@@ -9,7 +9,7 @@ import {
     deletePost,
     updatePost,
 } from '../services/postService';
-import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
+import { PostCreateDTO } from '../dto/post.dto';
 import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
@@ -44,9 +44,6 @@ router.get(
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const userId = req.userId as Types.ObjectId;
-            if (!userId)
-                throw new Error("{ status: 403, messege: 'Acces denied' }");
             const posts = await getAllPost();
             res.status(200).json(posts);
         } catch (error) {
