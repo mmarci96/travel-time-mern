@@ -27,18 +27,6 @@ export const createPost = async (
     return await post.save();
 };
 
-export const getAllPost = async () => {
-    const posts = await PostModel.find();
-    if (!posts || posts.length === 0) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'No posts were found',
-            logging: true,
-        });
-    }
-    return posts;
-};
-
 export const getPostById = async (post_id: string) => {
     if (!post_id) {
         throw new BadRequestError({
