@@ -16,7 +16,8 @@ const PostList = () => {
         posts.map((post) => (
           <li key={post._id}>
             <PostCard post={post} />
-          </li>))}
+          </li>
+        ))}
     </ul>
   );
 };
