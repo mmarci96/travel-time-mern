@@ -1,13 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './scenes/Home';
 import PageNotFound from './scenes/PageNotFound';
 import Feed from './scenes/Feed';
 import TesterScene from './scenes/TesterScene.jsx';
 import Post from './scenes/Post.jsx';
+import TopNavBar from './components/navigation/TopNavBar.jsx';
+import BotNavBar from './components/navigation/BotNavBar.jsx';
 
 function App() {
   return (
     <BrowserRouter>
+      <TopNavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<PageNotFound />} />
@@ -15,6 +18,7 @@ function App() {
         <Route path="/test" element={<TesterScene />} />
         <Route path="/post/:postId" element={<Post />} />
       </Routes>
+      <BotNavBar />
     </BrowserRouter>
   );
 }

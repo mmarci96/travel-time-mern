@@ -6,6 +6,7 @@ const PostCard = ({ post }) => {
       <Link to={`/post/${post._id}`}>
         <img
           loading="lazy"
+          alt={post.title}
           src={post.image_url}
           className="hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 w-[60vw]"
         />
@@ -23,6 +24,7 @@ const PostCard = ({ post }) => {
         <span className="flex mb-2">
           <img
             src={post.author_id}
+            alt={'avatar'}
             className="w-14 rounded-full shadow-md shadow-slate-700 ml-4"
           ></img>
 
