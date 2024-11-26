@@ -6,7 +6,7 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
   const { loading, error, sendRequest } = useAuthRequest('/api/posts', 'GET');
   useEffect(() => {
-    sendRequest().then((data) => (data ? setPosts(data) : setPosts([])));
+    sendRequest().then((data) => (data ? setPosts(data.posts) : setPosts([])));
   }, []);
 
   return (

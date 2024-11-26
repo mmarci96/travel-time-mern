@@ -7,7 +7,7 @@ const PostCard = ({ post }) => {
         <img
           loading="lazy"
           src={post.image_url}
-          className="hover:shadow-lg hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 w-[60vw]"
+          className="hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 w-[60vw]"
         />
       </Link>
       <span className="flex">
