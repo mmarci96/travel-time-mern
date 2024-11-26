@@ -3,6 +3,7 @@ import Home from './scenes/Home';
 import PageNotFound from './scenes/PageNotFound';
 import Feed from './scenes/Feed';
 import TesterScene from './scenes/TesterScene.jsx';
+import Post from './scenes/Post.jsx';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/test" element={<TesterScene />} />
+        <Route path="/post/:postId" element={<Post />} />
       </Routes>
     </BrowserRouter>
   );
