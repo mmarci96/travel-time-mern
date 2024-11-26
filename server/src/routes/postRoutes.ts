@@ -38,18 +38,17 @@ router.post(
     },
 );
 
-
 router.get(
-  '/',
-  authenticateToken,
-  async (req: AuthRequest, res: Response, next: NextFunction) => {
-      try {
-          const posts = await filterPosts(req.query);
-          res.status(200).json({ posts });
-      } catch (err) {
-          next(err);
-      }
-  }
+    '/',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const posts = await filterPosts(req.query);
+            res.status(200).json({ posts });
+        } catch (err) {
+            next(err);
+        }
+    },
 );
 
 router.get(

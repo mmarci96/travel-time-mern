@@ -179,12 +179,22 @@ const parseFilterOptions = (options: {
         });
     }
 
-    return { page: parsedPage, limit: parsedLimit, search, sort, asc: parsedAsc };
+    return {
+        page: parsedPage,
+        limit: parsedLimit,
+        search,
+        sort,
+        asc: parsedAsc,
+    };
 };
 
-export const filterPosts = async (
-  options: { page?: string; limit?: string; search?: string; sort?: string; asc?: string }
-) => {
+export const filterPosts = async (options: {
+    page?: string;
+    limit?: string;
+    search?: string;
+    sort?: string;
+    asc?: string;
+}) => {
     const { page, limit, search, sort, asc } = parseFilterOptions(options);
 
     const posts = await PostModel.find({
@@ -194,9 +204,9 @@ export const filterPosts = async (
             { author_name: { $regex: search, $options: 'i' } },
         ],
     })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .sort({ [sort]: asc ? 1 : -1 });
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ [sort]: asc ? 1 : -1 });
 
     if (!posts || posts.length === 0) {
         throw new BadRequestError({
