@@ -157,3 +157,66 @@ export const updatePost = async (
 
     return updatedPost;
 };
+
+const parseFilterOptions = (options: {
+    page?: string;
+    limit?: string;
+    search?: string;
+    sort?: string;
+    asc?: string;
+}) => {
+    const {
+        page = '1',
+        limit = '5',
+        search = '',
+        sort = 'created_at',
+        asc = 'true',
+    } = options;
+
+    const parsedPage = parseInt(page, 10);
+    const parsedLimit = parseInt(limit, 10);
+    const parsedAsc = asc === 'true';
+
+    if (isNaN(parsedPage) || parsedPage < 1) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Invalid page number. Must be a positive integer.',
+        });
+    }
+
+    if (isNaN(parsedLimit) || parsedLimit < 1) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Invalid limit. Must be a positive integer.',
+        });
+    }
+
+    return { page: parsedPage, limit: parsedLimit, search, sort, asc: parsedAsc };
+};
+
+export const filterPosts = async (
+  options: { page?: string; limit?: string; search?: string; sort?: string; asc?: string }
+) => {
+    const { page, limit, search, sort, asc } = parseFilterOptions(options);
+
+    const posts = await PostModel.find({
+        $or: [
+            { title: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+            { author_name: { $regex: search, $options: 'i' } },
+        ],
+    })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ [sort]: asc ? 1 : -1 });
+
+    if (!posts || posts.length === 0) {
+        throw new BadRequestError({
+            code: 404,
+            message: 'No posts found!',
+            logging: true,
+        });
+    }
+
+    return posts;
+};

@@ -1,20 +1,19 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import { Types } from 'mongoose';
 import {
     createPost,
-    getAllPost,
     getPostById,
     getPostsByAuthorId,
     deletePost,
     updatePost,
+    filterPosts,
 } from '../services/postService';
 import { PostCreateDTO } from '../dto/post.dto';
 import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
 
-// Create a new post
 router.post(
     '/',
     authenticateToken,
@@ -39,17 +38,18 @@ router.post(
     },
 );
 
+
 router.get(
-    '/',
-    authenticateToken,
-    async (req: AuthRequest, res: Response, next: NextFunction) => {
-        try {
-            const posts = await getAllPost();
-            res.status(200).json(posts);
-        } catch (error) {
-            next(error);
-        }
-    },
+  '/',
+  authenticateToken,
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
+      try {
+          const posts = await filterPosts(req.query);
+          res.status(200).json({ posts });
+      } catch (err) {
+          next(err);
+      }
+  }
 );
 
 router.get(
