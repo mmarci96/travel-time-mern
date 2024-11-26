@@ -1,5 +1,6 @@
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import { useEffect, useState } from 'react';
+import PostCard from './PostCard.jsx';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -12,7 +13,10 @@ const PostList = () => {
     <ul>
       PostList
       {posts.length > 0 &&
-        posts.map((post) => <li key={post._id}>{post.title}</li>)}
+        posts.map((post) => (
+          <li key={post._id}>
+            <PostCard post={post} />
+          </li>))}
     </ul>
   );
 };
