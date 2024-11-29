@@ -6,6 +6,7 @@ import TesterScene from './scenes/TesterScene.jsx';
 import Post from './scenes/Post.jsx';
 import TopNavBar from './components/navigation/TopNavBar.jsx';
 import BotNavBar from './components/navigation/BotNavBar.jsx';
+import Create from './scenes/Create.jsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/test" element={<TesterScene />} />
+        <Route path="/create" element={<Create /> } />
         <Route path="/post/:postId" element={<Post />} />
       </Routes>
       <BotNavBar />

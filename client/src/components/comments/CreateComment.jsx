@@ -7,10 +7,10 @@ const CreateComment = ({ postId, onComment }) => {
     content: '',
     post_id: postId,
   });
-  const { sendRequest } = useAuthRequest('/api/comments/', 'POST', comment);
+  const { sendRequest } = useAuthRequest();
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRequest()
+    sendRequest('/api/comments/', 'POST', comment)
       .then((result) => (result ? onComment(result) : onComment(null)))
       .finally(() =>
         setComment({

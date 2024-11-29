@@ -155,15 +155,15 @@ const parseFilterOptions = (options: {
 }) => {
     const {
         page = '1',
-        limit = '5',
+        limit = '25',
         search = '',
         sort = 'created_at',
-        asc = 'true',
+        asc = 'false',
     } = options;
 
     const parsedPage = parseInt(page, 10);
     const parsedLimit = parseInt(limit, 10);
-    const parsedAsc = asc === 'true';
+    const parsedAsc = asc === 'false';
 
     if (isNaN(parsedPage) || parsedPage < 1) {
         throw new BadRequestError({

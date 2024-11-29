@@ -4,10 +4,10 @@ import CommentCard from './CommentCard.jsx';
 
 const CommentList = ({ postId, refresh }) => {
   const [comments, setComments] = useState(null);
-  const { sendRequest } = useAuthRequest(`/api/comments/${postId}`, 'GET');
+  const { sendRequest } = useAuthRequest();
 
   useEffect(() => {
-    sendRequest().then((data) =>
+    sendRequest(`/api/comments/${postId}`, 'GET').then((data) =>
       data ? setComments(data) : setComments(null),
     );
   }, [refresh]);

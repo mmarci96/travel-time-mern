@@ -20,9 +20,8 @@ const useImageUploader = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      return res.data;
+      return res.data.filepath;
     } catch (err) {
-      console.error(err);
       setError('Upload failed');
     } finally {
       setIsLoading(false);

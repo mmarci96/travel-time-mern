@@ -13,7 +13,7 @@ const BotNavBar = () => {
           <NavBarIcon icon={<FaSearch size={30} />} text="Search" />
         </Link>
 
-        <Link to="/post/create" className="flex items-center m-auto">
+        <Link to="/create" className="flex items-center m-auto">
           <NavBarIcon icon={<FaPlusSquare size={30} />} text="Post" />
         </Link>
 

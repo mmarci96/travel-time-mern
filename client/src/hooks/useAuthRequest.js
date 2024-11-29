@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-export const useAuthRequest = (endpoint, method, formData = null) => {
+export const useAuthRequest = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendRequest = async () => {
+  const sendRequest = async (endpoint, method, formData = null) => {
     setLoading(true);
     setError(null);
 
