@@ -4,9 +4,11 @@ import PostCard from './PostCard.jsx';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
-  const { loading, error, sendRequest } = useAuthRequest()
+  const { loading, error, sendRequest } = useAuthRequest();
   useEffect(() => {
-    sendRequest('/api/posts', 'GET').then((data) => (data ? setPosts(data.posts) : setPosts([])));
+    sendRequest('/api/posts', 'GET').then((data) =>
+      data ? setPosts(data.posts) : setPosts([]),
+    );
   }, []);
 
   return (

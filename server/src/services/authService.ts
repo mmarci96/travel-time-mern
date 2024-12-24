@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import BadRequestError from '../errors/BadRequestError';
-import { Types } from 'mongoose'; // Import the BadRequestError class
+import { Types } from 'mongoose'; 
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || '';

@@ -24,6 +24,6 @@ router.post(
     },
 );
 
-router.get('/')
+router.get('/');
 
 export default router;
