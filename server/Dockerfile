@@ -1,5 +1,5 @@
 
-FROM node:alpine AS backend
+FROM node:18-alpine AS backend
 
 WORKDIR /app
 
