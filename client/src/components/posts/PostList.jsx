@@ -3,25 +3,25 @@ import { useEffect, useState } from 'react';
 import PostCard from './PostCard.jsx';
 
 const PostList = () => {
-  const [posts, setPosts] = useState([]);
-  const { loading, error, sendRequest } = useAuthRequest();
-  useEffect(() => {
-    sendRequest('/api/posts', 'GET').then((data) =>
-      data ? setPosts(data.posts) : setPosts([]),
-    );
-  }, []);
+    const [posts, setPosts] = useState([]);
+    const { loading, error, sendRequest } = useAuthRequest();
+    useEffect(() => {
+        sendRequest('/api/posts', 'GET').then((data) =>
+            data ? setPosts(data.posts) : setPosts([]),
+        );
+    }, []);
 
-  return (
-    <ul>
-      PostList
-      {posts.length > 0 &&
-        posts.map((post) => (
-          <li key={post._id}>
-            <PostCard post={post} />
-          </li>
-        ))}
-    </ul>
-  );
+    return (
+        <ul>
+            PostList
+            {posts.length > 0 &&
+                posts.map((post) => (
+                    <li key={post._id}>
+                        <PostCard post={post} />
+                    </li>
+                ))}
+        </ul>
+    );
 };
 
 export default PostList;

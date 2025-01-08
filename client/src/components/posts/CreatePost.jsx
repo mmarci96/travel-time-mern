@@ -23,9 +23,11 @@ const CreatePost = () => {
         setLoading(true);
         e.preventDefault();
         const imageData = await uploadImage();
-        console.log(imageData)
+        console.log(imageData);
         if (!imageData) {
-            setError('Error uploading image, something unexpected has happenned!');
+            setError(
+                'Error uploading image, something unexpected has happenned!',
+            );
             setLoading(false);
             return;
         }
@@ -38,7 +40,7 @@ const CreatePost = () => {
             return;
         }
         setLoading(false);
-        console.log("Post created successfully!")
+        console.log('Post created successfully!');
     };
     return (
         <div>

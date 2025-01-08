@@ -5,16 +5,16 @@ import CreateComment from '../components/comments/CreateComment.jsx';
 import { useState } from 'react';
 
 const Post = () => {
-  const { postId } = useParams();
-  const [comment, setComment] = useState(null);
+    const { postId } = useParams();
+    const [comment, setComment] = useState(null);
 
-  return (
-    <div>
-      <PostDetails postId={postId} />
-      <CommentList postId={postId} refresh={comment} />
-      <CreateComment postId={postId} onComment={setComment} />
-    </div>
-  );
+    return (
+        <div>
+            <PostDetails postId={postId} />
+            <CommentList postId={postId} refresh={comment} />
+            <CreateComment postId={postId} onComment={setComment} />
+        </div>
+    );
 };
 
 export default Post;

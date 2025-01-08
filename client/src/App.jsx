@@ -9,20 +9,20 @@ import BotNavBar from './components/navigation/BotNavBar.jsx';
 import Create from './scenes/Create.jsx';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <TopNavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<PageNotFound />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/test" element={<TesterScene />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/post/:postId" element={<Post />} />
-      </Routes>
-      <BotNavBar />
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <TopNavBar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<PageNotFound />} />
+                <Route path="/feed" element={<Feed />} />
+                <Route path="/test" element={<TesterScene />} />
+                <Route path="/create" element={<Create />} />
+                <Route path="/post/:postId" element={<Post />} />
+            </Routes>
+            <BotNavBar />
+        </BrowserRouter>
+    );
 }
 
 export default App;

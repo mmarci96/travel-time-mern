@@ -2,38 +2,41 @@ import { Link } from 'react-router-dom';
 import { FaPlusSquare, FaSearch, FaUser, FaHome, FaBell } from 'react-icons/fa';
 
 const BotNavBar = () => {
-  return (
-    <nav className="bg-white fixed bottom-0 w-full h-[72px]  flex justify-center border-t-8 border-secondary">
-      <div className="h-16 flex  bg-white w-[80vw] ml-auto mr-auto ">
-        <Link to="/feed" className="flex items-center m-auto">
-          <NavBarIcon icon={<FaHome size={30} />} text="Home" />
-        </Link>
+    return (
+        <nav className="bg-white fixed bottom-0 w-full h-[72px]  flex justify-center border-t-8 border-secondary">
+            <div className="h-16 flex  bg-white w-[80vw] ml-auto mr-auto ">
+                <Link to="/feed" className="flex items-center m-auto">
+                    <NavBarIcon icon={<FaHome size={30} />} text="Home" />
+                </Link>
 
-        <Link to="/" className="flex items-center m-auto">
-          <NavBarIcon icon={<FaSearch size={30} />} text="Search" />
-        </Link>
+                <Link to="/" className="flex items-center m-auto">
+                    <NavBarIcon icon={<FaSearch size={30} />} text="Search" />
+                </Link>
 
-        <Link to="/create" className="flex items-center m-auto">
-          <NavBarIcon icon={<FaPlusSquare size={30} />} text="Post" />
-        </Link>
+                <Link to="/create" className="flex items-center m-auto">
+                    <NavBarIcon icon={<FaPlusSquare size={30} />} text="Post" />
+                </Link>
 
-        <Link to="/" className="flex items-center m-auto">
-          <NavBarIcon icon={<FaBell size={30} />} text="Notifications" />
-        </Link>
+                <Link to="/" className="flex items-center m-auto">
+                    <NavBarIcon
+                        icon={<FaBell size={30} />}
+                        text="Notifications"
+                    />
+                </Link>
 
-        <Link to="/login" className="flex items-center m-auto">
-          <NavBarIcon icon={<FaUser size={30} />} text="Profile" />
-        </Link>
-      </div>
-    </nav>
-  );
+                <Link to="/login" className="flex items-center m-auto">
+                    <NavBarIcon icon={<FaUser size={30} />} text="Profile" />
+                </Link>
+            </div>
+        </nav>
+    );
 };
 
 const NavBarIcon = ({ icon, text = 'tooltip 💡' }) => (
-  <div className="navbar-icon group">
-    {icon}
-    <span className="navbar-tooltip group-hover:scale-100">{text}</span>
-  </div>
+    <div className="navbar-icon group">
+        {icon}
+        <span className="navbar-tooltip group-hover:scale-100">{text}</span>
+    </div>
 );
 
 export default BotNavBar;
