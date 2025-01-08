@@ -22,14 +22,15 @@ const CreatePost = () => {
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
-        const filename = await uploadImage();
-        if (!filename) {
-            setError('Error uploading image');
+        const imageData = await uploadImage();
+        console.log(imageData)
+        if (!imageData) {
+            setError('Error uploading image, something unexpected has happenned!');
             setLoading(false);
             return;
         }
-        formData.image_url = imageUrl; 
-        console.log(formData)
+        formData.image_url = imageData.imageUrl;
+        console.log(formData);
         const res = sendRequest('/api/posts', 'POST', formData);
         if (!res) {
             setError('Error creating post');
@@ -37,6 +38,7 @@ const CreatePost = () => {
             return;
         }
         setLoading(false);
+        console.log("Post created successfully!")
     };
     return (
         <div>

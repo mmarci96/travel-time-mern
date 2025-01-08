@@ -22,9 +22,7 @@ router.post(
             const { image_url, title, description, location } = req.body;
             const authorId = req.userId as Types.ObjectId;
             const authorUsername = req.username as string;
-            console.log(image_url, title, description, location, authorId, authorUsername);
             
-
             const post: PostCreateDTO = {
                 title,
                 description,

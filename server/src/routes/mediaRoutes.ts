@@ -1,4 +1,3 @@
-
 import express, { Request, Response, NextFunction } from 'express';
 import {
     getStorage,
@@ -8,7 +7,6 @@ import {
 
 const router = express.Router();
 const imageUpload = getStorage();
-
 
 router.post(
     '/img-upload',
@@ -22,8 +20,8 @@ router.post(
             const image = await saveImage(files[0].name, files[0].url);
             const response = {
                 imageUrl: image.filepath,
-                filename: image.filename
-            }
+                filename: image.filename,
+            };
 
             // Respond with the saved image metadata
             res.status(201).json(response);
@@ -34,4 +32,3 @@ router.post(
 );
 
 export default router;
-

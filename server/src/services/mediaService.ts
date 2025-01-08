@@ -5,7 +5,12 @@ import { ImageModel } from '../model/ImageModel';
 
 dotenv.config();
 
-const { AWS_BUCKET_NAME, AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env;
+const {
+    AWS_BUCKET_NAME,
+    AWS_REGION,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+} = process.env;
 
 const s3 = new S3({
     region: AWS_REGION,
@@ -14,7 +19,7 @@ const s3 = new S3({
 });
 
 export const getStorage = () => {
-    const storage = multer.memoryStorage(); 
+    const storage = multer.memoryStorage();
 
     return multer({ storage: storage });
 };
@@ -23,8 +28,8 @@ const uploadFileToS3 = async (file: Express.Multer.File) => {
     const key = `${file.fieldname}_dateVal_${Date.now()}_${file.originalname}`;
 
     const params = {
-        Bucket: AWS_BUCKET_NAME!, 
-        Key: key, 
+        Bucket: AWS_BUCKET_NAME!,
+        Key: key,
         Body: file.buffer,
         ContentType: file.mimetype,
     };
@@ -46,8 +51,8 @@ export const mapUploadedFiles = async (
 
     return Promise.all(
         (files as Express.Multer.File[]).map(async (file) => {
-            const { filename, url } = await uploadFileToS3(file); 
-            return { name: filename, url }; 
+            const { filename, url } = await uploadFileToS3(file);
+            return { name: filename, url };
         }),
     );
 };
@@ -61,8 +66,7 @@ export const saveImage = async (filename: string, url: string) => {
 
     const image = new ImageModel({
         filename: filename,
-        filepath: url, 
+        filepath: url,
     });
     return await image.save();
 };
-
