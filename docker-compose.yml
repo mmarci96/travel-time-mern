@@ -1,0 +1,30 @@
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./server
+    container_name: backend
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - UPLOAD_PATH=${UPLOAD_PATH}
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./client
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"  
+
+volumes:
+  mongo-data:
