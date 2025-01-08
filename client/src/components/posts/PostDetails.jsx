@@ -4,9 +4,11 @@ import PostCard from './PostCard.jsx';
 
 const PostDetails = ({ postId }) => {
   const [postData, setPostData] = useState(null);
-  const { sendRequest } = useAuthRequest(`/api/posts/${postId}`, 'GET');
+  const { sendRequest } = useAuthRequest();
   useEffect(() => {
-    sendRequest().then((data) => (data ? setPostData(data) : null));
+    sendRequest(`/api/posts/${postId}`, 'GET').then((data) =>
+      data ? setPostData(data) : null,
+    );
   }, []);
   return <div>{postData ? <PostCard post={postData} /> : <>Loading...</>}</div>;
 };

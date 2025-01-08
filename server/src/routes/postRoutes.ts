@@ -22,7 +22,7 @@ router.post(
             const { image_url, title, description, location } = req.body;
             const authorId = req.userId as Types.ObjectId;
             const authorUsername = req.username as string;
-
+            
             const post: PostCreateDTO = {
                 title,
                 description,
@@ -38,18 +38,17 @@ router.post(
     },
 );
 
-
 router.get(
-  '/',
-  authenticateToken,
-  async (req: AuthRequest, res: Response, next: NextFunction) => {
-      try {
-          const posts = await filterPosts(req.query);
-          res.status(200).json({ posts });
-      } catch (err) {
-          next(err);
-      }
-  }
+    '/',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const posts = await filterPosts(req.query);
+            res.status(200).json({ posts });
+        } catch (err) {
+            next(err);
+        }
+    },
 );
 
 router.get(

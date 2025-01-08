@@ -27,18 +27,6 @@ export const createPost = async (
     return await post.save();
 };
 
-export const getAllPost = async () => {
-    const posts = await PostModel.find();
-    if (!posts || posts.length === 0) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'No posts were found',
-            logging: true,
-        });
-    }
-    return posts;
-};
-
 export const getPostById = async (post_id: string) => {
     if (!post_id) {
         throw new BadRequestError({
@@ -167,15 +155,15 @@ const parseFilterOptions = (options: {
 }) => {
     const {
         page = '1',
-        limit = '5',
+        limit = '25',
         search = '',
         sort = 'created_at',
-        asc = 'true',
+        asc = 'false',
     } = options;
 
     const parsedPage = parseInt(page, 10);
     const parsedLimit = parseInt(limit, 10);
-    const parsedAsc = asc === 'true';
+    const parsedAsc = asc === 'false';
 
     if (isNaN(parsedPage) || parsedPage < 1) {
         throw new BadRequestError({
@@ -191,12 +179,22 @@ const parseFilterOptions = (options: {
         });
     }
 
-    return { page: parsedPage, limit: parsedLimit, search, sort, asc: parsedAsc };
+    return {
+        page: parsedPage,
+        limit: parsedLimit,
+        search,
+        sort,
+        asc: parsedAsc,
+    };
 };
 
-export const filterPosts = async (
-  options: { page?: string; limit?: string; search?: string; sort?: string; asc?: string }
-) => {
+export const filterPosts = async (options: {
+    page?: string;
+    limit?: string;
+    search?: string;
+    sort?: string;
+    asc?: string;
+}) => {
     const { page, limit, search, sort, asc } = parseFilterOptions(options);
 
     const posts = await PostModel.find({
@@ -206,9 +204,9 @@ export const filterPosts = async (
             { author_name: { $regex: search, $options: 'i' } },
         ],
     })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .sort({ [sort]: asc ? 1 : -1 });
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ [sort]: asc ? 1 : -1 });
 
     if (!posts || posts.length === 0) {
         throw new BadRequestError({

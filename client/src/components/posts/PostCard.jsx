@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom';
 
 const PostCard = ({ post }) => {
   return (
-    <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[350px] w-[60vw] mx-auto">
+    <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[350px] w-[72vw] mx-auto">
       <Link to={`/post/${post._id}`}>
         <img
           loading="lazy"
+          alt={post.title}
           src={post.image_url}
-          className="hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 w-[60vw]"
+          className="hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 w-[72vw]"
         />
       </Link>
       <span className="flex">
@@ -23,7 +24,8 @@ const PostCard = ({ post }) => {
         <span className="flex mb-2">
           <img
             src={post.author_id}
-            className="w-14 rounded-full shadow-md shadow-slate-700 ml-4"
+            alt={'avatar'}
+            className="w-14 rounded-full shadow-md shadow-slate-700 ml-2 content-center"
           ></img>
 
           <h4 className="text-xl italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
