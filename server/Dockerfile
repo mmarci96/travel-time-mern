@@ -12,5 +12,7 @@ COPY . .
 # Build TypeScript files
 RUN npm run build
 
+RUN npm run seed
+
 CMD ["node", "dist/app.js"]
 
