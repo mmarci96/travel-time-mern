@@ -6,8 +6,8 @@ import BadRequestError from '../errors/BadRequestError';
 import { Types } from 'mongoose';
 dotenv.config();
 
-const secret_key = process.env.JWT_SECRET_KEY || '';
-const refresh_secret_key = process.env.JWT_REFRESH_SECRET_KEY || '';
+const secret_key = process.env.JWT_SECRET_KEY || 'abc';
+const refresh_secret_key = process.env.JWT_REFRESH_SECRET_KEY || 'abc';
 
 export const createToken = async (
     email: string,
