@@ -1,18 +1,17 @@
 
-FROM node:18-alpine AS backend
+FROM node:23.4.0-alpine AS backend
 
 WORKDIR /app
 
 COPY package*.json ./
 
+COPY tsconfig.json ./
+
 RUN npm install
 
-COPY . .
+COPY src ./src
 
-# Build TypeScript files
 RUN npm run build
-
-RUN npm run seed
 
 CMD ["node", "dist/app.js"]
 
