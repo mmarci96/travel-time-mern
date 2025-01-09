@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 const { MONGO_URI, PORT = 8080 } = process.env;
 
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:80'];
 
 const options: cors.CorsOptions = {
     origin: allowedOrigins,
@@ -29,6 +29,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.get('/api/hello', (req, res) => {
+    res.send('Hello world!');
+});
+
 app.use(errorHandler);
 
 const main = async () => {
@@ -39,7 +43,7 @@ const main = async () => {
     }
     await mongoose.connect(url);
 
-    app.listen(PORT, () => {
+    app.listen(PORT as number, '0.0.0.0', () => {
         console.log('App is listening on ', PORT);
     });
 };

@@ -20,6 +20,6 @@ export const authenticateToken = (
         req.userId = jwtPayload['userId'];
         next();
     } catch (error) {
-        res.status(401).json({ error: 'Unauthorized' });
+        res.status(401).json({ error: 'Unauthorized', log: error });
     }
 };
