@@ -19,21 +19,11 @@ spec:
           image: 390403884602.dkr.ecr.eu-north-1.amazonaws.com/traveltime/travel-time-server:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: MONGO_URI
-              value: "mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db"
-            - name: JWT_SECRET_KEY
-              value: "c77d3f18c1ad41781353648cfa7d084468aef13ef4bc9b1d7f7394a8cf5f65fe"
-            - name: JWT_REFRESH_SECRET_KEY
-              value: "c77d3f18c1ad41781353648cfa7d084468aef13ef4bc9b1d7f7394a8cf5f65fe"
-            - name: AWS_BUCKET_NAME
-              value: "img-upload-traveltime"
-            - name: AWS_ACCESS_KEY_ID
-              value: "AKIAVVZPCQY5DVFA3SOG"
-            - name: AWS_SECRET_ACCESS_KEY
-              value: "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"
-            - name: AWS_REGION
-              value: "eu-north-1"
+          envFrom:
+            - secretRef:
+                name: travel-time-server-secrets
+            - configMapRef:
+                name: travel-time-server-config
           resources:
             requests:
               memory: "256Mi"
