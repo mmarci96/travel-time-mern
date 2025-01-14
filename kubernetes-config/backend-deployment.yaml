@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travel-time-server
+  labels:
+    app: travel-time-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: travel-time-server
+  template:
+    metadata:
+      labels:
+        app: travel-time-server
+    spec:
+      containers:
+        - name: travel-time-server
+          image: 390403884602.dkr.ecr.eu-north-1.amazonaws.com/traveltime/travel-time-server:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_URI
+              value: "mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db"
+            - name: JWT_SECRET_KEY
+              value: "c77d3f18c1ad41781353648cfa7d084468aef13ef4bc9b1d7f7394a8cf5f65fe"
+            - name: JWT_REFRESH_SECRET_KEY
+              value: "c77d3f18c1ad41781353648cfa7d084468aef13ef4bc9b1d7f7394a8cf5f65fe"
+            - name: AWS_BUCKET_NAME
+              value: "img-upload-traveltime"
+            - name: AWS_ACCESS_KEY_ID
+              value: "AKIAVVZPCQY5DVFA3SOG"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "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"
+            - name: AWS_REGION
+              value: "eu-north-1"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20
+
