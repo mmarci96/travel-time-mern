@@ -27,6 +27,18 @@ export const createPost = async (
     return await post.save();
 };
 
+export const getAllPost = async () => {
+    const posts = await PostModel.find();
+    if (!posts || posts.length === 0) {
+        throw new BadRequestError({
+            code: 404,
+            message: 'No posts were found',
+            logging: true,
+        });
+    }
+    return posts;
+};
+
 export const getPostById = async (post_id: string) => {
     if (!post_id) {
         throw new BadRequestError({
@@ -144,77 +156,4 @@ export const updatePost = async (
     }
 
     return updatedPost;
-};
-
-const parseFilterOptions = (options: {
-    page?: string;
-    limit?: string;
-    search?: string;
-    sort?: string;
-    asc?: string;
-}) => {
-    const {
-        page = '1',
-        limit = '25',
-        search = '',
-        sort = 'created_at',
-        asc = 'false',
-    } = options;
-
-    const parsedPage = parseInt(page, 10);
-    const parsedLimit = parseInt(limit, 10);
-    const parsedAsc = asc === 'false';
-
-    if (isNaN(parsedPage) || parsedPage < 1) {
-        throw new BadRequestError({
-            code: 400,
-            message: 'Invalid page number. Must be a positive integer.',
-        });
-    }
-
-    if (isNaN(parsedLimit) || parsedLimit < 1) {
-        throw new BadRequestError({
-            code: 400,
-            message: 'Invalid limit. Must be a positive integer.',
-        });
-    }
-
-    return {
-        page: parsedPage,
-        limit: parsedLimit,
-        search,
-        sort,
-        asc: parsedAsc,
-    };
-};
-
-export const filterPosts = async (options: {
-    page?: string;
-    limit?: string;
-    search?: string;
-    sort?: string;
-    asc?: string;
-}) => {
-    const { page, limit, search, sort, asc } = parseFilterOptions(options);
-
-    const posts = await PostModel.find({
-        $or: [
-            { title: { $regex: search, $options: 'i' } },
-            { description: { $regex: search, $options: 'i' } },
-            { author_name: { $regex: search, $options: 'i' } },
-        ],
-    })
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .sort({ [sort]: asc ? 1 : -1 });
-
-    if (!posts || posts.length === 0) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'No posts found!',
-            logging: true,
-        });
-    }
-
-    return posts;
 };

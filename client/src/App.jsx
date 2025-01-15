@@ -17,7 +17,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/test" element={<TesterScene />} />
-        <Route path="/create" element={<Create /> } />
+        <Route path="/create" element={<Create />} />
         <Route path="/post/:postId" element={<Post />} />
       </Routes>
       <BotNavBar />

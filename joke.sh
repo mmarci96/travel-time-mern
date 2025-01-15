@@ -1,0 +1,2 @@
+kitty
+echo "hello world!"
