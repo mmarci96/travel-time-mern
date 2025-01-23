@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import ProfileMenu from './ProfileMenu.jsx';
 
 const TopNavBar = () => {
     return (
@@ -7,6 +8,7 @@ const TopNavBar = () => {
             <h1 className="text-white bg-cyan-600 bg-opacity-80 pb-1 pt-2 px-4 text-2xl ml-2 m-auto tracking-wide rounded-2xl font-semibold">
                 <Link to="/feed">TravelTime</Link>
             </h1>
+            <ProfileMenu />
         </div>
     );
 };
