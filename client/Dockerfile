@@ -1,4 +1,4 @@
-FROM node:18-alpine AS frontend 
+FROM node:18-alpine AS  client
 
 WORKDIR /app
 
@@ -10,9 +10,11 @@ COPY . .
 
 RUN npm run build
 
+COPY . .
+
 FROM nginx:alpine
 
-COPY dist /usr/share/nginx/html
+COPY  --from=client ./app/dist /usr/share/nginx/html
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
