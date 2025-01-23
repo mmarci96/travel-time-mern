@@ -7,7 +7,9 @@
     "skipLibCheck": true, // Skip library checks for performance
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist", // Output directory for compiled files
-    "strict": true // Enable strict type checking
+    "strict": true, // Enable strict type checking
+    "allowJs": true, // Enables JavaScript file processing
+    "checkJs": false // (Optional) Set to true to enable type checking for JavaScript files
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules"]
