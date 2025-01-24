@@ -1,8 +1,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { CgProfile } from 'react-icons/cg';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../auth/AuthContext.jsx';
 
-export default function ProfileMenu({ logout, user }) {
+export default function ProfileMenu({  user }) {
+  const {logout}=useContext(AuthContext);
+
     return (
         <Menu as="div" className="relative ml-3">
             <MenuButton className="relative flex rounded-full text-sm focus:outline-none">
