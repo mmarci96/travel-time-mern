@@ -2,6 +2,7 @@ import useAuthRequest from '../../hooks/useAuthRequest.js';
 import { useContext, useEffect, useState } from 'react';
 import PostCard from './PostCard.jsx';
 import { AuthContext } from '../auth/AuthContext.jsx';
+import LoginAlert from '../common/LoginAlert.jsx';
 
 const PostList = () => {
     const [posts, setPosts] = useState([]);
@@ -24,7 +25,7 @@ const PostList = () => {
                 <PostCard post={post} />
               </li>
             ))}
-        </ul>): <p>Please sign in</p>}
+        </ul>):<LoginAlert/>}
       </div>
     );
 };
