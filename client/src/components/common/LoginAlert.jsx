@@ -7,7 +7,7 @@ function LoginAlert() {
     <div>
       <Link to="/">
         <Button>
-          Please Login
+          Please Login or sign up to see more!
         </Button>
       </Link>
     </div>
