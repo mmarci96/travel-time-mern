@@ -4,7 +4,7 @@ import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 const PostCard = ({ post }) => {
     return (
         <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[340px] max-w-[62vh]  mx-auto">
-            <Link to={`/post/${post._id}`}>
+            <Link to={`/post/${post.id}`}>
                 <ImageWithPlaceholder
                     alt={post.title}
                     image_url={post.image_url}
