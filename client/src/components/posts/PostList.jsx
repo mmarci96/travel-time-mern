@@ -19,15 +19,18 @@ const PostList = () => {
     return (
         <div>
             {user ? (
-                loading ? < LoadAnimation /> : (
-                <ul>
-                    {posts?.length > 0 &&
-                        posts.map((post) => (
-                            <li key={post._id}>
-                                <PostCard post={post} />
-                            </li>
-                        ))}
-                </ul> )
+                loading ? (
+                    <LoadAnimation />
+                ) : (
+                    <ul>
+                        {posts?.length > 0 &&
+                            posts.map((post) => (
+                                <li key={post._id}>
+                                    <PostCard post={post} />
+                                </li>
+                            ))}
+                    </ul>
+                )
             ) : (
                 <LoginAlert />
             )}

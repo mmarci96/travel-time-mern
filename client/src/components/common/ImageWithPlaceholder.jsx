@@ -1,6 +1,5 @@
-
-import React, { useState } from "react";
-import LoadAnimation from "./LoadAnimation";
+import React, { useState } from 'react';
+import LoadAnimation from './LoadAnimation';
 
 const ImageWithPlaceholder = ({ alt, image_url }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +19,7 @@ const ImageWithPlaceholder = ({ alt, image_url }) => {
                 alt={alt}
                 src={image_url}
                 className={`hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 min-w-[380px] h-[72vh] max-w-[92vw] ${
-                    isLoading ? "invisible" : "visible"
+                    isLoading ? 'invisible' : 'visible'
                 }`}
                 onLoad={() => setIsLoading(false)}
             />

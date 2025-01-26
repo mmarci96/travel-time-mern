@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ImageWithPlaceholder from "../common/ImageWithPlaceholder"
+import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 
 const PostCard = ({ post }) => {
     return (
@@ -8,13 +8,12 @@ const PostCard = ({ post }) => {
                 <ImageWithPlaceholder
                     alt={post.title}
                     image_url={post.image_url}
-                    />
+                />
             </Link>
             <span className="flex flex-col">
                 <h3 className="post-title text-lg font-semibold tracking-wider p-2 m-2 mr-auto mb-1">
                     {post.title}
                 </h3>
-                
             </span>
             {post.author_id ? (
                 <span className="flex mb-2">
@@ -30,8 +29,8 @@ const PostCard = ({ post }) => {
                         </Link>
                     </h4>
                     <h3 className="text-md m-2 p-2 mb-1 italic">
-                    {new Date(post?.created_at).toDateString()}{' '}
-                </h3>
+                        {new Date(post?.created_at).toDateString()}{' '}
+                    </h3>
                 </span>
             ) : (
                 <p>looking for author .. .</p>
