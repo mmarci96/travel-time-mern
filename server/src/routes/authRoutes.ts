@@ -16,7 +16,7 @@ router.post(
         try {
             const { username, email, password } = req.body;
             const user = await createUser(username, email, password);
-
+            console.log(user);
             return res.status(201).send(user);
         } catch (err) {
             next(err);

@@ -1,59 +1,77 @@
 import { useState } from 'react';
-import FormField from '../common/FormField.jsx';
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import Button from '../common/Button.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+    const { login } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
         setLoading(true);
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            setError(data.error.message);
-            return;
+        const fuck=JSON.stringify(formData);
+        console.log(fuck);
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                setError(data.error.message || 'Login failed');
+                return;
+            }
+
+            login(data.token, data.refresh_token);
+            navigate('/feed');
+        } catch (error) {
+            setError('Something went wrong. Please try again.'+error);
+        } finally {
+            setLoading(false);
         }
-        console.log(data);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('refresh_token', data.refresh_token);
-        setLoading(false);
     };
+
     return (
-        <form onSubmit={handleSubmit}>
-            <FormField
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <FormField
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            <Button type={'submit'}>
-                {loading ? 'Logging in...' : 'Login'}
-            </Button>
-        </form>
+      <form onSubmit={handleSubmit}>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {error && <p className="text-red-500">{error}</p>}
+          <Button type="submit" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+          </Button>
+      </form>
     );
 };
 
 export default LoginForm;
+
+
