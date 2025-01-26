@@ -1,7 +1,87 @@
-import { Types } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
+import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
+import { UserDetailsModel } from '../model/UserDetailsModel';
+
+export const getUserInfoList = async (limit: number, page: number) => {
+    const results = []
+    const users = await UserModel.find()
+        .skip((page - 1) * limit)
+        .limit(limit);
+    for (let i = 0; i < users.length; i++){
+        const userDetail = await UserDetailsModel.findById(users[i].user_details)
+        if (!userDetail) continue;
+
+        const userInfo: UserInfoDTO = {
+            id: users[i]._id,
+            username: users[i].username,
+            first_name: userDetail.first_name,
+            last_name: userDetail.last_name,
+            avatar_url: userDetail.avatar_url,
+            bio: userDetail.bio,
+            location: userDetail.location,
+            created_at: users[i].created_at
+        }
+        results.push(userInfo)
+    }
+
+    return results;
+}
+
+export const getUserDetailsById = async (id: string): Promise<UserDetailsDTO> => {
+    if(!id) {
+         throw new BadRequestError({
+            message: 'No user id provided!',
+            code: 400,
+            logging: true,
+        })
+    }
+    const userId = new Schema.Types.ObjectId(id);
+    const user = await UserModel.findById(userId);
+    if(!user){
+        throw new BadRequestError({
+            message: 'No user found',
+            code: 404,
+            logging: true,
+        })
+    }
+    const userDetails = await UserDetailsModel.findById(user.user_details);
+    
+    if(!user._id){
+        throw new BadRequestError({
+            message: 'No user found',
+            code: 404,
+            logging: true,
+        })
+    }
+    if (!userDetails){
+        const empty: UserDetailsDTO = {
+            id: user._id,
+            username: user.username,
+            created_at: user?.created_at
+        }
+        return empty
+    }
+    const result: UserDetailsDTO = {
+        id: user._id,
+        username: user.username,
+        first_name: userDetails?.first_name,
+        last_name: userDetails?.last_name,
+        birthdate: userDetails?.birthdate,
+        bio: userDetails?.bio,
+        location: userDetails?.location,
+        interests: userDetails?.interests,
+        visiting_list: userDetails?.visiting_list,
+        gender: userDetails?.gender,
+        social_media_links: userDetails?.social_media_links,
+        avatar_url: userDetails?.avatar_url,
+        created_at: user.created_at,
+    }
+    
+    return result
+}
 
 export const createUser = async (
     username: string,

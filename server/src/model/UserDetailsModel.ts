@@ -1,4 +1,4 @@
-import mongoose,{ Document, Schema } from 'mongoose';
+import mongoose,{ Document, Schema, Date } from 'mongoose';
 
 interface IUserDetails extends Document {
     _id: Schema.Types.ObjectId;
@@ -7,11 +7,11 @@ interface IUserDetails extends Document {
     birthdate: Date;
     bio?: string;
     location?: string;
-    interests: string[];
-    visiting_list: string[];
-    gender?: string | null;
+    interests?: string[];
+    visiting_list?: string[];
+    gender?: string ;
     social_media_links?: { platform: string; link: string }; 
-    languages_spoken: string[];
+    languages_spoken?: string[];
     avatar_url?: string;
     created_at: Date;
     updated_at?: Date;
