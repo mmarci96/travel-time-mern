@@ -1,14 +1,14 @@
-import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
+import { PostCreateDTO, PostUpdateDTO, PostRequestDTO } from '../dto/post.dto';
 import PostModel from '../model/PostModel';
-import { Types } from 'mongoose';
+import { Types, Schema } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
+import UserModel from '../model/UserModel';
+
 
 export const createPost = async (
     author_id: Types.ObjectId,
-    authorName: string,
     postData: PostCreateDTO,
 ) => {
-    const author_name = authorName;
 
     if (!postData) {
         throw new BadRequestError({
@@ -20,7 +20,6 @@ export const createPost = async (
 
     const post = new PostModel({
         author_id,
-        author_name,
         ...postData,
     });
 
@@ -37,7 +36,6 @@ export const getPostById = async (post_id: string) => {
     }
 
     const post = await PostModel.findById(new Types.ObjectId(post_id));
-
     if (!post) {
         throw new BadRequestError({
             code: 404,
@@ -45,8 +43,26 @@ export const getPostById = async (post_id: string) => {
             logging: true,
         });
     }
+    const { author_id } = post
+    const author = await UserModel.findById(author_id)
+    const authorName = author?.username
+    if(!authorName){
+        throw new BadRequestError({
+            code: 404,
+            message: `Missing authorname on post: ${post_id}`
+        })
+    }
+    const result: PostRequestDTO = {
+        id: new Schema.Types.ObjectId(post_id),
+        author_name: authorName,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at
+    }
 
-    return post;
+    return result;
 };
 
 export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {

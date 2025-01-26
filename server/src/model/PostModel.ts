@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Date } from 'mongoose';
 
 interface IPost extends Document {
     author_id: Schema.Types.ObjectId;
