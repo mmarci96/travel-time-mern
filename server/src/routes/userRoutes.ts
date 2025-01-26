@@ -11,12 +11,30 @@ router.get(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const users = await getUsers();
-            res.status(200).send(users);
+            res.status(200).send({users: users});
         } catch (err) {
             next(err);
         }
     },
 );
+
+router.get(
+    '/discover',
+    authenticateToken,
+    async (
+        req: AuthRequest,
+        res: Response,
+        next: NextFunction,
+    ): Promise<any> => {
+        try {
+            console.log("hi");
+            
+        } catch (error) {
+            next(error)
+        }        
+    }
+)
+
 
 router.get(
     '/:userId',

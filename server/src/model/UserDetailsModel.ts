@@ -1,5 +1,21 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose,{ Document, Schema } from 'mongoose';
+
+interface IUserDetails extends Document {
+    _id: Schema.Types.ObjectId;
+    first_name: string;
+    last_name: string;
+    birthdate: Date;
+    bio?: string;
+    location?: string;
+    interests: string[];
+    visiting_list: string[];
+    gender?: string | null;
+    social_media_links?: { platform: string; link: string }; 
+    languages_spoken: string[];
+    avatar_url?: string;
+    created_at: Date;
+    updated_at?: Date;
+}
 
 const userDetailsSchema = new Schema({
     first_name: { type: String, required: true },
@@ -17,5 +33,5 @@ const userDetailsSchema = new Schema({
     updated_at: { type: Date },
 });
 
-const UserDetailsModel = mongoose.model('UserDetails', userDetailsSchema);
-export default UserDetailsModel;
+const UserDetailsModel = mongoose.model<IUserDetails>('UserDetails', userDetailsSchema);
+export { UserDetailsModel, IUserDetails };

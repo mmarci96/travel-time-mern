@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import UserModel from '../model/UserModel';
+import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
 

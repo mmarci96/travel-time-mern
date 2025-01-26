@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import mongoose, { Types } from 'mongoose';
 import { faker } from '@faker-js/faker';
-import UserModel from '../model/UserModel';
-import UserDetailsModel from '../model/UserDetailsModel';
-import PostModel from '../model/PostModel';
-import CommentModel from '../model/CommentModel';
+import { UserModel } from '../model/UserModel';
+import { UserDetailsModel } from '../model/UserDetailsModel';
+import { PostModel } from '../model/PostModel';
+import { CommentModel } from '../model/CommentModel';
 
 dotenv.config();
 
