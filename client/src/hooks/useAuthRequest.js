@@ -4,17 +4,16 @@ export const useAuthRequest = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-
     const sendRequest = async (endpoint, method, formData = null) => {
         setLoading(true);
         setError(null);
 
         try {
-           const token = localStorage.getItem('token');
-           if (!token) setError('Token not set');
+            const token = localStorage.getItem('token');
+            if (!token) setError('Token not set');
 
             const headers = {
-               Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             };
 
             if (method !== 'GET') {

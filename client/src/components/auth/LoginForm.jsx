@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useContext } from 'react';
-import { AuthContext } from './AuthContext';
 import Button from '../common/Button.jsx';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const LoginForm = () => {
     const { login } = useContext(AuthContext);
@@ -22,7 +22,7 @@ const LoginForm = () => {
         e.preventDefault();
         console.log(formData);
         setLoading(true);
-        const fuck=JSON.stringify(formData);
+        const fuck = JSON.stringify(formData);
         console.log(fuck);
         try {
             const response = await fetch('/api/auth/login', {
@@ -42,36 +42,34 @@ const LoginForm = () => {
             login(data.token, data.refresh_token);
             navigate('/feed');
         } catch (error) {
-            setError('Something went wrong. Please try again.'+error);
+            setError('Something went wrong. Please try again.' + error);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-      <form onSubmit={handleSubmit}>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          {error && <p className="text-red-500">{error}</p>}
-          <Button type="submit" disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
-          </Button>
-      </form>
+        <form onSubmit={handleSubmit}>
+            <label>Email:</label>
+            <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+            />
+            <label>Password:</label>
+            <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+            />
+            {error && <p className="text-red-500">{error}</p>}
+            <Button type="submit" disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'}
+            </Button>
+        </form>
     );
 };
 
 export default LoginForm;
-
-
