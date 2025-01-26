@@ -17,30 +17,35 @@ export const getUserInfoList = async (limit: any, page: any) => {
         pageCount = 1;
     }
 
-    const results = [];
     const users = await UserModel.find()
         .skip((pageCount - 1) * limitNum)
         .limit(limitNum);
-    for (let i = 0; i < users.length; i++) {
-        const userDetail = await UserDetailsModel.findById(
-            users[i].user_details,
-        );
-        if (!userDetail) continue;
 
-        const userInfo: UserInfoDTO = {
-            id: users[i]._id,
-            username: users[i].username,
-            first_name: userDetail.first_name,
-            last_name: userDetail.last_name,
-            avatar_url: userDetail.avatar_url,
-            bio: userDetail.bio,
-            location: userDetail.location,
-            created_at: users[i].created_at,
-        };
-        results.push(userInfo);
-    }
+    const results = await Promise.all(
+        users.map(async (user) => {
+            const userDetail = await UserDetailsModel.findById(
+                user.user_details,
+            );
+            if (!userDetail) {
+                console.log('missing user_details');
+                return null; // Return null for users with missing details
+            }
 
-    return results;
+            return {
+                id: user._id,
+                username: user.username,
+                first_name: userDetail.first_name,
+                last_name: userDetail.last_name,
+                avatar_url: userDetail.avatar_url,
+                bio: userDetail.bio,
+                location: userDetail.location,
+                created_at: user.created_at,
+            } as UserInfoDTO;
+        }),
+    );
+
+    // Filter out any null results (users with missing details)
+    return results.filter((result) => result !== null);
 };
 
 export const getUserDetailsById = async (

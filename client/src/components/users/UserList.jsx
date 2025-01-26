@@ -5,9 +5,10 @@ import { AuthContext } from "../../context/AuthContext"
 const UserList = () => {
     const { user } = useContext(AuthContext);
     const [ users, setUsers ] = useState([])
+    const [ page, setPage ] = useState(1);
     const { sendRequest, loading, error } = useAuthRequest();
     useEffect(() => {
-        sendRequest('/api/users', 'GET').then((data) =>
+        sendRequest(`/api/users/discover?limit=${10}&page=${page}`, 'GET').then((data) =>
             data ? setUsers(data.users) : setUsers([]))
     }, [])
     useEffect(() => {
