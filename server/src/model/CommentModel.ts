@@ -3,9 +3,7 @@ const Schema = mongoose.Schema;
 
 interface IComment extends Document {
     _id: Types.ObjectId;
-    author_id:
-        | Types.ObjectId
-        | { _id: Types.ObjectId; username: string };
+    author_id: Types.ObjectId | { _id: Types.ObjectId; username: string };
     post_id: Types.ObjectId;
     content: string;
     created_at: Date;
@@ -21,4 +19,4 @@ const commentSchema = new Schema({
 });
 
 const CommentModel = mongoose.model<IComment>('Comment', commentSchema);
-export { CommentModel, IComment }
+export { CommentModel, IComment };

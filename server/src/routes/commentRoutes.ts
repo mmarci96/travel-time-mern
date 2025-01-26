@@ -18,11 +18,7 @@ router.post(
         try {
             const author_id = req.userId as Types.ObjectId;
             const { post_id, content } = req.body;
-            const comment = await createComment(
-                author_id,
-                post_id,
-                content,
-            );
+            const comment = await createComment(author_id, post_id, content);
             res.status(201).send(comment);
         } catch (err) {
             next(err);
