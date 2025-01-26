@@ -74,7 +74,7 @@ router.get(
             const posts = await getPostsByAuthorId(
                 new Types.ObjectId(authorId),
             );
-            res.status(200).json(posts);
+            res.status(200).json({ posts: posts });
         } catch (error) {
             next(error);
         }
