@@ -1,15 +1,41 @@
 import { PostCreateDTO, PostUpdateDTO, PostRequestDTO } from '../dto/post.dto';
-import PostModel from '../model/PostModel';
-import { Types, Schema } from 'mongoose';
+import { PostModel, IPost } from '../model/PostModel';
+import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import UserModel from '../model/UserModel';
 
+const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
+    let authorName: string | undefined;
+
+    if (typeof post.author_id === 'object' && 'username' in post.author_id) {
+        authorName = post.author_id.username;
+    } else {
+        const author = await UserModel.findById(post.author_id);
+        authorName = author?.username;
+        if (!authorName) {
+            throw new BadRequestError({
+                code: 404,
+                message: `Missing authorname on post: ${post._id}`,
+            });
+        }
+    }
+
+    return {
+        id: post._id,
+        author_id: post.author_id,
+        author_name: authorName,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    };
+};
 
 export const createPost = async (
     author_id: Types.ObjectId,
     postData: PostCreateDTO,
 ) => {
-
     if (!postData) {
         throw new BadRequestError({
             code: 400,
@@ -23,7 +49,8 @@ export const createPost = async (
         ...postData,
     });
 
-    return await post.save();
+    const saved = await post.save();
+    return await createPostResponse(saved);
 };
 
 export const getPostById = async (post_id: string) => {
@@ -43,24 +70,8 @@ export const getPostById = async (post_id: string) => {
             logging: true,
         });
     }
-    const { author_id } = post
-    const author = await UserModel.findById(author_id)
-    const authorName = author?.username
-    if(!authorName){
-        throw new BadRequestError({
-            code: 404,
-            message: `Missing authorname on post: ${post_id}`
-        })
-    }
-    const result: PostRequestDTO = {
-        id: new Schema.Types.ObjectId(post_id),
-        author_name: authorName,
-        title: post.title,
-        description: post.description,
-        location: post.location,
-        image_url: post.image_url,
-        created_at: post.created_at
-    }
+
+    const result = await createPostResponse(post);
 
     return result;
 };
@@ -84,7 +95,21 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
         });
     }
 
-    return posts;
+    const results = posts.map((post) => ({
+        id: post._id,
+        author_id: post.author_id,
+        author_name:
+            typeof post.author_id === 'object' && 'username' in post.author_id
+                ? post.author_id.username
+                : undefined,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    }));
+
+    return results;
 };
 
 export const deletePost = async (
@@ -217,9 +242,9 @@ export const filterPosts = async (options: {
         $or: [
             { title: { $regex: search, $options: 'i' } },
             { description: { $regex: search, $options: 'i' } },
-            { author_name: { $regex: search, $options: 'i' } },
         ],
     })
+        .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ [sort]: asc ? 1 : -1 });
@@ -232,5 +257,19 @@ export const filterPosts = async (options: {
         });
     }
 
-    return posts;
+    const results = posts.map((post) => ({
+        id: post._id,
+        author_id: post.author_id,
+        author_name:
+            typeof post.author_id === 'object' && 'username' in post.author_id
+                ? post.author_id.username
+                : undefined,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    }));
+
+    return results;
 };
