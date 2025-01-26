@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import BadRequestError from '../errors/BadRequestError';
 import { Types } from 'mongoose';
-import { as } from '@faker-js/faker/dist/airline-BLb3y-7w';
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || 'abc';
