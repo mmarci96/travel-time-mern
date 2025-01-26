@@ -1,10 +1,10 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { CgProfile } from 'react-icons/cg';
 import React, { useContext } from 'react';
-import { AuthContext } from '../auth/AuthContext.jsx';
+import { AuthContext } from '../../context/AuthContext.jsx';
 
-export default function ProfileMenu({  user }) {
-  const {logout}=useContext(AuthContext);
+export default function ProfileMenu({ user }) {
+    const { logout } = useContext(AuthContext);
 
     return (
         <Menu as="div" className="relative ml-3">
