@@ -39,4 +39,3 @@ export interface UserDetailsDTO {
     avatar_url?: string;
     created_at: Date;
 }
-

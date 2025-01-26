@@ -6,23 +6,25 @@ import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 
 export const getUserInfoList = async (limit: any, page: any) => {
-    if(!limit || !page){
-        limit = '10'
-        page = '1'
+    if (!limit || !page) {
+        limit = '10';
+        page = '1';
     }
-    let limitNum = parseInt(limit)
-    let pageCount = parseInt(page)
-    if (isNaN(limitNum) && isNaN(pageCount)){
-        limitNum = 10
-        pageCount = 1
+    let limitNum = parseInt(limit);
+    let pageCount = parseInt(page);
+    if (isNaN(limitNum) && isNaN(pageCount)) {
+        limitNum = 10;
+        pageCount = 1;
     }
 
-    const results = []
+    const results = [];
     const users = await UserModel.find()
         .skip((pageCount - 1) * limitNum)
         .limit(limitNum);
-    for (let i = 0; i < users.length; i++){
-        const userDetail = await UserDetailsModel.findById(users[i].user_details)
+    for (let i = 0; i < users.length; i++) {
+        const userDetail = await UserDetailsModel.findById(
+            users[i].user_details,
+        );
         if (!userDetail) continue;
 
         const userInfo: UserInfoDTO = {
@@ -33,47 +35,49 @@ export const getUserInfoList = async (limit: any, page: any) => {
             avatar_url: userDetail.avatar_url,
             bio: userDetail.bio,
             location: userDetail.location,
-            created_at: users[i].created_at
-        }
-        results.push(userInfo)
+            created_at: users[i].created_at,
+        };
+        results.push(userInfo);
     }
 
     return results;
-}
+};
 
-export const getUserDetailsById = async (id: string): Promise<UserDetailsDTO> => {
-    if(!id) {
-         throw new BadRequestError({
+export const getUserDetailsById = async (
+    id: string,
+): Promise<UserDetailsDTO> => {
+    if (!id) {
+        throw new BadRequestError({
             message: 'No user id provided!',
             code: 400,
             logging: true,
-        })
+        });
     }
     const userId = new Schema.Types.ObjectId(id);
     const user = await UserModel.findById(userId);
-    if(!user){
+    if (!user) {
         throw new BadRequestError({
             message: 'No user found',
             code: 404,
             logging: true,
-        })
+        });
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
-    
-    if(!user._id){
+
+    if (!user._id) {
         throw new BadRequestError({
             message: 'No user found',
             code: 404,
             logging: true,
-        })
+        });
     }
-    if (!userDetails){
+    if (!userDetails) {
         const empty: UserDetailsDTO = {
             id: user._id,
             username: user.username,
-            created_at: user?.created_at
-        }
-        return empty
+            created_at: user?.created_at,
+        };
+        return empty;
     }
     const result: UserDetailsDTO = {
         id: user._id,
@@ -89,10 +93,10 @@ export const getUserDetailsById = async (id: string): Promise<UserDetailsDTO> =>
         social_media_links: userDetails?.social_media_links,
         avatar_url: userDetails?.avatar_url,
         created_at: user.created_at,
-    }
-    
-    return result
-}
+    };
+
+    return result;
+};
 
 export const createUser = async (
     username: string,

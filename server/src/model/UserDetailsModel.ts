@@ -1,4 +1,4 @@
-import mongoose,{ Document, Schema, Date } from 'mongoose';
+import mongoose, { Document, Schema, Date } from 'mongoose';
 
 interface IUserDetails extends Document {
     _id: Schema.Types.ObjectId;
@@ -9,8 +9,8 @@ interface IUserDetails extends Document {
     location?: string;
     interests?: string[];
     visiting_list?: string[];
-    gender?: string ;
-    social_media_links?: { platform: string; link: string }; 
+    gender?: string;
+    social_media_links?: { platform: string; link: string };
     languages_spoken?: string[];
     avatar_url?: string;
     created_at: Date;
@@ -33,5 +33,8 @@ const userDetailsSchema = new Schema({
     updated_at: { type: Date },
 });
 
-const UserDetailsModel = mongoose.model<IUserDetails>('UserDetails', userDetailsSchema);
+const UserDetailsModel = mongoose.model<IUserDetails>(
+    'UserDetails',
+    userDetailsSchema,
+);
 export { UserDetailsModel, IUserDetails };
