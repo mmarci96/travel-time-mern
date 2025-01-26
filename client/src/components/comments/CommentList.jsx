@@ -16,7 +16,7 @@ const CommentList = ({ postId, refresh }) => {
             {comments &&
                 comments.length &&
                 comments.map((comment) => (
-                    <li key={comment._id} className="min-w-[350px] w-[60vw]">
+                    <li key={comment.id} className="min-w-[350px] w-[60vw]">
                         <CommentCard comment={comment} />
                     </li>
                 ))}
