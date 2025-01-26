@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import Button from '../common/Button.jsx';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import FormField from '../common/FormField.jsx';
 
 const LoginForm = () => {
     const { login } = useContext(AuthContext);
@@ -50,19 +51,19 @@ const LoginForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>Email:</label>
-            <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+            <FormField
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
             />
-            <label>Password:</label>
-            <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
+            <FormField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
             />
             {error && <p className="text-red-500">{error}</p>}
             <Button type="submit" disabled={loading}>
