@@ -9,7 +9,7 @@ const BotNavBar = () => {
                     <NavBarIcon icon={<FaHome size={30} />} text="Home" />
                 </Link>
 
-                <Link to="/" className="flex items-center m-auto">
+                <Link to="/discover" className="flex items-center m-auto">
                     <NavBarIcon icon={<FaSearch size={30} />} text="Search" />
                 </Link>
 
@@ -17,14 +17,14 @@ const BotNavBar = () => {
                     <NavBarIcon icon={<FaPlusSquare size={30} />} text="Post" />
                 </Link>
 
-                <Link to="/" className="flex items-center m-auto">
+                <Link to="/notifications" className="flex items-center m-auto">
                     <NavBarIcon
                         icon={<FaBell size={30} />}
                         text="Notifications"
                     />
                 </Link>
 
-                <Link to="/login" className="flex items-center m-auto">
+                <Link to="/my-account" className="flex items-center m-auto">
                     <NavBarIcon icon={<FaUser size={30} />} text="Profile" />
                 </Link>
             </div>

@@ -19,9 +19,9 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/create" element={<Create />} />
-                <Route path='/my-account' element={ <MyAccount />} />
+                <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/notifications" element={<Notifications />} />
-                <Route path='/discover' element={<Discover />} /> 
+                <Route path="/discover" element={<Discover />} />
 
                 <Route path="/post/:postId" element={<Post />} />
                 <Route path="*" element={<PageNotFound />} />
