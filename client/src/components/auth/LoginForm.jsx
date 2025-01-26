@@ -36,7 +36,7 @@ const LoginForm = () => {
             }
 
             login(data.token, data.refresh_token);
-            window.location.reload()
+            window.location.reload();
         } catch (error) {
             setError('Something went wrong. Please try again.' + error);
         } finally {
