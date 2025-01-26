@@ -1,3 +1,5 @@
+import { Date, Schema } from 'mongoose';
+
 export interface PostCreateDTO {
     title: string;
     description?: string;
@@ -5,8 +7,20 @@ export interface PostCreateDTO {
     image_url: string;
 }
 
-export interface PostUpdateDTO {
+export interface PostRequestDTO {
+    id: Schema.Types.ObjectId;
+    author_id:
+        | Schema.Types.ObjectId
+        | { _id: Schema.Types.ObjectId; username: string };
     author_name?: string;
+    title: string;
+    description?: string;
+    location?: string;
+    image_url: string;
+    created_at: Date;
+}
+
+export interface PostUpdateDTO {
     title?: string;
     description?: string;
     location?: string;

@@ -17,14 +17,8 @@ router.post(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const author_id = req.userId as Types.ObjectId;
-            const author_name = req.username as string;
             const { post_id, content } = req.body;
-            const comment = await createComment(
-                author_id,
-                author_name,
-                post_id,
-                content,
-            );
+            const comment = await createComment(author_id, post_id, content);
             res.status(201).send(comment);
         } catch (err) {
             next(err);
@@ -53,11 +47,9 @@ router.put(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const author_id = req.userId as Types.ObjectId;
-            const author_name = req.username as string;
             const { content, post_id } = req.body;
             const updatedComment = await updateComment(
                 author_id,
-                author_name,
                 post_id,
                 content,
             );

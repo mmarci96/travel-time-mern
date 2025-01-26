@@ -25,7 +25,7 @@ const PostList = () => {
                     <ul>
                         {posts?.length > 0 &&
                             posts.map((post) => (
-                                <li key={post._id}>
+                                <li key={post.id}>
                                     <PostCard post={post} />
                                 </li>
                             ))}

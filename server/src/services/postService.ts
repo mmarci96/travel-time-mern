@@ -1,15 +1,41 @@
-import { PostCreateDTO, PostUpdateDTO } from '../dto/post.dto';
-import PostModel from '../model/PostModel';
+import { PostCreateDTO, PostUpdateDTO, PostRequestDTO } from '../dto/post.dto';
+import { PostModel, IPost } from '../model/PostModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
+import UserModel from '../model/UserModel';
+
+const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
+    let authorName: string | undefined;
+
+    if (typeof post.author_id === 'object' && 'username' in post.author_id) {
+        authorName = post.author_id.username;
+    } else {
+        const author = await UserModel.findById(post.author_id);
+        authorName = author?.username;
+        if (!authorName) {
+            throw new BadRequestError({
+                code: 404,
+                message: `Missing authorname on post: ${post._id}`,
+            });
+        }
+    }
+
+    return {
+        id: post._id,
+        author_id: post.author_id,
+        author_name: authorName,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    };
+};
 
 export const createPost = async (
     author_id: Types.ObjectId,
-    authorName: string,
     postData: PostCreateDTO,
 ) => {
-    const author_name = authorName;
-
     if (!postData) {
         throw new BadRequestError({
             code: 400,
@@ -20,11 +46,11 @@ export const createPost = async (
 
     const post = new PostModel({
         author_id,
-        author_name,
         ...postData,
     });
 
-    return await post.save();
+    const saved = await post.save();
+    return await createPostResponse(saved);
 };
 
 export const getPostById = async (post_id: string) => {
@@ -37,7 +63,6 @@ export const getPostById = async (post_id: string) => {
     }
 
     const post = await PostModel.findById(new Types.ObjectId(post_id));
-
     if (!post) {
         throw new BadRequestError({
             code: 404,
@@ -46,7 +71,9 @@ export const getPostById = async (post_id: string) => {
         });
     }
 
-    return post;
+    const result = await createPostResponse(post);
+
+    return result;
 };
 
 export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
@@ -68,7 +95,21 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
         });
     }
 
-    return posts;
+    const results = posts.map((post) => ({
+        id: post._id,
+        author_id: post.author_id,
+        author_name:
+            typeof post.author_id === 'object' && 'username' in post.author_id
+                ? post.author_id.username
+                : undefined,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    }));
+
+    return results;
 };
 
 export const deletePost = async (
@@ -201,9 +242,9 @@ export const filterPosts = async (options: {
         $or: [
             { title: { $regex: search, $options: 'i' } },
             { description: { $regex: search, $options: 'i' } },
-            { author_name: { $regex: search, $options: 'i' } },
         ],
     })
+        .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ [sort]: asc ? 1 : -1 });
@@ -216,5 +257,19 @@ export const filterPosts = async (options: {
         });
     }
 
-    return posts;
+    const results = posts.map((post) => ({
+        id: post._id,
+        author_id: post.author_id,
+        author_name:
+            typeof post.author_id === 'object' && 'username' in post.author_id
+                ? post.author_id.username
+                : undefined,
+        title: post.title,
+        description: post.description,
+        location: post.location,
+        image_url: post.image_url,
+        created_at: post.created_at,
+    }));
+
+    return results;
 };
