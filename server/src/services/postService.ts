@@ -79,7 +79,7 @@ export const getPostById = async (post_id: string) => {
 export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
     if (!author_id) {
         throw new BadRequestError({
-            code: 400,
+           code: 400,
             message: 'No author id provided!',
             logging: true,
         });

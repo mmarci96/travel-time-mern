@@ -49,7 +49,7 @@ export const getUserInfoList = async (limit: any, page: any) => {
 };
 
 export const getUserDetailsById = async (
-    id: string,
+    id: Types.ObjectId,
 ): Promise<UserDetailsDTO> => {
     if (!id) {
         throw new BadRequestError({
@@ -58,8 +58,7 @@ export const getUserDetailsById = async (
             logging: true,
         });
     }
-    const userId = new Schema.Types.ObjectId(id);
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(id);
     if (!user) {
         throw new BadRequestError({
             message: 'No user found',
@@ -148,7 +147,7 @@ export const createUser = async (
     };
 };
 
-export const getUserById = async (userId: Types.ObjectId) => {
+export const getUserById = async (userId: Schema.Types.ObjectId) => {
     const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({

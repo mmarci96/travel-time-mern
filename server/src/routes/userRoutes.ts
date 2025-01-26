@@ -6,6 +6,7 @@ import {
     getUsers,
 } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
+import { Types } from 'mongoose';
 
 const router = express.Router();
 router.get(
@@ -49,9 +50,9 @@ router.get(
         next: NextFunction,
     ): Promise<any> => {
         try {
-            const userId: string = req.params.userId;
-            const user = await getUserDetailsById(userId);
-            return res.status(200).send(user);
+            const { userId } = req.params;
+            const user = await getUserDetailsById(new Types.ObjectId(userId));
+            return res.status(200).send({user: user});
         } catch (error) {
             next(error);
         }
