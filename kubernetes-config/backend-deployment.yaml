@@ -16,20 +16,20 @@ spec:
     spec:
       containers:
         - name: travel-time-server
-          image: 390403884602.dkr.ecr.eu-north-1.amazonaws.com/traveltime/travel-time-server:latest
+          image: mmarci96/travel-time-server:latest
           ports:
             - containerPort: 8080
           envFrom:
             - secretRef:
                 name: travel-time-server-secrets
             - configMapRef:
-                name: travel-time-server-config
+                name: travel-time-server-config 
           resources:
             requests:
-              memory: "256Mi"
+              memory: "64Mi"
               cpu: "250m"
             limits:
-              memory: "512Mi"
+              memory: "128Mi"
               cpu: "500m"
           readinessProbe:
             httpGet:
@@ -37,6 +37,7 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /health

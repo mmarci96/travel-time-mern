@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: travel-time-client
-          image: 390403884602.dkr.ecr.eu-north-1.amazonaws.com/traveltime/travel-time-client:latest
+          image: mmarci96/travel-time-client:latest
           ports:
             - containerPort: 80
           resources:
