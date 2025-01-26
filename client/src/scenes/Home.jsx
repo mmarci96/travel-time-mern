@@ -1,11 +1,10 @@
-import LoginForm from '../components/auth/LoginForm.jsx';
-import SignupForm from '../components/auth/SignupForm.jsx';
+import ToggleForms from '../components/auth/ToggleForms.jsx';
+
 const Home = () => {
     return (
-        <div>
+        <div className=' shadow-md border-2 border-slate-200'>
             Home
-            <SignupForm />
-            <LoginForm />
+            <ToggleForms />
         </div>
     );
 };

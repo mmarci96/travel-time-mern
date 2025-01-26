@@ -33,7 +33,10 @@ const SignupForm = () => {
         setLoading(false);
     };
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={handleSubmit}
+            className="min-w-[280px] max-w-[480px] w-full"
+        >
             <FormField
                 label="Email"
                 name="email"
