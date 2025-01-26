@@ -3,7 +3,7 @@ import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 
 const PostCard = ({ post }) => {
     return (
-        <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[380px] max-w-[70vh]  mx-auto">
+        <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[340px] max-w-[62vh]  mx-auto">
             <Link to={`/post/${post._id}`}>
                 <ImageWithPlaceholder
                     alt={post.title}
@@ -11,7 +11,7 @@ const PostCard = ({ post }) => {
                 />
             </Link>
             <span className="flex flex-col">
-                <h3 className="post-title text-lg font-semibold tracking-wider p-2 m-2 mr-auto mb-1">
+                <h3 className="post-title text-lg font-semibold tracking-wider px-2 mx-2 mr-auto mb-1">
                     {post.title}
                 </h3>
             </span>

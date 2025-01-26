@@ -18,7 +18,8 @@ const ImageWithPlaceholder = ({ alt, image_url }) => {
                 loading="lazy"
                 alt={alt}
                 src={image_url}
-                className={`hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4 min-w-[380px] h-[72vh] max-w-[92vw] ${
+                className={`hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4
+                min-w-[320px] min-h-[360px] max-h-[80vh] max-w-[92vw] ${
                     isLoading ? 'invisible' : 'visible'
                 }`}
                 onLoad={() => setIsLoading(false)}
