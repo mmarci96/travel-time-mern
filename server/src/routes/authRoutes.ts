@@ -4,6 +4,7 @@ import {
     createRefreshToken,
     createToken,
     refreshToken,
+    validateRefreshToken,
 } from '../services/authService';
 import { AuthRequest } from '../types/AuthRequest';
 import { Types } from 'mongoose';
@@ -44,15 +45,17 @@ router.post(
 router.get(
     '/refresh_token',
     async (
-        req: AuthRequest,
+        req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<any> => {
         try {
-            const userId = req.userId as Types.ObjectId;
+            const authHeader = req.headers.authorization
+            const refreshTokenValue: string = (authHeader && authHeader.split(' ')[1]) || '';
+            const userId = validateRefreshToken(refreshTokenValue)
 
             const token = await refreshToken(userId);
-            return res.status(200).send(token);
+            return res.status(200).send({token: token});
         } catch (err) {
             next(err);
         }
