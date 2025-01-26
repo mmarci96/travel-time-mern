@@ -24,7 +24,7 @@ const PostCard = ({ post }) => {
                     ></img>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
-                        <Link to={`/profile/${post.author_id}`}>
+                        <Link to={`/profile/${post.author_id._id}`}>
                             By: {post.author_name}
                         </Link>
                     </h4>
