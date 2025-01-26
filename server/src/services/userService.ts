@@ -5,11 +5,22 @@ import BadRequestError from '../errors/BadRequestError';
 import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 
-export const getUserInfoList = async (limit: number, page: number) => {
+export const getUserInfoList = async (limit: any, page: any) => {
+    if(!limit || !page){
+        limit = '10'
+        page = '1'
+    }
+    let limitNum = parseInt(limit)
+    let pageCount = parseInt(page)
+    if (isNaN(limitNum) && isNaN(pageCount)){
+        limitNum = 10
+        pageCount = 1
+    }
+
     const results = []
     const users = await UserModel.find()
-        .skip((page - 1) * limit)
-        .limit(limit);
+        .skip((pageCount - 1) * limitNum)
+        .limit(limitNum);
     for (let i = 0; i < users.length; i++){
         const userDetail = await UserDetailsModel.findById(users[i].user_details)
         if (!userDetail) continue;
