@@ -1,7 +1,10 @@
 import mongoose, { Schema, Document, Date } from 'mongoose';
 
 interface IPost extends Document {
-    author_id: Schema.Types.ObjectId;
+    _id: Schema.Types.ObjectId;
+    author_id:
+        | Schema.Types.ObjectId
+        | { _id: Schema.Types.ObjectId; username: string };
     image_url: string;
     title: string;
     description?: string;
@@ -11,7 +14,7 @@ interface IPost extends Document {
 }
 
 const postSchema = new Schema({
-    author_id: { type: Schema.Types.ObjectId, ref: 'User' },
+    author_id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     image_url: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
@@ -21,4 +24,4 @@ const postSchema = new Schema({
 });
 
 const PostModel = mongoose.model<IPost>('Post', postSchema);
-export default PostModel;
+export { PostModel, IPost };

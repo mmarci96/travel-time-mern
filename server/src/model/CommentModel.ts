@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 interface IComment extends Document {
     author_id: Types.ObjectId;
     post_id: Types.ObjectId;
-    content: string; 
+    content: string;
     created_at: Date;
     updated_at?: Date;
 }
