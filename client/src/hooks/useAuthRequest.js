@@ -5,22 +5,22 @@ export const useAuthRequest = () => {
     const [error, setError] = useState(null);
 
     const handleRefreshToken = async () => {
-        const refreshToken = localStorage.getItem('refresh_token')
+        const refreshToken = localStorage.getItem('refresh_token');
         const res = await fetch('/api/auth/refresh_token', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${refreshToken}`,
+                Authorization: `Bearer ${refreshToken}`,
             },
-        })
+        });
         const data = await res.json();
-        if(res.ok && data){
-            localStorage.setItem("token", data.token)
-            return data.token 
+        if (res.ok && data) {
+            localStorage.setItem('token', data.token);
+            return data.token;
         }
 
         return null;
-    }
+    };
 
     const sendRequest = async (endpoint, method, formData = null) => {
         setLoading(true);
@@ -49,10 +49,10 @@ export const useAuthRequest = () => {
 
             const res = await fetch(endpoint, options);
             const data = await res.json();
-            if(data.error === 'Unauthorized'){
+            if (data.error === 'Unauthorized') {
                 const newToken = await handleRefreshToken();
-                if(newToken){
-                    window.location.reload()
+                if (newToken) {
+                    window.location.reload();
                 }
             }
             if (!res.ok) {
