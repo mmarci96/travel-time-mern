@@ -3,10 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import PostCard from './PostCard.jsx';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import LoginAlert from '../common/LoginAlert.jsx';
+import LoadAnimation from '../common/LoadAnimation.jsx';
 
 const PostList = () => {
     const [posts, setPosts] = useState([]);
-    const { user, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const { loading, error, sendRequest } = useAuthRequest();
     useEffect(() => {
@@ -18,15 +19,15 @@ const PostList = () => {
     return (
         <div>
             {user ? (
+                loading ? < LoadAnimation /> : (
                 <ul>
-                    PostList
                     {posts?.length > 0 &&
                         posts.map((post) => (
                             <li key={post._id}>
                                 <PostCard post={post} />
                             </li>
                         ))}
-                </ul>
+                </ul> )
             ) : (
                 <LoginAlert />
             )}
