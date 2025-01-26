@@ -79,7 +79,6 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
         });
     }
 
-    // Fetch comments with populated author_id (username)
     const comments = await CommentModel.find({ post_id }).populate('author_id', 'username');
     
     if (!comments || comments.length === 0) {
@@ -90,7 +89,6 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
         });
     }
 
-    // Map comments to the response DTO
     const results = comments.map((comment) => ({
         id: comment._id,
         author_id: comment.author_id,
