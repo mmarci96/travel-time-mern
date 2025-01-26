@@ -1,10 +1,37 @@
-import CommentModel from '../model/CommentModel';
+import { CommentModel, IComment } from '../model/CommentModel';
+import UserModel from '../model/UserModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
+import { CommentResponseDTO } from '../dto/comment.dto';
+
+const createCommentDto = async (comment: IComment): Promise<CommentResponseDTO> => {
+    let authorName: string | undefined;
+
+    if (typeof comment.author_id === 'object' && 'username' in comment.author_id) {
+        authorName = comment.author_id.username;
+    } else {
+        const author = await UserModel.findById(comment.author_id);
+        authorName = author?.username;
+        if (!authorName) {
+            throw new BadRequestError({
+                code: 404,
+                message: `Missing authorname on comment: ${comment._id}`,
+            });
+        }
+    }
+    return {
+        id: comment._id,
+        author_id: comment.author_id,
+        author_name: authorName,
+        post_id: comment.post_id,
+        content: comment.content,
+        created_at: comment.created_at
+    }
+
+}
 
 export const createComment = async (
     author_id: Types.ObjectId,
-    author_name: string,
     post_id: Types.ObjectId,
     content: string,
 ) => {
@@ -17,7 +44,6 @@ export const createComment = async (
     }
     const comment = new CommentModel({
         author_id,
-        author_name,
         post_id,
         content,
     });
@@ -40,8 +66,9 @@ export const createComment = async (
         });
     }
 
-    return result;
+    return await createCommentDto(result);
 };
+
 
 export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
     if (!post_id) {
@@ -51,8 +78,11 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
             logging: true,
         });
     }
-    const comments = await CommentModel.find({ post_id });
-    if (!comments) {
+
+    // Fetch comments with populated author_id (username)
+    const comments = await CommentModel.find({ post_id }).populate('author_id', 'username');
+    
+    if (!comments || comments.length === 0) {
         throw new BadRequestError({
             code: 404,
             message: 'No comments found',
@@ -60,7 +90,17 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
         });
     }
 
-    return comments;
+    // Map comments to the response DTO
+    const results = comments.map((comment) => ({
+        id: comment._id,
+        author_id: comment.author_id,
+        author_name: typeof comment.author_id === 'object' && 'username' in comment.author_id ? comment.author_id.username : undefined,
+        post_id: comment.post_id,
+        content: comment.content,
+        created_at: comment.created_at,
+    }));
+
+    return results;
 };
 
 export const deleteComment = async (
@@ -98,11 +138,10 @@ export const deleteComment = async (
 
 export const updateComment = async (
     comment_id: Types.ObjectId,
-    author_name: string,
     author_id: Types.ObjectId,
     content: string,
 ) => {
-    if (!comment_id || !author_id || !author_name || !content) {
+    if (!comment_id || !author_id || !content) {
         throw new BadRequestError({
             code: 400,
             message: 'Failed to update comment: Missing data',
@@ -126,7 +165,6 @@ export const updateComment = async (
     const updatedComment = await CommentModel.findByIdAndUpdate(
         comment_id,
         {
-            author_name,
             content,
             updated_at: new Date(),
         },
