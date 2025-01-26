@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import BadRequestError from '../errors/BadRequestError';
 import { Types } from 'mongoose';
+import { as } from '@faker-js/faker/dist/airline-BLb3y-7w';
 dotenv.config();
 
 const secret_key = process.env.JWT_SECRET_KEY || 'abc';
@@ -81,6 +82,13 @@ export const createRefreshToken = async (
 
     return refreshToken;
 };
+
+export const validateRefreshToken = (refreshToken: string)  => {
+    const jwtPayload = jwt.verify(refreshToken, refresh_secret_key) as any;
+    const userId = jwtPayload['userId'];
+
+    return userId;
+}
 
 export const refreshToken = async (userId: Types.ObjectId) => {
     const user = await UserModel.findById(userId);
