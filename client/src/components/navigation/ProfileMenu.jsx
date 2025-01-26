@@ -8,7 +8,7 @@ export default function ProfileMenu({ user }) {
 
     return (
         <Menu as="div" className="relative ml-3">
-            <MenuButton className="relative flex rounded-full text-sm focus:outline-none">
+            <MenuButton className="relative mt-3 mr-3 flex rounded-full text-sm focus:outline-none">
                 <CgProfile size={36} />
             </MenuButton>
             <MenuItems

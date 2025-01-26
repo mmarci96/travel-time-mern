@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useContext } from 'react';
 import Button from '../common/Button.jsx';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import FormField from '../common/FormField.jsx';
 
@@ -13,7 +12,6 @@ const LoginForm = () => {
         email: '',
         password: '',
     });
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,10 +19,7 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         setLoading(true);
-        const fuck = JSON.stringify(formData);
-        console.log(fuck);
         try {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -41,7 +36,7 @@ const LoginForm = () => {
             }
 
             login(data.token, data.refresh_token);
-            navigate('/feed');
+            window.location.reload()
         } catch (error) {
             setError('Something went wrong. Please try again.' + error);
         } finally {

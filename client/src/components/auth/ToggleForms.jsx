@@ -4,12 +4,12 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm.jsx';
 
 const ToggleForms = () => {
-    const [hasAccount, setHasAccount] = useState(false);
+    const [hasAccount, setHasAccount] = useState(true);
     const handleToggle = () => {
         setHasAccount(!hasAccount);
     };
     return (
-        <div className="flex flex-col items-center my-4 mx-auto  shadow-md border-2 border-slate-200 rounded-lg min-w-[400px] max-w-[600px]">
+        <div className="flex flex-col items-center my-2 mx-auto  rounded-lg min-w-[400px] max-w-[600px]">
             {hasAccount ? <LoginForm /> : <SignupForm />}
             <p>
                 {hasAccount
