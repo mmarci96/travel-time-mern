@@ -1,8 +1,11 @@
-import mongoose, { Types, Document } from 'mongoose';
+import mongoose, { Types, Document, Date } from 'mongoose';
 const Schema = mongoose.Schema;
 
 interface IComment extends Document {
-    author_id: Types.ObjectId;
+    _id: Types.ObjectId;
+    author_id:
+        | Types.ObjectId
+        | { _id: Types.ObjectId; username: string };
     post_id: Types.ObjectId;
     content: string;
     created_at: Date;
@@ -18,4 +21,4 @@ const commentSchema = new Schema({
 });
 
 const CommentModel = mongoose.model<IComment>('Comment', commentSchema);
-export default CommentModel;
+export { CommentModel, IComment }
