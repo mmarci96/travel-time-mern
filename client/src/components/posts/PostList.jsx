@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import useAuthContext from '../../hooks/useAuthContext.js';
@@ -13,7 +12,7 @@ const PostList = () => {
     const [limit, setLimit] = useState(8);
     const [sort, setSort] = useState('created_at');
     const [asc, setAsc] = useState(false);
-    const [filters, setFilters] = useState(null); 
+    const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(true);
     const { token } = useAuthContext();
 
@@ -24,8 +23,9 @@ const PostList = () => {
         if (filters) {
             url = '/api/posts/following';
         }
-        sendRequest(url, 'GET')
-            .then((data) => (data ? setPosts(data.posts) : setPosts([])));
+        sendRequest(url, 'GET').then((data) =>
+            data ? setPosts(data.posts) : setPosts([]),
+        );
     }, [filters, limit, sort, asc, search]);
 
     const handleSearchChange = (e) => {
@@ -40,11 +40,11 @@ const PostList = () => {
         setSort(e.target.value);
     };
 
-    const handleNextPage = () => setLimit(prev => prev + 5);
+    const handleNextPage = () => setLimit((prev) => prev + 5);
     const toggleControls = () => setShowControls(!showControls);
 
     return (
-        <div className='flex flex-col items-center'>
+        <div className="flex flex-col items-center">
             {token ? (
                 showControls ? (
                     <div>
@@ -54,9 +54,11 @@ const PostList = () => {
                                 placeholder="Search posts..."
                                 value={search}
                                 onChange={handleSearchChange}
-                                className={'w-[94vw] p-2 m-2 rounded-xl mx-4 px-4'}
+                                className={
+                                    'w-[94vw] p-2 m-2 rounded-xl mx-4 px-4'
+                                }
                             />
-                            <button 
+                            <button
                                 onClick={() => setSearch('')}
                                 className="absolute p-1 px-2 bg-cyan-400 hover:bg-cyan-600 right-[4vw] top-5 rounded-lg"
                             >
@@ -70,16 +72,26 @@ const PostList = () => {
                                 value={sort}
                                 onChange={handleSortChange}
                             >
-                                <option value="created_at">Sort by Created At</option>
+                                <option value="created_at">
+                                    Sort by Created At
+                                </option>
                                 <option value="title">Sort by Title</option>
-                                <option value="location">Sort by Location</option>
+                                <option value="location">
+                                    Sort by Location
+                                </option>
                             </select>
                             <Button
                                 onClick={toggleSortOrder}
-                                children={asc ? 'Sort Descending' : 'Sort Ascending'}
+                                children={
+                                    asc ? 'Sort Descending' : 'Sort Ascending'
+                                }
                             />
                             <button
-                                onClick={() => setFilters((prev) => (prev === null ? 'following' : null))}
+                                onClick={() =>
+                                    setFilters((prev) =>
+                                        prev === null ? 'following' : null,
+                                    )
+                                }
                                 className="p-1 px-2 bg-cyan-400 hover:bg-cyan-600 transition duration-300 ease-in-out my-auto rounded-lg"
                             >
                                 {filters ? 'Show All' : 'Show Following'}
@@ -125,4 +137,3 @@ const PostList = () => {
 };
 
 export default PostList;
-

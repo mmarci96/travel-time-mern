@@ -17,9 +17,9 @@ export const getPostsFromFollowing = async (
         return [];
     }
 
-    const posts = await PostModel
-        .find({ author_id: { $in: followingIds } })
-        .sort({ created_at: -1 });
+    const posts = await PostModel.find({
+        author_id: { $in: followingIds },
+    }).sort({ created_at: -1 });
 
     const result = await Promise.all(
         posts.map((post) => createPostResponse(post)),
@@ -275,7 +275,7 @@ export const filterPosts = async (options: {
         .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
-        .sort(sortCriteria) 
+        .sort(sortCriteria)
         .collation({ locale: 'en', strength: 2 });
 
     if (!posts || posts.length === 0) {
@@ -301,5 +301,4 @@ export const filterPosts = async (options: {
     }));
 
     return results;
-}
-;
+};
