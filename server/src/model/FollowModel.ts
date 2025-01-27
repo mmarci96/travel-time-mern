@@ -1,8 +1,8 @@
-import mongoose, { Document, Schema, Types, Date } from 'mongoose';
+import mongoose, { Document, Schema, Date } from 'mongoose';
 
 interface IFollow extends Document {
-    follower: Types.ObjectId; 
-    following: Types.ObjectId;
+    follower: Schema.Types.ObjectId; 
+    following: Schema.Types.ObjectId;
     created_at: Date;
 }
 

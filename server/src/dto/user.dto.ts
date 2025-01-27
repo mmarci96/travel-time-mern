@@ -1,4 +1,4 @@
-import { Date, Schema } from 'mongoose';
+import { Date, Schema, Types } from 'mongoose';
 
 export interface UserDTO {
     id: string;
@@ -37,5 +37,8 @@ export interface UserDetailsDTO {
     social_media_links?: object;
     languages_spoken?: string[];
     avatar_url?: string;
+    following?: Types.ObjectId[];
+    followers?: Types.ObjectId[];
     created_at: Date;
 }
+
