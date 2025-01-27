@@ -25,7 +25,7 @@ router.get(
     },
 );
 
-router.put(
+router.patch(
     '/',
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ router.put(
             const userId = req.userId as Types.ObjectId;
             const notificationId = req.body.notificationId as Types.ObjectId;
             const read = await markRead(notificationId, userId);
-            res.status(201).send({ data: read });
+            res.status(201).send({ notification: read });
         } catch (err) {
             next(err);
         }

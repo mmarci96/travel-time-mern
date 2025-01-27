@@ -17,7 +17,9 @@ export const getNotifications = async (userId: Types.ObjectId) => {
         });
     }
 
-    const notifications = await NotificationModel.find({ userId: userId });
+    const notifications = await NotificationModel.find({ userId: userId }).sort(
+        { ['createdAt']: -1 },
+    );
     if (!notifications) {
         throw new BadRequestError({
             code: 404,
@@ -26,13 +28,14 @@ export const getNotifications = async (userId: Types.ObjectId) => {
         });
     }
     const response = Promise.all(
-        notifications.map( async (notification) => {
-            const user = await UserModel.findById(notification.actorId)
-            if(!user) throw new BadRequestError({code: 404, message: 'Not found'})
+        notifications.map(async (notification) => {
+            const user = await UserModel.findById(notification.actorId);
+            if (!user)
+                throw new BadRequestError({ code: 404, message: 'Not found' });
             const actorName = user.username;
-            return toNotificationDto(notification, actorName)
-        })
-    )
+            return toNotificationDto(notification, actorName);
+        }),
+    );
 
     return response;
 };
@@ -88,8 +91,15 @@ export const markRead = async (
             logging: true,
         });
     }
-
-    return notification;
+    const actor = await UserModel.findById(notification.actorId);
+    if (!actor) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Did not found actor',
+            logging: true,
+        });
+    }
+    return toNotificationDto(notification, actor.username);
 };
 
 export const deleteNotification = async (

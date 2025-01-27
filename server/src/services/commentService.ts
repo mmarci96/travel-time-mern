@@ -26,7 +26,7 @@ export const createComment = async (
         post.author_id,
         author_id,
         NotificationType.COMMENT,
-        comment._id,
+        post_id,
         TargetType.COMMENT,
         message,
     );

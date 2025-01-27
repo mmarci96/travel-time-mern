@@ -1,23 +1,42 @@
-
-import { useEffect, useState } from "react";
-import useAuthRequest from "../hooks/useAuthRequest";
-import NotificationCard from "../components/notifications/NotificationCard";
-import LoadAnimation from "../components/common/LoadAnimation";
+import { useEffect, useState } from 'react';
+import useAuthRequest from '../hooks/useAuthRequest';
+import NotificationCard from '../components/notifications/NotificationCard';
+import LoadAnimation from '../components/common/LoadAnimation';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
     const { error, loading, sendRequest } = useAuthRequest();
 
+    const handleMarkRead = async (notificationId) => {
+        const data = { notificationId };
+        const updatedNotification = await sendRequest(
+            '/api/notifications',
+            'PATCH',
+            data,
+        );
+        if (updatedNotification) {
+            setNotifications((prev) =>
+                prev.map((notification) =>
+                    notification.id === notificationId
+                        ? { ...notification, read: true }
+                        : notification,
+                ),
+            );
+        }
+    };
+
     useEffect(() => {
         sendRequest('/api/notifications', 'GET')
             .then((data) =>
-                data.notifications ? setNotifications(data.notifications) : setNotifications([])
+                data.notifications
+                    ? setNotifications(data.notifications)
+                    : setNotifications([]),
             )
             .catch((e) => console.error(e));
     }, []);
 
     return (
-        <div className="w-full flex flex-col items-center p-4 bg-gray-100 min-h-screen">
+        <div className="w-screen flex flex-col items-center p-4 bg-gray-100 ">
             <h1 className="text-2xl font-bold mb-4">Notifications</h1>
             {loading && <LoadAnimation />}
             {error && (
@@ -26,10 +45,13 @@ const Notifications = () => {
                 </p>
             )}
             {notifications && notifications.length > 0 ? (
-                <ul className="w-full max-w-4xl">
+                <ul className="w-full">
                     {notifications.map((notification) => (
                         <li key={notification.id} className="mb-4">
-                            <NotificationCard notification={notification} />
+                            <NotificationCard
+                                notification={notification}
+                                onMarkAsRead={handleMarkRead}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -45,4 +67,3 @@ const Notifications = () => {
 };
 
 export default Notifications;
-
