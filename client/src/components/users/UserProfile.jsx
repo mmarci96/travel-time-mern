@@ -1,17 +1,32 @@
 import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest';
-import Button from '../common/Button'
+import Button from '../common/Button';
 import { Link } from 'react-router-dom';
+import useAuthContext from '../../hooks/useAuthContext.js';
 
 const UserProfile = ({ userId }) => {
     const [profileData, setProfileData] = useState(null);
     const [userPostList, setUserPostList] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
+
+    const { currentUserId } = useAuthContext();
     const { sendRequest } = useAuthRequest();
     const handleFollow = async () => {
-        const reqBody = { 'followId': userId }
-        const response = await sendRequest('/api/follows', 'POST', reqBody)
-        console.log(response)
-    }
+        const reqBody = { followId: userId };
+        if (isFollowing) {
+            const body = { unfollowId: userId };
+            await sendRequest('/api/follows', 'DELETE', body);
+            setIsFollowing(false);
+            return;
+        }
+
+        const response = await sendRequest('/api/follows', 'POST', reqBody);
+        if (response.data) {
+            setIsFollowing(true);
+            return;
+        }
+        return;
+    };
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -22,6 +37,12 @@ const UserProfile = ({ userId }) => {
                 );
                 if (user) {
                     setProfileData(user);
+                    const followers = user.followers;
+                    if (followers.includes(currentUserId)) {
+                        setIsFollowing(true);
+                    } else {
+                        setIsFollowing(false);
+                    }
                 }
 
                 const { posts } = await sendRequest(
@@ -36,8 +57,7 @@ const UserProfile = ({ userId }) => {
         };
 
         fetchUserDetails();
-    }, []);
-
+    }, [currentUserId, userId]);
     return (
         <div className="flex flex-col bg-gray-100 w-full">
             <div
@@ -69,9 +89,9 @@ const UserProfile = ({ userId }) => {
                         </p>
                         <p className="text-gray-600">{profileData?.bio}</p>
 
-                        <Button 
-                            children={"Follow"}
-                            color='cyan'
+                        <Button
+                            children={isFollowing ? 'Unfollow' : 'Follow'}
+                            color="cyan"
                             onClick={handleFollow}
                         />
                     </div>
