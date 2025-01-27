@@ -5,18 +5,25 @@ import BadRequestError from '../errors/BadRequestError';
 import { UserModel } from '../model/UserModel';
 import { FollowModel } from '../model/FollowModel';
 
-
-export const getPostsFromFollowing = async (userId: Types.ObjectId): Promise<any[]> => {
-    const followings = await FollowModel.find({ follower: userId }).select('following');
+export const getPostsFromFollowing = async (
+    userId: Types.ObjectId,
+): Promise<any[]> => {
+    const followings = await FollowModel.find({ follower: userId }).select(
+        'following',
+    );
     const followingIds = followings.map((follow) => follow.following);
 
     if (!followingIds.length) {
         return [];
     }
 
-    const posts = await PostModel.find({ author_id: { $in: followingIds } });
+    const posts = await PostModel
+        .find({ author_id: { $in: followingIds } })
+        .sort({ created_at: -1 });
 
-    const result = await Promise.all(posts.map(post => createPostResponse(post)));
+    const result = await Promise.all(
+        posts.map((post) => createPostResponse(post)),
+    );
 
     return result;
 };
@@ -213,7 +220,7 @@ const parseFilterOptions = (options: {
 }) => {
     const {
         page = '1',
-        limit = '25',
+        limit = '10',
         search = '',
         sort = 'created_at',
         asc = 'false',
@@ -255,6 +262,10 @@ export const filterPosts = async (options: {
 }) => {
     const { page, limit, search, sort, asc } = parseFilterOptions(options);
 
+    const sortOrder = asc ? 1 : -1;
+
+    let sortCriteria: any = { [sort]: sortOrder };
+
     const posts = await PostModel.find({
         $or: [
             { title: { $regex: search, $options: 'i' } },
@@ -264,7 +275,8 @@ export const filterPosts = async (options: {
         .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
-        .sort({ [sort]: asc ? 1 : -1 });
+        .sort(sortCriteria) 
+        .collation({ locale: 'en', strength: 2 });
 
     if (!posts || posts.length === 0) {
         throw new BadRequestError({
@@ -289,4 +301,5 @@ export const filterPosts = async (options: {
     }));
 
     return results;
-};
+}
+;

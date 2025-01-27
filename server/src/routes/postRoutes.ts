@@ -22,12 +22,12 @@ router.get(
         try {
             const userId = req.userId as Types.ObjectId;
             const posts = await getPostsFromFollowing(userId);
-            res.status(200).send({ posts: posts })
+            res.status(200).send({ posts: posts });
         } catch (err) {
-            next(err)
+            next(err);
         }
-    }
-)
+    },
+);
 
 router.post(
     '/',
