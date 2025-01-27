@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 interface IComment extends Document {
     _id: Types.ObjectId;
-    author_id: Types.ObjectId | { _id: Types.ObjectId; username: string };
+    author_id: Types.ObjectId;
     post_id: Types.ObjectId;
     content: string;
     created_at: Date;
