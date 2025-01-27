@@ -1,7 +1,34 @@
 import { Link } from 'react-router-dom';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import useAuthRequest from '../../hooks/useAuthRequest.js';
+import useAuthContext from '../../hooks/useAuthContext.js';
 
 const PostCard = ({ post }) => {
+    const [likedByUser, setLikedByUser] = useState(false);
+    const { sendRequest } = useAuthRequest();
+    const { currentUserId } = useAuthContext();
+    const handleLike = async (method) => {
+        const postId = post.id;
+        const data = await sendRequest('/api/likes', method, { postId });
+        if (method === 'DELETE') {
+            console.log('curr id', currentUserId);
+            console.log(post.likes);
+            post.likes.filter((like) => like !== currentUserId);
+            setLikedByUser(false);
+        }
+        if (method === 'POST') {
+            console.log(data);
+            setLikedByUser(true);
+        }
+    };
+    useEffect(() => {
+        if (post.likes.includes(currentUserId)) {
+            setLikedByUser(true);
+        }
+    }, [currentUserId]);
+
     return (
         <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[320px] max-w-[420px] mx-auto">
             <Link to={`/post/${post.id}`}>
@@ -16,12 +43,23 @@ const PostCard = ({ post }) => {
                 </h3>
             </span>
             {post.author_id ? (
-                <span className="flex mb-2">
-                    <img
-                        src={post.author_id}
-                        alt={'avatar'}
-                        className="w-14 rounded-full shadow-md shadow-slate-700 ml-2 content-center"
-                    ></img>
+                <span className="flex ">
+                    {likedByUser ? (
+                        <FaHeart
+                            size={32}
+                            color="red"
+                            onClick={() => handleLike('DELETE')}
+                            className="mt-2 ml-1 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:opacity-[80%]"
+                        />
+                    ) : (
+                        <FaRegHeart
+                            size={32}
+                            color="red"
+                            onClick={() => handleLike('POST')}
+                            className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
+                        />
+                    )}
+                    <p className="mt-4 ml-1">{post.likes.length}</p>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
                         <Link to={`/profile/${post.author_id._id}`}>

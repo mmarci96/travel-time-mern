@@ -23,6 +23,19 @@ router.get(
 );
 
 router.get(
+    '/my-id',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId as Types.ObjectId;
+            res.status(200).send({ userId: userId });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.get(
     '/discover',
     authenticateToken,
     async (

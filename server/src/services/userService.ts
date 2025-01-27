@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
 import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
+import { getFollowers, getFollowing } from './followService';
 
 export const getUserInfoList = async (limit: any, page: any) => {
     if (!limit || !page) {
@@ -28,7 +29,7 @@ export const getUserInfoList = async (limit: any, page: any) => {
             );
             if (!userDetail) {
                 console.log('missing user_details');
-                return null; // Return null for users with missing details
+                return null;
             }
 
             return {
@@ -44,7 +45,6 @@ export const getUserInfoList = async (limit: any, page: any) => {
         }),
     );
 
-    // Filter out any null results (users with missing details)
     return results.filter((result) => result !== null);
 };
 
@@ -68,13 +68,6 @@ export const getUserDetailsById = async (
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
 
-    if (!user._id) {
-        throw new BadRequestError({
-            message: 'No user found',
-            code: 404,
-            logging: true,
-        });
-    }
     if (!userDetails) {
         const empty: UserDetailsDTO = {
             id: user._id,
@@ -83,19 +76,34 @@ export const getUserDetailsById = async (
         };
         return empty;
     }
+    let followers: Types.ObjectId[] = [];
+    let following: Types.ObjectId[] = [];
+    try {
+        followers = await getFollowers(id);
+        following = await getFollowing(id);
+    } catch (err) {
+        throw new BadRequestError({
+            message: 'Failed to fetch followers or following',
+            code: 500,
+            logging: true,
+        });
+    }
+
     const result: UserDetailsDTO = {
         id: user._id,
         username: user.username,
-        first_name: userDetails?.first_name,
-        last_name: userDetails?.last_name,
-        birthdate: userDetails?.birthdate,
-        bio: userDetails?.bio,
-        location: userDetails?.location,
-        interests: userDetails?.interests,
-        visiting_list: userDetails?.visiting_list,
-        gender: userDetails?.gender,
-        social_media_links: userDetails?.social_media_links,
-        avatar_url: userDetails?.avatar_url,
+        first_name: userDetails?.first_name || '',
+        last_name: userDetails?.last_name || '',
+        birthdate: userDetails?.birthdate || null,
+        bio: userDetails?.bio || '',
+        location: userDetails?.location || '',
+        interests: userDetails?.interests || [],
+        visiting_list: userDetails?.visiting_list || [],
+        gender: userDetails?.gender || '',
+        social_media_links: userDetails?.social_media_links || {},
+        avatar_url: userDetails?.avatar_url || '',
+        following,
+        followers,
         created_at: user.created_at,
     };
 

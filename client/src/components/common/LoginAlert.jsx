@@ -17,14 +17,13 @@ const LoginAlert = () => {
             {/* Popup overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50 "
+                    className="fixed min-w-[360px] inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50 "
                     onClick={togglePopup} // Close popup when clicking outside
                 >
-                    {/* Popup window */}
                     <div
-                        className="bg-white rounded-2xl shadow-lg p-6 relative overflow-y-scroll"
+                        className="bg-white rounded-2xl shadow-lg p-2 relative overflow-y-scroll"
                         style={{
-                            width: 'min(640px, 66.67vw)',
+                            width: 'min(72vw, 80vw)',
                             height: '72vh',
                             maxWidth: '640px',
                         }}

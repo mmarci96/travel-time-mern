@@ -3,6 +3,31 @@ import { PostModel, IPost } from '../model/PostModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import { UserModel } from '../model/UserModel';
+import { FollowModel } from '../model/FollowModel';
+import { LikeModel } from '../model/LikeModel';
+
+export const getPostsFromFollowing = async (
+    userId: Types.ObjectId,
+): Promise<any[]> => {
+    const followings = await FollowModel.find({ follower: userId }).select(
+        'following',
+    );
+    const followingIds = followings.map((follow) => follow.following);
+
+    if (!followingIds.length) {
+        return [];
+    }
+
+    const posts = await PostModel.find({
+        author_id: { $in: followingIds },
+    }).sort({ created_at: -1 });
+
+    const result = await Promise.all(
+        posts.map((post) => createPostResponse(post)),
+    );
+
+    return result;
+};
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
     let authorName: string | undefined;
@@ -19,6 +44,11 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
             });
         }
     }
+    const likesOnPost = await LikeModel.find({ post: post._id })
+        .select('user')
+        .exec();
+
+    const userIds = likesOnPost.map((like) => like.user);
 
     return {
         id: post._id,
@@ -28,6 +58,7 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
         description: post.description,
         location: post.location,
         image_url: post.image_url,
+        likes: userIds,
         created_at: post.created_at,
     };
 };
@@ -95,20 +126,30 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
         });
     }
 
-    const results = posts.map((post) => ({
-        id: post._id,
-        author_id: post.author_id,
-        author_name:
-            typeof post.author_id === 'object' && 'username' in post.author_id
-                ? post.author_id.username
-                : undefined,
-        title: post.title,
-        description: post.description,
-        location: post.location,
-        image_url: post.image_url,
-        created_at: post.created_at,
-    }));
+    const results = await Promise.all(
+        posts.map(async (post) => {
+            const likesOnPost = await LikeModel.find({ post: post._id }).select(
+                'user',
+            );
+            const userIds = likesOnPost.map((like) => like.user);
 
+            return {
+                id: post._id,
+                author_id: post.author_id,
+                author_name:
+                    typeof post.author_id === 'object' &&
+                    'username' in post.author_id
+                        ? post.author_id.username
+                        : undefined,
+                title: post.title,
+                description: post.description,
+                location: post.location,
+                image_url: post.image_url,
+                likes: userIds,
+                created_at: post.created_at,
+            };
+        }),
+    );
     return results;
 };
 
@@ -196,7 +237,7 @@ const parseFilterOptions = (options: {
 }) => {
     const {
         page = '1',
-        limit = '25',
+        limit = '10',
         search = '',
         sort = 'created_at',
         asc = 'false',
@@ -238,6 +279,10 @@ export const filterPosts = async (options: {
 }) => {
     const { page, limit, search, sort, asc } = parseFilterOptions(options);
 
+    const sortOrder = asc ? 1 : -1;
+
+    let sortCriteria: any = { [sort]: sortOrder };
+
     const posts = await PostModel.find({
         $or: [
             { title: { $regex: search, $options: 'i' } },
@@ -247,7 +292,8 @@ export const filterPosts = async (options: {
         .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
-        .sort({ [sort]: asc ? 1 : -1 });
+        .sort(sortCriteria)
+        .collation({ locale: 'en', strength: 2 });
 
     if (!posts || posts.length === 0) {
         throw new BadRequestError({
@@ -257,19 +303,29 @@ export const filterPosts = async (options: {
         });
     }
 
-    const results = posts.map((post) => ({
-        id: post._id,
-        author_id: post.author_id,
-        author_name:
-            typeof post.author_id === 'object' && 'username' in post.author_id
-                ? post.author_id.username
-                : undefined,
-        title: post.title,
-        description: post.description,
-        location: post.location,
-        image_url: post.image_url,
-        created_at: post.created_at,
-    }));
+    const results = await Promise.all(
+        posts.map(async (post) => {
+            const likesOnPost = await LikeModel.find({ post: post._id }).select(
+                'user',
+            );
+            const userIds = likesOnPost.map((like) => like.user);
 
+            return {
+                id: post._id,
+                author_id: post.author_id,
+                author_name:
+                    typeof post.author_id === 'object' &&
+                    'username' in post.author_id
+                        ? post.author_id.username
+                        : undefined,
+                title: post.title,
+                description: post.description,
+                location: post.location,
+                image_url: post.image_url,
+                likes: userIds,
+                created_at: post.created_at,
+            };
+        }),
+    );
     return results;
 };

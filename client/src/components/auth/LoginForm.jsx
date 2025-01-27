@@ -1,17 +1,18 @@
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button.jsx';
 import { AuthContext } from '../../context/AuthContext';
 import FormField from '../common/FormField.jsx';
 
 const LoginForm = () => {
-    const { login } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +37,10 @@ const LoginForm = () => {
             }
 
             login(data.token, data.refresh_token);
-            window.location.reload();
+            const current = window.location.pathname;
+            if (current === '/') {
+                navigate('/feed');
+            }
         } catch (error) {
             setError('Something went wrong. Please try again.' + error);
         } finally {

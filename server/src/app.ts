@@ -7,6 +7,8 @@ import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
+import followRoutes from './routes/followRoutes';
+import likeRoutes from './routes/likeRoutes';
 import errorHandler from './middleware/errorHandler';
 
 dotenv.config();
@@ -29,6 +31,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/follows', followRoutes);
+app.use('/api/likes', likeRoutes);
 app.get('/api/hello', (req, res) => {
     res.send('Hello world!');
 });
