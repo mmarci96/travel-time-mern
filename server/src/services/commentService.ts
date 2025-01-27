@@ -3,6 +3,9 @@ import { UserModel } from '../model/UserModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import { CommentResponseDTO } from '../dto/comment.dto';
+import { createNotification } from './notificationService';
+import { PostModel } from '../model/PostModel';
+import { NotificationType, TargetType } from '../model/NotificationModel';
 
 const createCommentDto = async (
     comment: IComment,
@@ -69,6 +72,33 @@ export const createComment = async (
             logging: true,
         });
     }
+    const post = await PostModel.findById(post_id);
+    if (!post) {
+        throw new BadRequestError({
+            code: 404,
+            message: 'Cannot find target post',
+            logging: true,
+        });
+    }
+
+    const user = await UserModel.findById(author_id)
+    if(!user){
+        throw new BadRequestError({
+            code: 404,
+            message: 'Cannot find user...',
+            logging: true,
+        });
+
+    }
+    const message = `${user.username}, commented on your post: ${post.title}. ${result.content}`
+    await createNotification(
+        post.author_id._id, 
+        author_id, 
+        NotificationType.COMMENT, 
+        comment._id, 
+        TargetType.COMMENT, 
+        message
+    )
 
     return await createCommentDto(result);
 };

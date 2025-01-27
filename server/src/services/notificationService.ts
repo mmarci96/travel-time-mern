@@ -32,6 +32,7 @@ export const createNotification = async (
     targetType: TargetType,
     message: string,
 ) => {
+
     const newNotification = new NotificationModel({
         userId,
         type,
