@@ -11,7 +11,7 @@ interface IComment extends Document {
 }
 
 const commentSchema = new Schema({
-    author_id: { type: Types.ObjectId, required: true, ref: 'User' },
+    author_id: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     post_id: { type: Types.ObjectId, required: true, ref: 'Post' },
     content: { type: String, required: true },
     created_at: { type: Date, default: Date.now },

@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document, Date } from 'mongoose';
+import mongoose, { Schema, Document, Date, Types } from 'mongoose';
 
 interface IPost extends Document {
-    _id: Schema.Types.ObjectId;
-    author_id: Schema.Types.ObjectId;
+    _id: Types.ObjectId;
+    author_id: Types.ObjectId;
     image_url: string;
     title: string;
     description?: string;
@@ -23,3 +23,4 @@ const postSchema = new Schema({
 
 const PostModel = mongoose.model<IPost>('Post', postSchema);
 export { PostModel, IPost };
+

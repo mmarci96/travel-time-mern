@@ -1,4 +1,4 @@
-import { Date, Schema } from 'mongoose';
+import { Date, Types } from 'mongoose';
 
 export interface PostCreateDTO {
     title: string;
@@ -8,16 +8,14 @@ export interface PostCreateDTO {
 }
 
 export interface PostRequestDTO {
-    id: Schema.Types.ObjectId;
-    author_id:
-        | Schema.Types.ObjectId
-        | { _id: Schema.Types.ObjectId; username: string };
+    id: Types.ObjectId;
+    author_id: Types.ObjectId
     author_name?: string;
     title: string;
     description?: string;
     location?: string;
     image_url: string;
-    likes?: Schema.Types.ObjectId[];
+    likes?: Types.ObjectId[];
     created_at: Date;
 }
 

@@ -1,9 +1,9 @@
-import mongoose, { Document, Schema, Date } from 'mongoose';
+import mongoose, { Document, Types, Schema, Date } from 'mongoose';
 
 interface ILike extends Document {
-    _id: Schema.Types.ObjectId;
-    user: Schema.Types.ObjectId;
-    post: Schema.Types.ObjectId;
+    _id: Types.ObjectId;
+    user: Types.ObjectId;
+    post: Types.ObjectId;
     created_at: Date;
 }
 

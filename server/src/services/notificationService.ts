@@ -1,4 +1,4 @@
-import { Types, Schema } from 'mongoose';
+import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import {
     NotificationModel,

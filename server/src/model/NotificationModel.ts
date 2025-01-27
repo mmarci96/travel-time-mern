@@ -1,4 +1,4 @@
-import mongoose, { Date, Document, Schema } from 'mongoose';
+import mongoose, { Date, Document, Schema, Types } from 'mongoose';
 
 enum NotificationType {
     FOLLOW = 'FOLLOW',
@@ -12,12 +12,13 @@ enum TargetType {
     USER = 'USER',
 }
 
+
 interface INotification extends Document {
-    _id: Schema.Types.ObjectId;
-    userId: Schema.Types.ObjectId;
+    _id: Types.ObjectId;
+    userId: Types.ObjectId;
     type: NotificationType;
-    actorId: Schema.Types.ObjectId;
-    targetId?: Schema.Types.ObjectId;
+    actorId: Types.ObjectId;
+    targetId?: Types.ObjectId;
     targetType?: TargetType;
     message?: string;
     metadata?: Record<string, any>;
