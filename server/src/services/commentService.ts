@@ -81,24 +81,24 @@ export const createComment = async (
         });
     }
 
-    const user = await UserModel.findById(author_id)
-    if(!user){
+    const user = await UserModel.findById(author_id);
+    if (!user) {
         throw new BadRequestError({
             code: 404,
             message: 'Cannot find user...',
             logging: true,
         });
-
     }
-    const message = `${user.username}, commented on your post: ${post.title}. ${result.content}`
+
+    const message = `${user.username}, commented on your post: ${post.title}. ${result.content}`;
     await createNotification(
-        post.author_id._id, 
-        author_id, 
-        NotificationType.COMMENT, 
-        comment._id, 
-        TargetType.COMMENT, 
-        message
-    )
+        post.author_id,
+        author_id,
+        NotificationType.COMMENT,
+        comment._id,
+        TargetType.COMMENT,
+        message,
+    );
 
     return await createCommentDto(result);
 };
@@ -125,18 +125,20 @@ export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
         });
     }
 
-    const results = comments.map((comment) => ({
-        id: comment._id,
-        author_id: comment.author_id,
-        author_name:
-            typeof comment.author_id === 'object' &&
-            'username' in comment.author_id
-                ? comment.author_id.username
-                : undefined,
-        post_id: comment.post_id,
-        content: comment.content,
-        created_at: comment.created_at,
-    }));
+    const results = Promise.all(
+        comments.map(async (comment) => {
+            const user = await UserModel.findById(comment.author_id);
+            const username = user?.username;
+            return {
+                id: comment._id,
+                author_id: comment.author_id,
+                author_name: username,
+                post_id: comment.post_id,
+                content: comment.content,
+                created_at: comment.created_at,
+            };
+        }),
+    );
 
     return results;
 };
