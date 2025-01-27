@@ -52,7 +52,7 @@ router.get(
         try {
             const { userId } = req.params;
             const user = await getUserDetailsById(new Types.ObjectId(userId));
-            return res.status(200).send({user: user});
+            return res.status(200).send({ user: user });
         } catch (error) {
             next(error);
         }

@@ -64,7 +64,6 @@ router.get(
     },
 );
 
-// Get posts by author ID
 router.get(
     '/by-author/:authorId',
     authenticateToken,
@@ -81,7 +80,6 @@ router.get(
     },
 );
 
-// Update a post
 router.put(
     '/:postId',
     authenticateToken,
