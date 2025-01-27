@@ -3,11 +3,7 @@ import UserProfile from '../components/users/UserProfile';
 const Profile = () => {
     const { userId } = useParams();
 
-    return (
-        <UserProfile
-            userId={userId}
-        />
-    )
-}  
+    return <UserProfile userId={userId} />;
+};
 
-export default Profile
+export default Profile;
