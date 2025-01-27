@@ -1,17 +1,33 @@
 import UserProfile from '../components/users/UserProfile.jsx';
-import { FaPencilAlt } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { FaPencilAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import UserForm from '../components/users/UserForm.jsx';
+import { FaSave } from "react-icons/fa";
+
 
 const MyAccount = () => {
-    return (
-        <div>
-            <div>MyAccount</div>
-            <UserProfile />
-            <Link to="/updateprofile" className="flex items-center m-auto">
-            <FaPencilAlt size={30} />
-                </Link>
-        </div>
-    );
-};
+  const [change, setChange] = useState(true);
 
-export default MyAccount;
+  return (
+    <div>
+      <div>MyAccount</div>
+
+      {change ? (
+          <div>
+            <UserProfile />
+            <FaPencilAlt size={30} onClick={() => setChange(false)} />
+          </div>)
+
+        :
+        (<div>
+            <UserForm />
+            <FaSave size={30} onClick={() => setChange(true)} />
+          </div>
+            )
+            }
+
+          </div>
+        );
+      };
+
+      export default MyAccount;
