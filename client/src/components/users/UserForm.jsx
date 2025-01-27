@@ -37,7 +37,8 @@ function UserForm({}) {
         );
         console.log(user);
         if (user) {
-          setProfileData(user);
+          setProfileData({ ...user,firstName:user?.firstName, lastName: user?.lastName,
+            email:user?.email, birthday:user?.birthday, location:user?.location,gender:user?.gender} );
           const followers = user.followers;
           if (followers.includes(currentUserId)) {
             setIsFollowing(true);
@@ -74,12 +75,12 @@ function UserForm({}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch(`/api/users/${userData.id}`, {
+    const response = await fetch(`/api/users/${profileData.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(profileData),
     });
 
     if (!response.ok) {
@@ -87,7 +88,7 @@ function UserForm({}) {
     }
     await response.json();
 
-    navigate('/admin')
+    navigate('/feed');
   }
 
   const renderInput = (key, value) => {
@@ -106,6 +107,7 @@ function UserForm({}) {
           value={typeof value === 'boolean' ? undefined : value}
           checked={typeof value === 'boolean' ? value : undefined}
           onChange={handleChange}
+          required={!!value}
         />
       </div>
     )
