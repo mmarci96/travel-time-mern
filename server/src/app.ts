@@ -30,7 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
-app.use('/api/follows', followRoutes)
+app.use('/api/follows', followRoutes);
 app.get('/api/hello', (req, res) => {
     res.send('Hello world!');
 });

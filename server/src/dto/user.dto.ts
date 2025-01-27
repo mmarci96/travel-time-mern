@@ -41,4 +41,3 @@ export interface UserDetailsDTO {
     followers?: Types.ObjectId[];
     created_at: Date;
 }
-

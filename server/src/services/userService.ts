@@ -107,7 +107,6 @@ export const getUserDetailsById = async (
         created_at: user.created_at,
     };
 
-
     return result;
 };
 

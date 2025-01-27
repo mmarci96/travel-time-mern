@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema, Date } from 'mongoose';
 
 interface IFollow extends Document {
-    follower: Schema.Types.ObjectId; 
+    follower: Schema.Types.ObjectId;
     following: Schema.Types.ObjectId;
     created_at: Date;
 }
