@@ -20,7 +20,7 @@ export const createComment = async (
 
     const comment = new CommentModel({ author_id, post_id, content });
     const savedComment = await comment.save();
-    const message = `${user.username} commented on your post: ${post.title}. ${savedComment.content}`;
+    const message = `You have a new comment from ${user.username}: "${savedComment.content}"! Check it out on your post.`;
 
     await createNotification(
         post.author_id,

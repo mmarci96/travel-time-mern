@@ -5,6 +5,8 @@ import {
     NotificationType,
     TargetType,
 } from '../model/NotificationModel';
+import { UserModel } from '../model/UserModel';
+import { toNotificationDto } from '../dto/notification.dto';
 
 export const getNotifications = async (userId: Types.ObjectId) => {
     if (!userId) {
@@ -23,7 +25,16 @@ export const getNotifications = async (userId: Types.ObjectId) => {
             logging: false,
         });
     }
-    return notifications;
+    const response = Promise.all(
+        notifications.map( async (notification) => {
+            const user = await UserModel.findById(notification.actorId)
+            if(!user) throw new BadRequestError({code: 404, message: 'Not found'})
+            const actorName = user.username;
+            return toNotificationDto(notification, actorName)
+        })
+    )
+
+    return response;
 };
 
 export const createNotification = async (

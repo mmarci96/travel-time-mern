@@ -22,7 +22,8 @@ export const followUser = async (
     });
 
     const user = await UserModel.findById(followerId);
-    const message = `${user?.username} has started following you!`;
+
+    const message = `${user?.username} just started following you! Follow them back to connect and share your traveling journeys!`;
     await createNotification(
         followingId,
         followerId,

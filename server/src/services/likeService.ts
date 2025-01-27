@@ -33,8 +33,7 @@ export const likePost = async (
             logging: true,
         });
     }
-    const message = `${liker?.username} has liked your post: ${post?.title}.`;
-    await createNotification(
+    const message = `${liker?.username} liked your post! Check it out and see what they found interesting.`;    await createNotification(
         post.author_id,
         userId,
         NotificationType.LIKE,
