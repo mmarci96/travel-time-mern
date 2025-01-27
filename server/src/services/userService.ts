@@ -29,7 +29,7 @@ export const getUserInfoList = async (limit: any, page: any) => {
             );
             if (!userDetail) {
                 console.log('missing user_details');
-                return null; // Return null for users with missing details
+                return null; 
             }
 
             return {

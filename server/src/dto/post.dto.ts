@@ -17,6 +17,7 @@ export interface PostRequestDTO {
     description?: string;
     location?: string;
     image_url: string;
+    likes?: Schema.Types.ObjectId[]
     created_at: Date;
 }
 

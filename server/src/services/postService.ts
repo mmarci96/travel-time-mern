@@ -1,9 +1,10 @@
 import { PostCreateDTO, PostUpdateDTO, PostRequestDTO } from '../dto/post.dto';
 import { PostModel, IPost } from '../model/PostModel';
-import { Types } from 'mongoose';
+import {  Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import { UserModel } from '../model/UserModel';
 import { FollowModel } from '../model/FollowModel';
+import { LikeModel } from '../model/LikeModel';
 
 export const getPostsFromFollowing = async (
     userId: Types.ObjectId,
@@ -28,7 +29,9 @@ export const getPostsFromFollowing = async (
     return result;
 };
 
-const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
+const createPostResponse = async (
+    post: IPost
+): Promise<PostRequestDTO> => {
     let authorName: string | undefined;
 
     if (typeof post.author_id === 'object' && 'username' in post.author_id) {
@@ -43,6 +46,12 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
             });
         }
     }
+    const likesOnPost = await LikeModel
+        .find({post: post._id})
+        .select('user')
+        .exec()
+
+    const userIds = likesOnPost.map(like => like.user);
 
     return {
         id: post._id,
@@ -52,6 +61,7 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
         description: post.description,
         location: post.location,
         image_url: post.image_url,
+        likes: userIds,
         created_at: post.created_at,
     };
 };
@@ -95,7 +105,7 @@ export const getPostById = async (post_id: string) => {
         });
     }
 
-    const result = await createPostResponse(post);
+    const result = await createPostResponse(post) ;
 
     return result;
 };
@@ -119,20 +129,27 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
         });
     }
 
-    const results = posts.map((post) => ({
-        id: post._id,
-        author_id: post.author_id,
-        author_name:
-            typeof post.author_id === 'object' && 'username' in post.author_id
-                ? post.author_id.username
-                : undefined,
-        title: post.title,
-        description: post.description,
-        location: post.location,
-        image_url: post.image_url,
-        created_at: post.created_at,
-    }));
+    const results = await Promise.all(
+        posts.map(async (post) => {
+            const likesOnPost = await LikeModel.find({ post: post._id }).select('user');
+            const userIds = likesOnPost.map((like) => like.user);
 
+            return {
+                id: post._id,
+                author_id: post.author_id,
+                author_name:
+                    typeof post.author_id === 'object' && 'username' in post.author_id
+                        ? post.author_id.username
+                        : undefined,
+                title: post.title,
+                description: post.description,
+                location: post.location,
+                image_url: post.image_url,
+                likes: userIds,
+                created_at: post.created_at,
+            };
+        })
+    );
     return results;
 };
 
@@ -286,19 +303,26 @@ export const filterPosts = async (options: {
         });
     }
 
-    const results = posts.map((post) => ({
-        id: post._id,
-        author_id: post.author_id,
-        author_name:
-            typeof post.author_id === 'object' && 'username' in post.author_id
-                ? post.author_id.username
-                : undefined,
-        title: post.title,
-        description: post.description,
-        location: post.location,
-        image_url: post.image_url,
-        created_at: post.created_at,
-    }));
+    const results = await Promise.all(
+        posts.map(async (post) => {
+            const likesOnPost = await LikeModel.find({ post: post._id }).select('user');
+            const userIds = likesOnPost.map((like) => like.user);
 
+            return {
+                id: post._id,
+                author_id: post.author_id,
+                author_name:
+                    typeof post.author_id === 'object' && 'username' in post.author_id
+                        ? post.author_id.username
+                        : undefined,
+                title: post.title,
+                description: post.description,
+                location: post.location,
+                image_url: post.image_url,
+                likes: userIds,
+                created_at: post.created_at,
+            };
+        })
+    );
     return results;
 };
