@@ -1,6 +1,9 @@
 import { Types } from 'mongoose';
-import { FollowModel, IFollow } from '../model/FollowModel';
+import { FollowModel } from '../model/FollowModel';
 import BadRequestError from '../errors/BadRequestError';
+import { createNotification } from './notificationService';
+import { NotificationType, TargetType } from '../model/NotificationModel';
+import { UserModel } from '../model/UserModel';
 
 export const followUser = async (
     followerId: Types.ObjectId,
@@ -17,6 +20,17 @@ export const followUser = async (
         follower: followerId,
         following: followingId,
     });
+
+    const user = await UserModel.findById(followerId)
+    const message = `${user?.username} has started following you!`
+    await createNotification(
+        followingId,
+        followerId,
+        NotificationType.FOLLOW,
+        followerId,
+        TargetType.USER,
+        message,
+    )
 
     return follow;
 };

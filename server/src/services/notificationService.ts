@@ -27,7 +27,7 @@ export const getNotifications = async (userId: Types.ObjectId) => {
 };
 
 export const createNotification = async (
-    userId: Schema.Types.ObjectId,
+    userId: Types.ObjectId,
     actorId: Types.ObjectId,
     type: NotificationType,
     targetId: Types.ObjectId,
