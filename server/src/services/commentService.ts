@@ -13,7 +13,7 @@ export const createComment = async (
     content: string,
 ) => {
     if (!author_id || !post_id || !content) {
-        throwMissingArgsError('author_id or post_id or content')
+        throwMissingArgsError('author_id or post_id or content');
     }
     const post = await findByIdOrThrow(PostModel, post_id, 'Post');
     const user = await findByIdOrThrow(UserModel, author_id, 'User');
@@ -36,10 +36,10 @@ export const createComment = async (
 
 export const getCommentsByPostId = async (post_id: Types.ObjectId) => {
     if (!post_id) {
-        throwMissingArgsError('Post id')
+        throwMissingArgsError('Post id');
     }
 
-    const comments = await CommentModel.find({ post_id })
+    const comments = await CommentModel.find({ post_id });
 
     if (!comments || comments.length === 0) {
         throw new BadRequestError({
@@ -71,7 +71,7 @@ export const deleteComment = async (
     author_id: Types.ObjectId,
 ) => {
     if (!author_id || !comment_id) {
-        throwMissingArgsError("author id or comment id")
+        throwMissingArgsError('author id or comment id');
     }
 
     const comment = await CommentModel.findOne({ _id: comment_id, author_id });
@@ -101,7 +101,7 @@ export const updateComment = async (
     content: string,
 ) => {
     if (!comment_id || !author_id || !content) {
-        throwMissingArgsError('commentid, or author id or content') 
+        throwMissingArgsError('commentid, or author id or content');
     }
 
     const comment = await CommentModel.findOne({ _id: comment_id, author_id });
@@ -130,7 +130,11 @@ export const updateComment = async (
     return createCommentDto(updatedComment);
 };
 
-const findByIdOrThrow = async (Model: any, id: Types.ObjectId, resourceName: string) => {
+const findByIdOrThrow = async (
+    Model: any,
+    id: Types.ObjectId,
+    resourceName: string,
+) => {
     const resource = await Model.findById(id);
     if (!resource) {
         throw new BadRequestError({
@@ -148,13 +152,16 @@ const throwMissingArgsError = (props: any) => {
         message: 'Failed to create comment: Missing' + props,
         logging: true,
     });
-}
-
+};
 
 const createCommentDto = async (
     comment: IComment,
 ): Promise<CommentResponseDTO> => {
-    const author = await findByIdOrThrow(UserModel, comment.author_id, 'Author');
+    const author = await findByIdOrThrow(
+        UserModel,
+        comment.author_id,
+        'Author',
+    );
 
     return {
         id: comment._id,
@@ -165,5 +172,3 @@ const createCommentDto = async (
         created_at: comment.created_at,
     };
 };
-
-

@@ -21,8 +21,8 @@ export const followUser = async (
         following: followingId,
     });
 
-    const user = await UserModel.findById(followerId)
-    const message = `${user?.username} has started following you!`
+    const user = await UserModel.findById(followerId);
+    const message = `${user?.username} has started following you!`;
     await createNotification(
         followingId,
         followerId,
@@ -30,7 +30,7 @@ export const followUser = async (
         followerId,
         TargetType.USER,
         message,
-    )
+    );
 
     return follow;
 };

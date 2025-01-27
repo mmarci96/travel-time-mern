@@ -1,4 +1,4 @@
-import mongoose, {Types, Document, Schema, Date } from 'mongoose';
+import mongoose, { Types, Document, Schema, Date } from 'mongoose';
 
 interface IFollow extends Document {
     follower: Types.ObjectId;

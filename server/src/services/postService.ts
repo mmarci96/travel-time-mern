@@ -30,8 +30,8 @@ export const getPostsFromFollowing = async (
 };
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
-    const user = await UserModel.findById(post.author_id)
-    const username = user?.username
+    const user = await UserModel.findById(post.author_id);
+    const username = user?.username;
 
     const likesOnPost = await LikeModel.find({ post: post._id })
         .select('user')

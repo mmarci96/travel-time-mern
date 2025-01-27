@@ -9,7 +9,7 @@ export interface PostCreateDTO {
 
 export interface PostRequestDTO {
     id: Types.ObjectId;
-    author_id: Types.ObjectId
+    author_id: Types.ObjectId;
     author_name?: string;
     title: string;
     description?: string;

@@ -24,24 +24,24 @@ export const likePost = async (
 
     const likeCreated = await like.save();
 
-    const liker = await UserModel.findById(userId)
-    const post = await PostModel.findById(postId)
-    if(!post){
+    const liker = await UserModel.findById(userId);
+    const post = await PostModel.findById(postId);
+    if (!post) {
         throw new BadRequestError({
             code: 400,
             message: 'No post found!',
             logging: true,
-        })
+        });
     }
-    const message = `${liker?.username} has liked your post: ${post?.title}.`
+    const message = `${liker?.username} has liked your post: ${post?.title}.`;
     await createNotification(
         post.author_id,
         userId,
         NotificationType.LIKE,
         postId,
         TargetType.POST,
-        message
-    )
+        message,
+    );
 
     return likeCreated;
 };

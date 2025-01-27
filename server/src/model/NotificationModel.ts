@@ -12,7 +12,6 @@ enum TargetType {
     USER = 'USER',
 }
 
-
 interface INotification extends Document {
     _id: Types.ObjectId;
     userId: Types.ObjectId;

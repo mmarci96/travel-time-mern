@@ -76,7 +76,6 @@ const generateFakePosts = async (count: number, users: any[]) => {
     return await PostModel.insertMany(posts);
 };
 
-
 const generateFakeComments = async (users: any[], posts: any[]) => {
     await CommentModel.deleteMany();
     const comments = posts.flatMap((post) => {
@@ -117,17 +116,19 @@ const generateFakeFollows = async (users: any[]) => {
     await FollowModel.deleteMany();
     const follows = users.flatMap((user) => {
         const numFollows = faker.number.int({ min: 1, max: 5 });
-        return Array.from({ length: numFollows }).map(() => {
-            const randomUser = faker.helpers.arrayElement(users);
-            // Avoid self-follow
-            if (randomUser._id.equals(user._id)) {
-                return null;
-            }
-            return {
-                follower: user._id,
-                following: randomUser._id,
-            };
-        }).filter(Boolean);
+        return Array.from({ length: numFollows })
+            .map(() => {
+                const randomUser = faker.helpers.arrayElement(users);
+                // Avoid self-follow
+                if (randomUser._id.equals(user._id)) {
+                    return null;
+                }
+                return {
+                    follower: user._id,
+                    following: randomUser._id,
+                };
+            })
+            .filter(Boolean);
     });
 
     console.log(`Created ${follows.length} follow relationships`);

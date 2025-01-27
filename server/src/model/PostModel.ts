@@ -23,4 +23,3 @@ const postSchema = new Schema({
 
 const PostModel = mongoose.model<IPost>('Post', postSchema);
 export { PostModel, IPost };
-
