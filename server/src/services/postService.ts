@@ -8,26 +8,17 @@ import { FollowModel } from '../model/FollowModel';
 
 export const getPostsFromFollowing = async (userId: Types.ObjectId): Promise<any[]> => {
     const followings = await FollowModel.find({ follower: userId }).select('following');
-
     const followingIds = followings.map((follow) => follow.following);
 
     if (!followingIds.length) {
-        return []; // Return an empty list if the user isn't following anyone
+        return [];
     }
 
-    const postsByFollowedUsers = await Promise.all(
-        followingIds.map(async (authorId) => {
-            if (!(authorId instanceof Types.ObjectId)) {
-                return null;
-            }
-            const posts = await getPostsByAuthorId(authorId);
-            return posts;
-        }),
-    );
+    const posts = await PostModel.find({ author_id: { $in: followingIds } });
 
-    const allPosts = postsByFollowedUsers.flat();
+    const result = await Promise.all(posts.map(post => createPostResponse(post)));
 
-    return allPosts;
+    return result;
 };
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
