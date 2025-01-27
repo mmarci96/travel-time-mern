@@ -2,9 +2,7 @@ import mongoose, { Schema, Document, Date } from 'mongoose';
 
 interface IPost extends Document {
     _id: Schema.Types.ObjectId;
-    author_id:
-        | Schema.Types.ObjectId
-        | { _id: Schema.Types.ObjectId; username: string };
+    author_id: Schema.Types.ObjectId;
     image_url: string;
     title: string;
     description?: string;
