@@ -10,6 +10,7 @@ const UserProfile = ({ userId }) => {
     const [isFollowing, setIsFollowing] = useState(false);
 
     const { currentUserId } = useAuthContext();
+    console.log(currentUserId);
     const { sendRequest } = useAuthRequest();
     const handleFollow = async () => {
         const reqBody = { followId: userId };
@@ -32,9 +33,10 @@ const UserProfile = ({ userId }) => {
         const fetchUserDetails = async () => {
             try {
                 const { user } = await sendRequest(
-                    `/api/users/${userId}`,
+                    `/api/users/${currentUserId}`,
                     'GET',
                 );
+                console.log(user);
                 if (user) {
                     setProfileData(user);
                     const followers = user.followers;
@@ -46,7 +48,7 @@ const UserProfile = ({ userId }) => {
                 }
 
                 const { posts } = await sendRequest(
-                    `/api/posts/by-author/${userId}`,
+                    `/api/posts/by-author/${userId}`,'GET'
                 );
                 if (posts) {
                     setUserPostList(posts);

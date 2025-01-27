@@ -4,15 +4,17 @@ import { useState } from 'react';
 import UserForm from '../components/users/UserForm.jsx';
 import { FaSave } from "react-icons/fa";
 
+const hate="679755a60509085ae642a864";
 
 const MyAccount = () => {
   const [change, setChange] = useState(true);
+
 
   return (
     <div>
       <div>MyAccount</div>
 
-      {change ? (
+      {change  ? (
           <div>
             <UserProfile />
             <FaPencilAlt size={30} onClick={() => setChange(false)} />
@@ -20,7 +22,7 @@ const MyAccount = () => {
 
         :
         (<div>
-            <UserForm />
+            <UserForm  />
             <FaSave size={30} onClick={() => setChange(true)} />
           </div>
             )
