@@ -2,7 +2,7 @@ import mongoose, { Document, Schema, Date } from 'mongoose';
 
 interface ILike extends Document {
     _id: Schema.Types.ObjectId;
-    user: Schema.Types.ObjectId; 
+    user: Schema.Types.ObjectId;
     post: Schema.Types.ObjectId;
     created_at: Date;
 }
