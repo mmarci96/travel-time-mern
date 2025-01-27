@@ -4,9 +4,10 @@ import {
     getUserDetailsById,
     getUserInfoList,
     getUsers,
+    updateUser,
 } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
-import { Types } from 'mongoose';
+import { Date, Schema, Types } from 'mongoose';
 
 const router = express.Router();
 router.get(
@@ -66,6 +67,39 @@ router.get(
             const { userId } = req.params;
             const user = await getUserDetailsById(new Types.ObjectId(userId));
             return res.status(200).send({ user: user });
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+router.put(
+    '/:userId',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const { userId } = req.params;
+
+            const {
+                username,
+                first_name,
+                last_name,
+                birthdate,
+                location,
+                gender,
+            } = req.body;
+            const update = {
+                username,
+                first_name,
+                last_name,
+                birthdate,
+                location,
+                gender,
+            };
+            const updatedUser = await updateUser(
+                new Types.ObjectId(userId),
+                update,
+            );
+            res.status(200).json(updatedUser);
         } catch (error) {
             next(error);
         }

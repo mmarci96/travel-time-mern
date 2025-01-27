@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext.js';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
+import Button from '../common/Button.jsx';
 
 function UserForm({}) {
   const [profileData, setProfileData] = useState(null);
   const [userPostList, setUserPostList] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const navigate = useNavigate()
+
 
   const { currentUserId } = useAuthContext();
   console.log(currentUserId);
@@ -37,8 +40,9 @@ function UserForm({}) {
         );
         console.log(user);
         if (user) {
-          setProfileData({ ...user,firstName:user?.firstName, lastName: user?.lastName,
-            email:user?.email, birthday:user?.birthday, location:user?.location,gender:user?.gender} );
+
+          setProfileData({ ...user,first_name:user?.first_name, last_name: user?.last_name,
+            email:user?.email, birthdate:user?.birthdate, location:user?.location,gender:user?.gender} );
           const followers = user.followers;
           if (followers.includes(currentUserId)) {
             setIsFollowing(true);
@@ -61,10 +65,6 @@ function UserForm({}) {
     fetchUserDetails();
   }, [currentUserId]);
 
-
-
-  const navigate = useNavigate()
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setProfileData((prevState) => ({
@@ -75,13 +75,7 @@ function UserForm({}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch(`/api/users/${profileData.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(profileData),
-    });
+    const response = sendRequest(`api/users/${currentUserId}`, 'PUT', profileData);
 
     if (!response.ok) {
       throw new Error('Failed to update user');
@@ -117,9 +111,9 @@ function UserForm({}) {
     <form onSubmit={handleSubmit} className='flex flex-col items-center '>
       <h2 className='text-4xl font-semibold tracking-wide'>Edit User</h2>
       {profileData && Object.entries(profileData).map(([key, value]) => renderInput(key, value))}
-      <button className='bg-secondary text-white p-2 rounded-md mx-auto px-4' type='submit'>
+      <Button className='bg-secondary text-white p-2 rounded-md mx-auto px-4' type='submit'>
         Save Changes
-      </button>
+      </Button>
     </form>
   )
 }

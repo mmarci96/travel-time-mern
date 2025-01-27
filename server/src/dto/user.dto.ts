@@ -41,3 +41,12 @@ export interface UserDetailsDTO {
     followers?: Types.ObjectId[];
     created_at: Date;
 }
+
+export interface UserDetailsUpdateDTO {
+    username: string;
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+}

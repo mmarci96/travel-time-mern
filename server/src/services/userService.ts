@@ -2,9 +2,15 @@ import { Schema, Types } from 'mongoose';
 import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
-import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
+import {
+    UserDetailsDTO,
+    UserDetailsUpdateDTO,
+    UserInfoDTO,
+} from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 import { getFollowers, getFollowing } from './followService';
+import { PostUpdateDTO } from '../dto/post.dto';
+import { PostModel } from '../model/PostModel';
 
 export const getUserInfoList = async (limit: any, page: any) => {
     if (!limit || !page) {
@@ -153,6 +159,45 @@ export const createUser = async (
         username: savedUser.username,
         email: savedUser.email,
     };
+};
+
+export const updateUser = async (
+    user_id: Types.ObjectId,
+    updateData: Partial<UserDetailsUpdateDTO>,
+) => {
+    if (!user_id) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user id provided!',
+            logging: true,
+        });
+    }
+
+    const existingUser = await UserModel.findOne({ _id: user_id });
+    if (!existingUser) {
+        throw new BadRequestError({
+            code: 404,
+            message: 'User not found',
+            logging: true,
+        });
+    }
+    const updatedUser = await UserModel.findByIdAndUpdate(
+        user_id,
+        {
+            ...updateData,
+            updated_at: new Date(),
+        },
+        { new: true },
+    );
+    if (!updatedUser) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Failed to update post',
+            logging: true,
+        });
+    }
+
+    return updatedUser;
 };
 
 export const getUserById = async (userId: Schema.Types.ObjectId) => {
