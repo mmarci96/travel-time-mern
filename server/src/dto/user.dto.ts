@@ -43,10 +43,28 @@ export interface UserDetailsDTO {
 }
 
 export interface UserDetailsUpdateDTO {
-    username: string;
     first_name?: string;
     last_name?: string;
     birthdate?: Date | null;
     location?: string;
     gender?: string;
+}
+
+export interface UserDetailsNewDTO {
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+}
+
+export interface UserDetailsRequestDTO {
+    id: Schema.Types.ObjectId;
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+    created_at: Date | null;
+
 }

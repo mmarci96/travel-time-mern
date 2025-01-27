@@ -3,7 +3,7 @@ import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
 import {
-    UserDetailsDTO,
+    UserDetailsDTO, UserDetailsNewDTO,
     UserDetailsUpdateDTO,
     UserInfoDTO,
 } from '../dto/user.dto';
@@ -173,14 +173,6 @@ export const updateUser = async (
         });
     }
 
-    const existingUser = await UserModel.findOne({ _id: user_id });
-    if (!existingUser) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'User not found',
-            logging: true,
-        });
-    }
     const updatedUser = await UserModel.findByIdAndUpdate(
         user_id,
         {
@@ -192,7 +184,7 @@ export const updateUser = async (
     if (!updatedUser) {
         throw new BadRequestError({
             code: 400,
-            message: 'Failed to update post',
+            message: 'Failed to update user',
             logging: true,
         });
     }
@@ -225,4 +217,32 @@ export const getUsers = async () => {
         });
     }
     return users;
+};
+
+export const createUserDetails = async (
+  userDetails: UserDetailsNewDTO,
+  userId: Types.ObjectId
+) => {
+    try {
+        const userDetailed = new UserDetailsModel({
+            ...userDetails,
+            userId,
+        });
+
+        const savedUserDetailed = await userDetailed.save();
+
+        const user = await UserModel.findByIdAndUpdate(
+          userId,
+          { $set: { userDetails: savedUserDetailed._id } },
+          { new: true }
+        );
+
+        if (!user) {
+            throw new Error('User not found while updating userDetails');
+        }
+
+        return savedUserDetailed;
+    } catch (error) {
+        throw new Error(`Error creating user details: `);
+    }
 };

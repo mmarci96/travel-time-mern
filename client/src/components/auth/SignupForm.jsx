@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import FormField from '../common/FormField.jsx';
 import Button from '../common/Button.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
     const [error, setError] = useState(null);
@@ -10,6 +11,7 @@ const SignupForm = () => {
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };

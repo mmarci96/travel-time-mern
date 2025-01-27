@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import TopNavBar from './components/navigation/TopNavBar.jsx';
 import BotNavBar from './components/navigation/BotNavBar.jsx';
 import LoadAnimation from './components/common/LoadAnimation.jsx';
+import UserRegistration from './components/users/UserRegistration.jsx';
 
 const Home = lazy(() => import('./scenes/Home'));
 const PageNotFound = lazy(() => import('./scenes/PageNotFound'));
@@ -31,6 +32,7 @@ function App() {
                     <Route path="/post/:postId" element={<Post />} />
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/test" element={<TesterScene />} />
+                  <Route path="/userdetails" element={<UserRegistration />} />
                 </Routes>
             </Suspense>
             <BotNavBar />
