@@ -10,23 +10,16 @@ import { NotificationType, TargetType } from '../model/NotificationModel';
 const createCommentDto = async (
     comment: IComment,
 ): Promise<CommentResponseDTO> => {
-    let authorName: string | undefined;
 
-    if (
-        typeof comment.author_id === 'object' &&
-        'username' in comment.author_id
-    ) {
-        authorName = comment.author_id.username;
-    } else {
-        const author = await UserModel.findById(comment.author_id);
-        authorName = author?.username;
-        if (!authorName) {
-            throw new BadRequestError({
-                code: 404,
-                message: `Missing authorname on comment: ${comment._id}`,
-            });
-        }
+    const author = await UserModel.findById(comment.author_id);
+    const authorName = author?.username;
+    if (!authorName) {
+        throw new BadRequestError({
+            code: 404,
+            message: `Missing authorname on comment: ${comment._id}`,
+        });
     }
+
     return {
         id: comment._id,
         author_id: comment.author_id,
