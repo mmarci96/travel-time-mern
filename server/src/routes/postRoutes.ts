@@ -8,11 +8,26 @@ import {
     deletePost,
     updatePost,
     filterPosts,
+    getPostsFromFollowing,
 } from '../services/postService';
 import { PostCreateDTO } from '../dto/post.dto';
 import { authenticateToken } from '../middleware/authenticateToken';
 
 const router = express.Router();
+
+router.get(
+    '/following',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId as Types.ObjectId;
+            const posts = await getPostsFromFollowing(userId);
+            res.status(200).send({ posts: posts })
+        } catch (err) {
+            next(err)
+        }
+    }
+)
 
 router.post(
     '/',

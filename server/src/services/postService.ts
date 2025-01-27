@@ -3,6 +3,32 @@ import { PostModel, IPost } from '../model/PostModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import { UserModel } from '../model/UserModel';
+import { FollowModel } from '../model/FollowModel';
+
+
+export const getPostsFromFollowing = async (userId: Types.ObjectId): Promise<any[]> => {
+    const followings = await FollowModel.find({ follower: userId }).select('following');
+
+    const followingIds = followings.map((follow) => follow.following);
+
+    if (!followingIds.length) {
+        return []; // Return an empty list if the user isn't following anyone
+    }
+
+    const postsByFollowedUsers = await Promise.all(
+        followingIds.map(async (authorId) => {
+            if (!(authorId instanceof Types.ObjectId)) {
+                return null;
+            }
+            const posts = await getPostsByAuthorId(authorId);
+            return posts;
+        }),
+    );
+
+    const allPosts = postsByFollowedUsers.flat();
+
+    return allPosts;
+};
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
     let authorName: string | undefined;
