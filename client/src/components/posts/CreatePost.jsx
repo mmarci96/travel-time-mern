@@ -18,7 +18,7 @@ const CreatePost = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
     const { uploadImage, handleFileInputChange } = useImageUploader();
-    const { sendRequest  } = useAuthRequest();
+    const { sendRequest } = useAuthRequest();
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();

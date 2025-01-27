@@ -39,14 +39,14 @@ const UserProfile = ({ userId }) => {
                 style={{
                     backgroundImage: `url(${
                         profileData?.avatar_url ||
-                        'https://via.placeholder.com/800x200?text=Profile+Background'
+                        'https://picsum.photos/800/400'
                     })`,
                 }}
             >
                 <img
                     src={
                         profileData?.avatar_url ||
-                        'https://via.placeholder.com/150'
+                        'https://placehold.co/200x200?text=No+Avatar'
                     }
                     alt="Profile"
                     className="rounded-full border-4 border-white absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-32 h-32 object-cover"
@@ -98,7 +98,7 @@ const UserProfile = ({ userId }) => {
                         </p>
                         <p>
                             <strong>Interests:</strong>{' '}
-                            {profileData?.interests.join(', ') || 'N/A'}
+                            {profileData?.interests?.join(', ') || 'N/A'}
                         </p>
                         <p>
                             <strong>Languages Spoken:</strong>{' '}
@@ -107,7 +107,7 @@ const UserProfile = ({ userId }) => {
 
                         <p>
                             <strong>Visiting List:</strong>{' '}
-                            {profileData?.visiting_list.join(', ') || 'N/A'}
+                            {profileData?.visiting_list?.join(', ') || 'N/A'}
                         </p>
                     </div>
                 </div>

@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import TopNavBar from './components/navigation/TopNavBar.jsx';
@@ -40,4 +39,3 @@ function App() {
 }
 
 export default App;
-
