@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema, Date } from 'mongoose';
+import mongoose, { Document, Schema, Date, Types } from 'mongoose';
 
 interface IUserDetails extends Document {
-    _id: Schema.Types.ObjectId;
+    _id: Types.ObjectId;
     first_name: string;
     last_name: string;
     birthdate: Date;

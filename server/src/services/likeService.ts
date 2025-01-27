@@ -1,6 +1,10 @@
 import { Types } from 'mongoose';
 import { LikeModel } from '../model/LikeModel';
 import BadRequestError from '../errors/BadRequestError';
+import { createNotification } from './notificationService';
+import { UserModel } from '../model/UserModel';
+import { PostModel } from '../model/PostModel';
+import { NotificationType, TargetType } from '../model/NotificationModel';
 
 export const likePost = async (
     userId: Types.ObjectId,
@@ -19,6 +23,26 @@ export const likePost = async (
     });
 
     const likeCreated = await like.save();
+
+    const liker = await UserModel.findById(userId);
+    const post = await PostModel.findById(postId);
+    if (!post) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'No post found!',
+            logging: true,
+        });
+    }
+    const message = `${liker?.username} liked your post! Check it out and see what they found interesting.`;
+    await createNotification(
+        post.author_id,
+        userId,
+        NotificationType.LIKE,
+        postId,
+        TargetType.POST,
+        message,
+    );
+
     return likeCreated;
 };
 
