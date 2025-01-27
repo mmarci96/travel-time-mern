@@ -2,7 +2,7 @@ import { PostCreateDTO, PostUpdateDTO, PostRequestDTO } from '../dto/post.dto';
 import { PostModel, IPost } from '../model/PostModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
-import UserModel from '../model/UserModel';
+import { UserModel } from '../model/UserModel';
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
     let authorName: string | undefined;

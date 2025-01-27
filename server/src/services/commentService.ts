@@ -1,5 +1,5 @@
 import { CommentModel, IComment } from '../model/CommentModel';
-import UserModel from '../model/UserModel';
+import { UserModel } from '../model/UserModel';
 import { Types } from 'mongoose';
 import BadRequestError from '../errors/BadRequestError';
 import { CommentResponseDTO } from '../dto/comment.dto';

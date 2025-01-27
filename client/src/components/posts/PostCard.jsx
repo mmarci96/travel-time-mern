@@ -3,7 +3,7 @@ import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 
 const PostCard = ({ post }) => {
     return (
-        <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[340px] max-w-[62vh]  mx-auto">
+        <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[320px] max-w-[420px] mx-auto">
             <Link to={`/post/${post.id}`}>
                 <ImageWithPlaceholder
                     alt={post.title}
@@ -24,7 +24,7 @@ const PostCard = ({ post }) => {
                     ></img>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
-                        <Link to={`/profile/${post.author_id}`}>
+                        <Link to={`/profile/${post.author_id._id}`}>
                             By: {post.author_name}
                         </Link>
                     </h4>

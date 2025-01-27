@@ -1,4 +1,4 @@
-import UserModel from '../model/UserModel';
+import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -82,12 +82,12 @@ export const createRefreshToken = async (
     return refreshToken;
 };
 
-export const validateRefreshToken = (refreshToken: string)  => {
+export const validateRefreshToken = (refreshToken: string) => {
     const jwtPayload = jwt.verify(refreshToken, refresh_secret_key) as any;
     const userId = jwtPayload['userId'];
 
     return userId;
-}
+};
 
 export const refreshToken = async (userId: Types.ObjectId) => {
     const user = await UserModel.findById(userId);

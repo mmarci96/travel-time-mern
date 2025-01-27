@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
-import mongoose, { Types } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { faker } from '@faker-js/faker';
-import UserModel from '../model/UserModel';
-import UserDetailsModel from '../model/UserDetailsModel';
-import PostModel from '../model/PostModel';
-import CommentModel from '../model/CommentModel';
+import { UserModel } from '../model/UserModel';
+import { UserDetailsModel } from '../model/UserDetailsModel';
+import { PostModel } from '../model/PostModel';
+import { CommentModel } from '../model/CommentModel';
 
 dotenv.config();
 
@@ -27,11 +27,11 @@ const generateFakeUsers = async (count: number) => {
         bio: faker.lorem.sentence(),
         location: faker.location.city(),
         interests: faker.helpers.arrayElements(['sports', 'reading', 'coding']),
-        visitingList: faker.helpers.arrayElements(['Paris', 'London']),
+        visiting_list: faker.helpers.arrayElements(['Paris', 'London']),
         gender: faker.person.sexType(),
-        socialMediaLinks: { platform: 'Twitter', link: faker.internet.url() },
-        languagesSpoken: faker.helpers.arrayElements(['English', 'Spanish']),
-        avatarUrl: faker.image.avatar(),
+        social_media_links: { platform: 'Twitter', link: faker.internet.url() },
+        languages_spoken: faker.helpers.arrayElements(['English', 'Spanish']),
+        avatar_url: faker.image.avatar(),
     }));
 
     // Insert fake user details and fetch their `_id`s
@@ -44,7 +44,7 @@ const generateFakeUsers = async (count: number) => {
         email: faker.internet.email().toLowerCase(),
         password: faker.internet.password(),
         createdAt: faker.date.past(),
-        userDetails: userDetails._id, // Properly reference `_id`
+        user_details: userDetails._id, // Properly reference `_id`
     }));
 
     console.log(`${count} fake users created!`);
@@ -53,7 +53,7 @@ const generateFakeUsers = async (count: number) => {
 
 const generateFakePosts = async (
     count: number,
-    userId: Types.ObjectId,
+    userId: Schema.Types.ObjectId,
     username: string,
 ) => {
     await PostModel.deleteMany();
@@ -76,9 +76,9 @@ const generateFakePosts = async (
 };
 
 const generateFakeComments = async (
-    userId: Types.ObjectId,
+    userId: Schema.Types.ObjectId,
     username: string,
-    posts: Array<Types.ObjectId>,
+    posts: Array<Schema.Types.ObjectId>,
 ) => {
     await CommentModel.deleteMany();
     const comments = posts.map((postId) => ({
@@ -109,5 +109,5 @@ const runSeeder = async () => {
 };
 
 runSeeder()
-    .then((r) => console.log('Seeder ready'))
+    .then(() => console.log('Seeder ready'))
     .catch((err) => console.log(err));

@@ -6,8 +6,6 @@ import {
     refreshToken,
     validateRefreshToken,
 } from '../services/authService';
-import { AuthRequest } from '../types/AuthRequest';
-import { Types } from 'mongoose';
 
 const router = express.Router();
 
@@ -44,18 +42,15 @@ router.post(
 
 router.get(
     '/refresh_token',
-    async (
-        req: Request,
-        res: Response,
-        next: NextFunction,
-    ): Promise<any> => {
+    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         try {
-            const authHeader = req.headers.authorization
-            const refreshTokenValue: string = (authHeader && authHeader.split(' ')[1]) || '';
-            const userId = validateRefreshToken(refreshTokenValue)
+            const authHeader = req.headers.authorization;
+            const refreshTokenValue: string =
+                (authHeader && authHeader.split(' ')[1]) || '';
+            const userId = validateRefreshToken(refreshTokenValue);
 
             const token = await refreshToken(userId);
-            return res.status(200).send({token: token});
+            return res.status(200).send({ token: token });
         } catch (err) {
             next(err);
         }

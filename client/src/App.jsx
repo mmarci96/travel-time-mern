@@ -10,6 +10,7 @@ import Create from './scenes/Create.jsx';
 import MyAccount from './scenes/MyAccount.jsx';
 import Notifications from './scenes/Notifications.jsx';
 import Discover from './scenes/Discover.jsx';
+import Profile from './scenes/Profile.jsx';
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/discover" element={<Discover />} />
 
+                <Route path="/profile/:userId" element={<Profile />} />
                 <Route path="/post/:postId" element={<Post />} />
                 <Route path="*" element={<PageNotFound />} />
                 <Route path="/test" element={<TesterScene />} />
