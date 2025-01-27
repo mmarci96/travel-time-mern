@@ -5,10 +5,27 @@ import { AuthRequest } from '../types/AuthRequest';
 import {
     deleteNotification,
     getNotifications,
+    getUnreadNotification,
     markRead,
 } from '../services/notificationService';
 
 const router = express.Router();
+
+router.get(
+    '/unread',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId as Types.ObjectId;
+            const notifications = await getUnreadNotification(userId);
+            console.log(notifications);
+
+            res.status(200).send({ notifications: notifications });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
 router.get(
     '/',

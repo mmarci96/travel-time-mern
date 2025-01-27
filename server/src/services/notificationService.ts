@@ -8,6 +8,19 @@ import {
 import { UserModel } from '../model/UserModel';
 import { toNotificationDto } from '../dto/notification.dto';
 
+export const getUnreadNotification = async (userId: Types.ObjectId) => {
+    try {
+        const unread = await NotificationModel.countDocuments({
+            userId: userId,
+            read: false,
+        });
+        return unread;
+    } catch (error) {
+        console.error('Error fetching unread notifications:', error);
+        throw error;
+    }
+};
+
 export const getNotifications = async (userId: Types.ObjectId) => {
     if (!userId) {
         throw new BadRequestError({
