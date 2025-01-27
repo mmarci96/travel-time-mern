@@ -6,20 +6,18 @@ const ImageWithPlaceholder = ({ alt, image_url }) => {
 
     return (
         <div className="relative">
-            {/* Show placeholder while loading */}
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg">
                     <LoadAnimation />
                 </div>
             )}
 
-            {/* Image */}
             <img
                 loading="lazy"
                 alt={alt}
                 src={image_url}
                 className={`hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4
-                min-w-[320px] min-h-[360px] max-h-[80vh] max-w-[92vw] ${
+                min-w-[320px] min-h-[320px] max-h-[600px] max-w-[420px] w-full  ${
                     isLoading ? 'invisible' : 'visible'
                 }`}
                 onLoad={() => setIsLoading(false)}
