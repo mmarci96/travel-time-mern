@@ -7,6 +7,7 @@ import useAuthContext from '../../hooks/useAuthContext.js';
 
 const PostCard = ({ post }) => {
     const [likedByUser, setLikedByUser] = useState(false);
+    const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
     const { currentUserId } = useAuthContext();
     const handleLike = async (method) => {
@@ -17,10 +18,12 @@ const PostCard = ({ post }) => {
             console.log(post.likes);
             post.likes.filter((like) => like !== currentUserId);
             setLikedByUser(false);
+            setLikeCount((prev) => prev - 1);
         }
         if (method === 'POST') {
             console.log(data);
             setLikedByUser(true);
+            setLikeCount((prev) => prev + 1);
         }
     };
     useEffect(() => {
@@ -59,7 +62,7 @@ const PostCard = ({ post }) => {
                             className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
                         />
                     )}
-                    <p className="mt-4 ml-1">{post.likes.length}</p>
+                    <p className="mt-4 ml-1">{likeCount}</p>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
                         <Link to={`/profile/${post.author_id._id}`}>
