@@ -18,21 +18,17 @@ const CreatePost = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
     const { uploadImage, handleFileInputChange } = useImageUploader();
-    const { sendRequest } = useAuthRequest();
+    const { sendRequest  } = useAuthRequest();
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
         const imageData = await uploadImage();
-        console.log(imageData);
         if (!imageData) {
-            setError(
-                'Error uploading image, something unexpected has happenned!',
-            );
+            setError('Error uploading image!');
             setLoading(false);
             return;
         }
         formData.image_url = imageData.imageUrl;
-        console.log(formData);
         const res = sendRequest('/api/posts', 'POST', formData);
         if (!res) {
             setError('Error creating post');
@@ -40,7 +36,6 @@ const CreatePost = () => {
             return;
         }
         setLoading(false);
-        console.log('Post created successfully!');
     };
     return (
         <div>
