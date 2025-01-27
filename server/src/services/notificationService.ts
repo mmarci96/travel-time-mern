@@ -48,7 +48,14 @@ export const createNotification = async (
     console.log('Notification saved:', newNotification);
 };
 
-export const markRead = async (notificationId: Types.ObjectId) => {
+export const markRead = async (notificationId: Types.ObjectId, userId: Types.ObjectId) => {
+    if(!userId){
+        throw new BadRequestError({
+            code: 401,
+            message: 'Unauthorized',
+            logging: false
+        })
+    }
     if (!notificationId) {
         throw new BadRequestError({
             code: 404,
@@ -71,7 +78,14 @@ export const markRead = async (notificationId: Types.ObjectId) => {
     return notification;
 };
 
-export const deleteNotification = async (notificationId: Types.ObjectId) => {
+export const deleteNotification = async (notificationId: Types.ObjectId, userId: Types.ObjectId) => {
+    if(!userId){
+        throw new BadRequestError({
+            code: 403,
+            message: "Unautorized",
+            logging: false
+        })
+    }
     await NotificationModel.findByIdAndDelete(notificationId);
 
     return { success: true };
