@@ -55,13 +55,13 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
                             className="mt-2 ml-1 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:opacity-[80%]"
                         />
                     ) : (
-                            <FaRegHeart
-                                size={32}
-                                color="red"
-                                onClick={() => handleLike('POST')}
-                                className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
-                            />
-                        )}
+                        <FaRegHeart
+                            size={32}
+                            color="red"
+                            onClick={() => handleLike('POST')}
+                            className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
+                        />
+                    )}
                     <p className="mt-2 ml-2 text-xl italic">{likeCount}</p>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 mx-4 rounded-xl">
@@ -73,12 +73,15 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
                         {new Date(post?.created_at).toDateString()}{' '}
                     </h3>
                     {post.author_id === currentUserId && (
-                        <PostOwnerOptions postId={post.id} onDeleteCount={onDeleteCount} /> 
+                        <PostOwnerOptions
+                            postId={post.id}
+                            onDeleteCount={onDeleteCount}
+                        />
                     )}
                 </span>
             ) : (
-                    <LoadAnimation />
-                )}
+                <LoadAnimation />
+            )}
         </div>
     );
 };
