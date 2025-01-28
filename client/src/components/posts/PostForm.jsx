@@ -14,7 +14,7 @@ const PostForm = ({ postId }) => {
         image_url: '',
         location: '',
     });
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,20 +42,25 @@ const PostForm = ({ postId }) => {
 
             let response;
             if (postId) {
-                payload["image_url"] = imageUrl 
-                response = await sendRequest(`/api/posts/${postId}`, 'PATCH', payload);
+                payload['image_url'] = imageUrl;
+                response = await sendRequest(
+                    `/api/posts/${postId}`,
+                    'PATCH',
+                    payload,
+                );
             } else {
                 response = await sendRequest('/api/posts', 'POST', formData);
-                const id = response.id
+                const id = response.id;
                 setTimeout(() => {
-                    navigate(`/post/edit/${id}`)
-                    window.location.reload()
-                }, 2000)
-
+                    navigate(`/post/edit/${id}`);
+                    window.location.reload();
+                }, 2000);
             }
 
             if (!response || response.error) {
-                setError(postId ? 'Error updating post' : 'Error creating post');
+                setError(
+                    postId ? 'Error updating post' : 'Error creating post',
+                );
             } else {
                 console.log(response);
             }
@@ -71,14 +76,18 @@ const PostForm = ({ postId }) => {
         if (postId) {
             const fetchPostById = async () => {
                 try {
-                    const response = await sendRequest(`/api/posts/${postId}`, 'GET');
+                    const response = await sendRequest(
+                        `/api/posts/${postId}`,
+                        'GET',
+                    );
                     if (response) {
-                        const { title, description, image_url, location } = response;
+                        const { title, description, image_url, location } =
+                            response;
                         setImageUrl(image_url);
                         setFormData({
                             title,
                             description,
-                            image_url: '', 
+                            image_url: '',
                             location,
                         });
                     }
@@ -92,11 +101,12 @@ const PostForm = ({ postId }) => {
     }, []);
 
     return (
-        <div>{postId && (
-            <div className="text-xl mt-2 -mb-4 mx-auto w-screen flex flex-col items-center font-extrabold ">
-                Editing post
-            </div>
-        )}
+        <div>
+            {postId && (
+                <div className="text-xl mt-2 -mb-4 mx-auto w-screen flex flex-col items-center font-extrabold ">
+                    Editing post
+                </div>
+            )}
 
             {imageUrl && (
                 <img
@@ -114,10 +124,8 @@ const PostForm = ({ postId }) => {
                 error={error}
                 loading={loading}
             />
-
         </div>
     );
 };
 
 export default PostForm;
-

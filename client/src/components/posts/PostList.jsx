@@ -15,7 +15,7 @@ const PostList = () => {
     const [asc, setAsc] = useState(false);
     const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(false);
-    const [deleteCount, setDeleteCount] = useState(0)
+    const [deleteCount, setDeleteCount] = useState(0);
     const { token, currentUserId } = useAuthContext();
 
     const { sendRequest } = useAuthRequest();
@@ -68,14 +68,15 @@ const PostList = () => {
                 {posts?.length > 0 ? (
                     posts.map((post) => (
                         <li key={post.id}>
-                            <PostCard 
-                                post={post} 
-                                currentUserId={currentUserId} 
-                                onDeleteCount={setDeleteCount} />
+                            <PostCard
+                                post={post}
+                                currentUserId={currentUserId}
+                                onDeleteCount={setDeleteCount}
+                            />
                         </li>
                     ))
                 ) : (
-                    <LoadAnimation/>
+                    <LoadAnimation />
                 )}
             </ul>
 
