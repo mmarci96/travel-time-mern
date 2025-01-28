@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext.js';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import Button from '../common/Button.jsx';
+import UserForm from './UserForm.jsx';
 
 function UserUpdate({}) {
   const [profileData, setProfileData] = useState(null);
@@ -85,36 +86,10 @@ function UserUpdate({}) {
     navigate('/feed');
   }
 
-  const renderInput = (key, value) => {
-    if (typeof value === 'object') return null
-    if (Array.isArray(value)) return null
 
-    return (
-      <div key={key} className='w-full flex'>
-      <span className='w-[20%] m-2 flex'>
-        <label className='m-2 p-2 text-xl'>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-      </span>
-        <input
-          className=' p-2 m-2 bg-gray-100 border-2 border-secondary rounded-m ml-4 mr-auto w-[70%]'
-          type={typeof value === 'boolean' ? 'checkbox' : 'text'}
-          name={key}
-          value={typeof value === 'boolean' ? undefined : value}
-          checked={typeof value === 'boolean' ? value : undefined}
-          onChange={handleChange}
-          required={!!value}
-        />
-      </div>
-    )
-  }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col items-center '>
-      <h2 className='text-4xl font-semibold tracking-wide'>Edit User</h2>
-      {profileData && Object.entries(profileData).map(([key, value]) => renderInput(key, value))}
-      <Button className='bg-secondary text-white p-2 rounded-md mx-auto px-4' type='submit'>
-        Save Changes
-      </Button>
-    </form>
+    <UserForm user={user} onChange={handleChange} onSubmit={handleSubmit} />
   )
 }
 export default UserUpdate;

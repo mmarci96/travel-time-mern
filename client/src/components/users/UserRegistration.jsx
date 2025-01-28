@@ -43,8 +43,6 @@ function UserRegistration(){
   };
 
 
-
-
   return (
       <div  className='w-full flex'>
      <p>
