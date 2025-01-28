@@ -13,9 +13,10 @@ const UniversalForm = ({
     return (
         <>
             <form onSubmit={onSubmit}>
-                {Object.entries(formData).map(([key, value]) =>
+                {Object.entries(formData).map(([key, value], i) =>
                     key === 'image_url' ? (
                         <FormField
+                            key={i}
                             label={
                                 key.substring(0, 1).toUpperCase() +
                                 key.substring(1, 5)
@@ -26,6 +27,7 @@ const UniversalForm = ({
                         />
                     ) : (
                         <FormField
+                            key={i}
                             label={
                                 key.substring(0, 1).toUpperCase() +
                                 key.substring(1)
