@@ -1,6 +1,23 @@
+
+
 # Travel Time MERN Stack (v2)
 
 A social media app about traveling with a TypeScript Express backend and React frontend with a MongoDB database.
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Prerequisites](#prerequisites)
+3. [Required Environment Variables](#required-environment-variables)
+4. [Docker](#docker)
+    - [Quick Start](#quick-start)
+    - [Accessing the Application](#accessing-the-application)
+5. [Development](#development)
+    - [Start](#start)
+    - [Accessing the Application](#accessing-the-application-1)
+6. [Database Seeding](#database-seeding)
+7. [Troubleshooting](#troubleshooting)
+8. [Naming Conventions](#naming-conventions)
 
 ## Collaboration
 
