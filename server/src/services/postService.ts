@@ -267,7 +267,6 @@ export const filterPosts = async (options: {
             { description: { $regex: search, $options: 'i' } },
         ],
     })
-        .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
         .sort(sortCriteria)
