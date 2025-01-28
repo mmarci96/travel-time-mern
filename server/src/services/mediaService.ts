@@ -1,19 +1,18 @@
 import dotenv from 'dotenv';
 import multer from 'multer';
-import { S3 } from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'; // Only use v3
 import { ImageModel } from '../model/ImageModel';
 
 dotenv.config();
 
 const { AWS_BUCKET_NAME, AWS_REGION } = process.env;
 
-const s3 = new S3({
+const s3Client = new S3Client({
     region: AWS_REGION,
 });
 
 export const getStorage = () => {
     const storage = multer.memoryStorage();
-
     return multer({ storage: storage });
 };
 
@@ -27,11 +26,11 @@ const uploadFileToS3 = async (file: Express.Multer.File) => {
         ContentType: file.mimetype,
     };
 
-    const uploadResult = await s3.upload(params).promise();
+    await s3Client.send(new PutObjectCommand(params));
 
     return {
         filename: key,
-        url: uploadResult.Location,
+        url: `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${key}`,
     };
 };
 

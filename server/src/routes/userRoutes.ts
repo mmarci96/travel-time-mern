@@ -9,9 +9,7 @@ import {
 } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { Types } from 'mongoose';
-import {
-    UserDetailsNewDTO,
-} from '../dto/user.dto';
+import { UserDetailsNewDTO } from '../dto/user.dto';
 
 const router = express.Router();
 router.get(

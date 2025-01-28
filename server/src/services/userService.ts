@@ -56,7 +56,6 @@ export const getUserInfoList = async (limit: any, page: any) => {
 export const getUserDetailsById = async (
     id: Types.ObjectId,
 ): Promise<UserDetailsDTO> => {
-    
     if (!id) {
         throw new BadRequestError({
             message: 'No user id provided!',
@@ -65,7 +64,7 @@ export const getUserDetailsById = async (
         });
     }
     const user = await UserModel.findById(id);
-    
+
     if (!user) {
         throw new BadRequestError({
             message: 'No user found',
@@ -74,7 +73,7 @@ export const getUserDetailsById = async (
         });
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
-    
+
     if (!userDetails) {
         const empty: UserDetailsDTO = {
             id: user._id,
@@ -237,7 +236,6 @@ export const createUserDetails = async (
             { $set: { user_details: savedUserDetailed._id } },
             { new: true },
         );
-        
 
         if (!updatedUser) {
             throw new Error('User not found while updating userDetails');
