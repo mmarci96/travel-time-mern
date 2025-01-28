@@ -30,7 +30,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.735.0",
     "@faker-js/faker": "^9.2.0",
-    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
