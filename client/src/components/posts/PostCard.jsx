@@ -3,13 +3,11 @@ import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
-import useAuthContext from '../../hooks/useAuthContext.js';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, currentUserId }) => {
     const [likedByUser, setLikedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
-    const { currentUserId } = useAuthContext();
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });
