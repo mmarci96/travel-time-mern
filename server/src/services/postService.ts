@@ -187,15 +187,6 @@ export const updatePost = async (
         });
     }
 
-    const existingPost = await PostModel.findOne({ _id: post_id, author_id });
-    if (!existingPost) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'Post not found',
-            logging: true,
-        });
-    }
-
     const updatedPost = await PostModel.findByIdAndUpdate(
         post_id,
         {
@@ -276,7 +267,6 @@ export const filterPosts = async (options: {
             { description: { $regex: search, $options: 'i' } },
         ],
     })
-        .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
         .sort(sortCriteria)

@@ -41,7 +41,7 @@ router.get(
     },
 );
 
-router.put(
+router.patch(
     '/',
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import useAuthContext from '../../hooks/useAuthContext.js';
+import LoadAnimation from '../common/LoadAnimation.jsx';
 import PostCard from './PostCard.jsx';
 import LoginAlert from '../common/LoginAlert.jsx';
 import Button from '../common/Button.jsx';
@@ -14,7 +15,8 @@ const PostList = () => {
     const [asc, setAsc] = useState(false);
     const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(false);
-    const { token } = useAuthContext();
+    const [deleteCount, setDeleteCount] = useState(0)
+    const { token, currentUserId } = useAuthContext();
 
     const { sendRequest } = useAuthRequest();
 
@@ -26,7 +28,7 @@ const PostList = () => {
         sendRequest(url, 'GET').then((data) =>
             data ? setPosts(data.posts) : setPosts([]),
         );
-    }, [filters, limit, sort, asc, search]);
+    }, [filters, limit, sort, asc, search, deleteCount]);
 
     const toggleSortOrder = () => {
         setAsc(!asc);
@@ -66,11 +68,14 @@ const PostList = () => {
                 {posts?.length > 0 ? (
                     posts.map((post) => (
                         <li key={post.id}>
-                            <PostCard post={post} />
+                            <PostCard 
+                                post={post} 
+                                currentUserId={currentUserId} 
+                                onDeleteCount={setDeleteCount} />
                         </li>
                     ))
                 ) : (
-                    <p>No posts found</p>
+                    <LoadAnimation/>
                 )}
             </ul>
 

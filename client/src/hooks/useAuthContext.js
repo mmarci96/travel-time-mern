@@ -11,7 +11,7 @@ const useAuthContext = () => {
             const data = await sendRequest('/api/users/my-id', 'GET');
             setCurrentUserId(data.userId);
         };
-        getUserId();
+        !currentUserId && getUserId();
     }, [user]);
 
     return { token: user, currentUserId };
