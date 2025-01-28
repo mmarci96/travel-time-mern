@@ -1,4 +1,3 @@
-
 const OptionsPopup = ({ options }) => {
     return (
         options?.length > 0 && (
@@ -9,8 +8,8 @@ const OptionsPopup = ({ options }) => {
                         onClick={option.onClick}
                         className="flex justify-between mb-1 p-1 rounded-md ring-1 ring-slate-300 hover:bg-slate-100 hover:scale-105 transform transition-all duration-200"
                     >
-                        {option.text} 
-                        {option.icon} 
+                        {option.text}
+                        {option.icon}
                     </button>
                 ))}
             </div>
@@ -19,4 +18,3 @@ const OptionsPopup = ({ options }) => {
 };
 
 export default OptionsPopup;
-

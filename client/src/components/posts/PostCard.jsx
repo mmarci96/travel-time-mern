@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import LikeIcon from '../common/LikeIcon.jsx';
 import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import LoadAnimation from '../common/LoadAnimation.jsx';
@@ -47,21 +48,7 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
             </span>
             {post.author_id ? (
                 <span className="flex ">
-                    {likedByUser ? (
-                        <FaHeart
-                            size={32}
-                            color="red"
-                            onClick={() => handleLike('DELETE')}
-                            className="mt-2 ml-1 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:opacity-[80%]"
-                        />
-                    ) : (
-                        <FaRegHeart
-                            size={32}
-                            color="red"
-                            onClick={() => handleLike('POST')}
-                            className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
-                        />
-                    )}
+                    <LikeIcon onLike={handleLike} likedByUser={likedByUser} />
                     <p className="mt-2 ml-2 text-xl italic">{likeCount}</p>
 
                     <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 mx-4 rounded-xl">

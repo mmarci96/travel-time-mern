@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     FaTrashAlt,
     FaEdit,
     FaExclamationTriangle,
-    FaEllipsisV
+    FaEllipsisV,
 } from 'react-icons/fa';
 import OptionsPopup from '../common/OptionsPopup';
 import useAuthRequest from '../../hooks/useAuthRequest';
@@ -31,25 +30,30 @@ const PostOwnerOptions = ({ onDeleteCount, postId }) => {
     };
 
     const handleReport = () => {
-        console.log("I dont have money for mods anyway lol")
-    }
+        console.log('I dont have money for mods anyway lol');
+    };
 
     const options = [
         {
             onClick: handleDelete,
             icon: <FaTrashAlt size={18} className="text-red-600 mx-2 my-1" />,
-            text: 'Delete this post'
+            text: 'Delete this post',
         },
         {
             onClick: handleEdit,
             icon: <FaEdit size={18} className="text-slate-600 mx-2 my-1" />,
-            text: 'Edit Post'
+            text: 'Edit Post',
         },
         {
             onClick: handleReport,
-            icon: <FaExclamationTriangle size={18} className="text-red-600 mx-2 my-1" />,
-            text: 'Report'
-        }
+            icon: (
+                <FaExclamationTriangle
+                    size={18}
+                    className="text-red-600 mx-2 my-1"
+                />
+            ),
+            text: 'Report',
+        },
     ];
 
     return (
@@ -63,4 +67,3 @@ const PostOwnerOptions = ({ onDeleteCount, postId }) => {
 };
 
 export default PostOwnerOptions;
-
