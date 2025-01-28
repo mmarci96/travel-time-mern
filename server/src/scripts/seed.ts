@@ -21,19 +21,21 @@ mongoose
     .catch((err) => console.error('MongoDB connection error:', err));
 
 const createExampleUser = async () => {
-    const existing = await UserModel.find({email: "testuser@example.com"})
-    if(existing){
-        console.log("Example user already exists with email: testuser@example.com");
-        return
+    const existing = await UserModel.find({ email: 'testuser@example.com' });
+    if (existing) {
+        console.log(
+            'Example user already exists with email: testuser@example.com',
+        );
+        return;
     }
     const exampleUser = new UserModel({
         email: 'testuser@example.com',
         password: 'password123',
-        username: 'example_username'
-    })
+        username: 'example_username',
+    });
 
-    return await exampleUser.save()
-}
+    return await exampleUser.save();
+};
 
 const generateFakeUsers = async (count: number) => {
     await UserDetailsModel.deleteMany();
@@ -154,13 +156,13 @@ const generateFakeFollows = async (users: any[]) => {
 
 const runSeeder = async () => {
     try {
-        const users = await generateFakeUsers(USER_COUNT); 
+        const users = await generateFakeUsers(USER_COUNT);
         const posts = await generateFakePosts(POST_COUNT, users);
         await generateFakeComments(users, posts);
         await generateFakeLikes(users, posts);
         await generateFakeFollows(users);
-        const exampleUser = await createExampleUser()
-        console.log("Example user created for testing: ", exampleUser)
+        const exampleUser = await createExampleUser();
+        console.log('Example user created for testing: ', exampleUser);
     } catch (err) {
         console.error('Error while seeding data:', err);
     } finally {
