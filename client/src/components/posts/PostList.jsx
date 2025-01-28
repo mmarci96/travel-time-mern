@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import useAuthContext from '../../hooks/useAuthContext.js';
+import LoadAnimation from '../common/LoadAnimation.jsx';
 import PostCard from './PostCard.jsx';
 import LoginAlert from '../common/LoginAlert.jsx';
 import Button from '../common/Button.jsx';
@@ -70,7 +71,7 @@ const PostList = () => {
                         </li>
                     ))
                 ) : (
-                    <p>No posts found</p>
+                    <LoadAnimation/>
                 )}
             </ul>
 
