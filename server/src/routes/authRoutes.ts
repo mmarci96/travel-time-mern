@@ -42,37 +42,38 @@ router.post(
 );
 
 router.post(
-  '/login',
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    try {
-      const { email, password } = req.body;
+    '/login',
+    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        try {
+            const { email, password } = req.body;
 
-      // Authenticate and generate tokens
-      const token = await createToken(email, password);
-      const refresh_token = await createRefreshToken(email, password);
+            // Authenticate and generate tokens
+            const token = await createToken(email, password);
+            const refresh_token = await createRefreshToken(email, password);
 
-      // Fetch user and check user details
-      const user = await UserModel.findOne({ email }).populate('user_details');
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
+            // Fetch user and check user details
+            const user = await UserModel.findOne({ email }).populate(
+                'user_details',
+            );
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
 
-      const hasUserDetails = !!user.user_details;
+            const hasUserDetails = !!user.user_details;
 
-      // Return tokens along with the `hasUserDetails` flag
-      const response = {
-        token,
-        refresh_token,
-        hasUserDetails, // Add this to inform the frontend
-      };
+            // Return tokens along with the `hasUserDetails` flag
+            const response = {
+                token,
+                refresh_token,
+                hasUserDetails, // Add this to inform the frontend
+            };
 
-      return res.status(200).json(response);
-    } catch (err) {
-      next(err);
-    }
-  },
+            return res.status(200).json(response);
+        } catch (err) {
+            next(err);
+        }
+    },
 );
-
 
 router.get(
     '/refresh_token',

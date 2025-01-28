@@ -3,13 +3,13 @@ import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
 import {
-    UserDetailsDTO, UserDetailsNewDTO,
+    UserDetailsDTO,
+    UserDetailsNewDTO,
     UserDetailsUpdateDTO,
     UserInfoDTO,
 } from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 import { getFollowers, getFollowing } from './followService';
-
 
 export const getUserInfoList = async (limit: any, page: any) => {
     if (!limit || !page) {
@@ -56,6 +56,8 @@ export const getUserInfoList = async (limit: any, page: any) => {
 export const getUserDetailsById = async (
     id: Types.ObjectId,
 ): Promise<UserDetailsDTO> => {
+    console.log("getuserdetailbyid:", id);
+    
     if (!id) {
         throw new BadRequestError({
             message: 'No user id provided!',
@@ -64,6 +66,8 @@ export const getUserDetailsById = async (
         });
     }
     const user = await UserModel.findById(id);
+    console.log(user);
+    
     if (!user) {
         throw new BadRequestError({
             message: 'No user found',
@@ -72,7 +76,10 @@ export const getUserDetailsById = async (
         });
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
-
+    console.log(user.user_details);
+    
+    console.log("userdetails",userDetails);
+    
     if (!userDetails) {
         const empty: UserDetailsDTO = {
             id: user._id,
@@ -111,7 +118,7 @@ export const getUserDetailsById = async (
         followers,
         created_at: user.created_at,
     };
-    console.log(result)
+    console.log(result);
 
     return result;
 };
@@ -220,36 +227,33 @@ export const getUsers = async () => {
 };
 
 export const createUserDetails = async (
-  userDetails: UserDetailsNewDTO,
-  userId: Types.ObjectId
+    userDetails: UserDetailsNewDTO,
+    userId: Types.ObjectId,
 ) => {
     try {
-        console.log('Creating user details for userId:', userId);
-        console.log('User details data:', userDetails);
-
         const userDetailed = new UserDetailsModel({
             ...userDetails,
             userId,
         });
 
         const savedUserDetailed = await userDetailed.save();
-        console.log('Saved user details:', savedUserDetailed);
 
         const updatedUser = await UserModel.findByIdAndUpdate(
-          userId,
-          { $set: { userDetails: savedUserDetailed._id } },
-          { new: true }
+            userId,
+            { $set: { user_details: savedUserDetailed._id } },
+            { new: true },
         );
+        
 
         if (!updatedUser) {
             throw new Error('User not found while updating userDetails');
         }
 
-        console.log('Updated user with details:', updatedUser);
         return savedUserDetailed;
     } catch (error: any) {
         console.error('Error in createUserDetails:', error.message || error);
-        throw new Error(`Error creating user details: ${error.message || error}`);
+        throw new Error(
+            `Error creating user details: ${error.message || error}`,
+        );
     }
 };
-

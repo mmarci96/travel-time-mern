@@ -66,5 +66,4 @@ export interface UserDetailsRequestDTO {
     location?: string;
     gender?: string;
     created_at: Date | null;
-
 }

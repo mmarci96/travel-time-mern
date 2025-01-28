@@ -16,7 +16,7 @@ const MyAccount = () => {
 
             {change ? (
                 <div>
-                    currentUserId && <UserProfile userId={currentUserId} />
+                    {currentUserId && <UserProfile userId={currentUserId} />}
                     <FaPencilAlt size={30} onClick={() => setChange(false)} />
                 </div>
             ) : (

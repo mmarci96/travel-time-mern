@@ -58,9 +58,9 @@ const UserProfile = ({ userId }) => {
             }
         };
 
-       if(currentUserId) {
-           fetchUserDetails();
-       };
+        if (currentUserId) {
+            fetchUserDetails();
+        }
     }, [currentUserId, userId]);
     return (
         <div className="flex flex-col bg-gray-100 w-full">
