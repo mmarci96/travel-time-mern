@@ -18,7 +18,6 @@ router.get(
         try {
             const userId = req.userId as Types.ObjectId;
             const notifications = await getUnreadNotification(userId);
-            console.log(notifications);
 
             res.status(200).send({ notifications: notifications });
         } catch (err) {
