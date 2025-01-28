@@ -72,7 +72,6 @@ export const createNotification = async (
     });
 
     await newNotification.save();
-    console.log('Notification saved:', newNotification);
 };
 
 export const markRead = async (
