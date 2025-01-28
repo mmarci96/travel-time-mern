@@ -32,10 +32,7 @@ function UserRegistration() {
                 throw new Error('Failed to create userdetails');
             }
 
-            const responseData = await response.json();
-            if(responseData){
-                navigate('/feed');
-            }
+            navigate('/feed');
         } catch (error) {
             console.error('Error during user details creation:', error);
         }

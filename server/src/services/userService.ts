@@ -193,7 +193,7 @@ export const updateUser = async (
     return updatedUser;
 };
 
-export const getUserById = async (userId: Types.ObjectId) {
+export const getUserById = async (userId: Types.ObjectId) => {
     const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({
