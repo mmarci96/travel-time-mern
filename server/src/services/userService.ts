@@ -56,7 +56,6 @@ export const getUserInfoList = async (limit: any, page: any) => {
 export const getUserDetailsById = async (
     id: Types.ObjectId,
 ): Promise<UserDetailsDTO> => {
-    console.log("getuserdetailbyid:", id);
     
     if (!id) {
         throw new BadRequestError({
@@ -66,7 +65,6 @@ export const getUserDetailsById = async (
         });
     }
     const user = await UserModel.findById(id);
-    console.log(user);
     
     if (!user) {
         throw new BadRequestError({
@@ -76,9 +74,6 @@ export const getUserDetailsById = async (
         });
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
-    console.log(user.user_details);
-    
-    console.log("userdetails",userDetails);
     
     if (!userDetails) {
         const empty: UserDetailsDTO = {
@@ -118,7 +113,6 @@ export const getUserDetailsById = async (
         followers,
         created_at: user.created_at,
     };
-    console.log(result);
 
     return result;
 };

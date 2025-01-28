@@ -8,7 +8,6 @@ function UserRegistration() {
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
     const { currentUserId } = useAuthContext();
-    console.log(currentUserId);
     const { sendRequest } = useAuthRequest();
 
     const handleChange = (e) => {
@@ -22,7 +21,6 @@ function UserRegistration() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const response = await sendRequest(
                 `/api/users/userdetails`,
@@ -30,21 +28,16 @@ function UserRegistration() {
                 userData,
             );
 
-            console.log('Response:', response);
-
-            if (!response.token) {
+            if (!response) {
                 throw new Error('Failed to create userdetails');
             }
 
             const responseData = await response.json();
-            console.log('Response Data:', responseData);
-
-            navigate('/feed');
+            if(responseData){
+                navigate('/feed');
+            }
         } catch (error) {
             console.error('Error during user details creation:', error);
-            alert(
-                'There was an issue submitting your details. Please try again.',
-            );
         }
     };
 

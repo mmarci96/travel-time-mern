@@ -4,16 +4,12 @@ import { useState } from 'react';
 import UserForm from '../components/users/UserUpdate.jsx';
 import useAuthContext from '../hooks/useAuthContext.js';
 
-const hate = '679755a60509085ae642a864';
-
 const MyAccount = () => {
     const [change, setChange] = useState(true);
     const { currentUserId } = useAuthContext();
 
     return (
         <div>
-            <div>MyAccount</div>
-
             {change ? (
                 <div>
                     {currentUserId && <UserProfile userId={currentUserId} />}

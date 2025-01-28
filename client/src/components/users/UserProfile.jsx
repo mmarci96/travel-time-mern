@@ -35,7 +35,6 @@ const UserProfile = ({ userId }) => {
                     `/api/users/${currentUserId}`,
                     'GET',
                 );
-                console.log(user);
                 if (user) {
                     setProfileData(user);
                     const followers = user.followers;
@@ -54,7 +53,7 @@ const UserProfile = ({ userId }) => {
                     setUserPostList(posts);
                 }
             } catch (e) {
-                console.log('No posts');
+                console.log('No posts', e);
             }
         };
 

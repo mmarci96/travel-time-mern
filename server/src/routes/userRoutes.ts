@@ -8,13 +8,9 @@ import {
     updateUser,
 } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
-import { Date, Schema, Types } from 'mongoose';
-import { PostCreateDTO } from '../dto/post.dto';
-import { createPost } from '../services/postService';
+import { Types } from 'mongoose';
 import {
-    UserDetailsDTO,
     UserDetailsNewDTO,
-    UserDetailsRequestDTO,
 } from '../dto/user.dto';
 
 const router = express.Router();
