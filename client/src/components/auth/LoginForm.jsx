@@ -37,8 +37,10 @@ const LoginForm = () => {
             }
 
             login(data.token, data.refresh_token);
-            const current = window.location.pathname;
-            if (current === '/') {
+
+            if (!data.hasUserDetails) {
+                navigate('/userdetails');
+            } else {
                 navigate('/feed');
             }
         } catch (error) {

@@ -41,3 +41,29 @@ export interface UserDetailsDTO {
     followers?: Types.ObjectId[];
     created_at: Date;
 }
+
+export interface UserDetailsUpdateDTO {
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+}
+
+export interface UserDetailsNewDTO {
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+}
+
+export interface UserDetailsRequestDTO {
+    id: Schema.Types.ObjectId;
+    first_name?: string;
+    last_name?: string;
+    birthdate?: Date | null;
+    location?: string;
+    gender?: string;
+    created_at: Date | null;
+}

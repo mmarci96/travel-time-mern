@@ -1,12 +1,17 @@
 import express, { NextFunction, Response } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import {
+    createUserDetails,
     getUserDetailsById,
     getUserInfoList,
     getUsers,
+    updateUser,
 } from '../services/userService';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { Types } from 'mongoose';
+import {
+    UserDetailsNewDTO,
+} from '../dto/user.dto';
 
 const router = express.Router();
 router.get(
@@ -66,6 +71,62 @@ router.get(
             const { userId } = req.params;
             const user = await getUserDetailsById(new Types.ObjectId(userId));
             return res.status(200).send({ user: user });
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+router.put(
+    '/:userId',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const { userId } = req.params;
+
+            const { first_name, last_name, birthdate, location, gender } =
+                req.body;
+            const update = {
+                first_name,
+                last_name,
+                birthdate,
+                location,
+                gender,
+            };
+            const updatedUser = await updateUser(
+                new Types.ObjectId(userId),
+                update,
+            );
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+router.post(
+    '/userdetails',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId as Types.ObjectId;
+            const { first_name, last_name, birthdate, location, gender } =
+                req.body;
+
+            const userDetailed: UserDetailsNewDTO = {
+                first_name,
+                last_name,
+                birthdate,
+                location,
+                gender,
+            };
+
+            const newUserDetailed = await createUserDetails(
+                userDetailed,
+                userId,
+            );
+
+            res.status(201).json(newUserDetailed);
         } catch (error) {
             next(error);
         }

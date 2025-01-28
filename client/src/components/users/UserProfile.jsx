@@ -32,7 +32,7 @@ const UserProfile = ({ userId }) => {
         const fetchUserDetails = async () => {
             try {
                 const { user } = await sendRequest(
-                    `/api/users/${userId}`,
+                    `/api/users/${currentUserId}`,
                     'GET',
                 );
                 if (user) {
@@ -47,16 +47,19 @@ const UserProfile = ({ userId }) => {
 
                 const { posts } = await sendRequest(
                     `/api/posts/by-author/${userId}`,
+                    'GET',
                 );
                 if (posts) {
                     setUserPostList(posts);
                 }
             } catch (e) {
-                console.log('No posts');
+                console.log('No posts', e);
             }
         };
 
-        fetchUserDetails();
+        if (currentUserId) {
+            fetchUserDetails();
+        }
     }, [currentUserId, userId]);
     return (
         <div className="flex flex-col bg-gray-100 w-full">

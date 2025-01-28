@@ -2,7 +2,12 @@ import { Types } from 'mongoose';
 import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
-import { UserDetailsDTO, UserInfoDTO } from '../dto/user.dto';
+import {
+    UserDetailsDTO,
+    UserDetailsNewDTO,
+    UserDetailsUpdateDTO,
+    UserInfoDTO,
+} from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 import { getFollowers, getFollowing } from './followService';
 
@@ -51,6 +56,7 @@ export const getUserInfoList = async (limit: any, page: any) => {
 export const getUserDetailsById = async (
     id: Types.ObjectId,
 ): Promise<UserDetailsDTO> => {
+    
     if (!id) {
         throw new BadRequestError({
             message: 'No user id provided!',
@@ -59,6 +65,7 @@ export const getUserDetailsById = async (
         });
     }
     const user = await UserModel.findById(id);
+    
     if (!user) {
         throw new BadRequestError({
             message: 'No user found',
@@ -67,7 +74,7 @@ export const getUserDetailsById = async (
         });
     }
     const userDetails = await UserDetailsModel.findById(user.user_details);
-
+    
     if (!userDetails) {
         const empty: UserDetailsDTO = {
             id: user._id,
@@ -155,7 +162,38 @@ export const createUser = async (
     };
 };
 
-export const getUserById = async (userId: Types.ObjectId) => {
+export const updateUser = async (
+    user_id: Types.ObjectId,
+    updateData: Partial<UserDetailsUpdateDTO>,
+) => {
+    if (!user_id) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'No user id provided!',
+            logging: true,
+        });
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+        user_id,
+        {
+            ...updateData,
+            updated_at: new Date(),
+        },
+        { new: true },
+    );
+    if (!updatedUser) {
+        throw new BadRequestError({
+            code: 400,
+            message: 'Failed to update user',
+            logging: true,
+        });
+    }
+
+    return updatedUser;
+};
+
+export const getUserById = async (userId: Types.ObjectId) {
     const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({
@@ -180,4 +218,36 @@ export const getUsers = async () => {
         });
     }
     return users;
+};
+
+export const createUserDetails = async (
+    userDetails: UserDetailsNewDTO,
+    userId: Types.ObjectId,
+) => {
+    try {
+        const userDetailed = new UserDetailsModel({
+            ...userDetails,
+            userId,
+        });
+
+        const savedUserDetailed = await userDetailed.save();
+
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userId,
+            { $set: { user_details: savedUserDetailed._id } },
+            { new: true },
+        );
+        
+
+        if (!updatedUser) {
+            throw new Error('User not found while updating userDetails');
+        }
+
+        return savedUserDetailed;
+    } catch (error: any) {
+        console.error('Error in createUserDetails:', error.message || error);
+        throw new Error(
+            `Error creating user details: ${error.message || error}`,
+        );
+    }
 };
