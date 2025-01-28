@@ -10,7 +10,6 @@ const UserProfile = ({ userId }) => {
     const [isFollowing, setIsFollowing] = useState(false);
 
     const { currentUserId } = useAuthContext();
-    console.log(currentUserId);
     const { sendRequest } = useAuthRequest();
     const handleFollow = async () => {
         const reqBody = { followId: userId };
@@ -48,7 +47,8 @@ const UserProfile = ({ userId }) => {
                 }
 
                 const { posts } = await sendRequest(
-                    `/api/posts/by-author/${userId}`,'GET'
+                    `/api/posts/by-author/${userId}`,
+                    'GET',
                 );
                 if (posts) {
                     setUserPostList(posts);
@@ -58,7 +58,9 @@ const UserProfile = ({ userId }) => {
             }
         };
 
-        fetchUserDetails();
+       if(currentUserId) {
+           fetchUserDetails();
+       };
     }, [currentUserId, userId]);
     return (
         <div className="flex flex-col bg-gray-100 w-full">

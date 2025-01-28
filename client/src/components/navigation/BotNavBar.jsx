@@ -25,7 +25,7 @@ const BotNavBar = () => {
                 </Link>
 
                 <Link to="/my-account" className="flex items-center m-auto">
-                    <NavBarIcon icon={<FaUser size={30} />} text="Profile" />
+                    <NavBarIcon icon={<FaUser size={30} />} text="My Account" />
                 </Link>
             </div>
         </nav>

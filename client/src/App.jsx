@@ -32,7 +32,7 @@ function App() {
                     <Route path="/post/:postId" element={<Post />} />
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/test" element={<TesterScene />} />
-                  <Route path="/userdetails" element={<UserRegistration />} />
+                    <Route path="/userdetails" element={<UserRegistration />} />
                 </Routes>
             </Suspense>
             <BotNavBar />

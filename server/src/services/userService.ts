@@ -111,6 +111,7 @@ export const getUserDetailsById = async (
         followers,
         created_at: user.created_at,
     };
+    console.log(result)
 
     return result;
 };
@@ -223,25 +224,21 @@ export const createUserDetails = async (
   userId: Types.ObjectId
 ) => {
     try {
-        // Log inputs for debugging
         console.log('Creating user details for userId:', userId);
         console.log('User details data:', userDetails);
 
-        // Create a new UserDetails document
         const userDetailed = new UserDetailsModel({
             ...userDetails,
-            userId, // Ensure userId is included if it's part of the schema
+            userId,
         });
 
-        // Save the UserDetails document
         const savedUserDetailed = await userDetailed.save();
         console.log('Saved user details:', savedUserDetailed);
 
-        // Update the User document with the reference to UserDetails
         const updatedUser = await UserModel.findByIdAndUpdate(
           userId,
           { $set: { userDetails: savedUserDetailed._id } },
-          { new: true } // Return the updated document
+          { new: true }
         );
 
         if (!updatedUser) {
