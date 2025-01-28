@@ -15,6 +15,7 @@ const MyAccount = lazy(() => import('./scenes/MyAccount.jsx'));
 const Notifications = lazy(() => import('./scenes/Notifications.jsx'));
 const Discover = lazy(() => import('./scenes/Discover.jsx'));
 const Profile = lazy(() => import('./scenes/Profile.jsx'));
+const PostEditor = lazy(() => import('./scenes/PostEditor.jsx'));
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/discover" element={<Discover />} />
                     <Route path="/profile/:userId" element={<Profile />} />
                     <Route path="/post/:postId" element={<Post />} />
+                    <Route path="/post/edit/:postId" element={<PostEditor />} />
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/test" element={<TesterScene />} />
                     <Route path="/userdetails" element={<UserRegistration />} />

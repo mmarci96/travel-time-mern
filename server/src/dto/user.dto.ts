@@ -1,4 +1,4 @@
-import { Date, Schema, Types } from 'mongoose';
+import { Date, Types } from 'mongoose';
 
 export interface UserDTO {
     id: string;
@@ -13,7 +13,7 @@ export const toUserDTO = (user: any): UserDTO => ({
 });
 
 export interface UserInfoDTO {
-    id: Schema.Types.ObjectId;
+    id: Types.ObjectId;
     username: string;
     first_name?: string;
     last_name?: string;
@@ -24,7 +24,7 @@ export interface UserInfoDTO {
 }
 
 export interface UserDetailsDTO {
-    id: Schema.Types.ObjectId;
+    id: Types.ObjectId;
     username: string;
     first_name?: string;
     last_name?: string;

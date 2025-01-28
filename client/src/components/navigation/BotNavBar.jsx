@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaPlusSquare, FaSearch, FaUser, FaHome, FaBell } from 'react-icons/fa';
+import NotificationIndicator from '../notifications/NotificationIndicator';
 
 const BotNavBar = () => {
     return (
@@ -22,6 +23,7 @@ const BotNavBar = () => {
                         icon={<FaBell size={30} />}
                         text="Notifications"
                     />
+                    <NotificationIndicator />
                 </Link>
 
                 <Link to="/my-account" className="flex items-center m-auto">

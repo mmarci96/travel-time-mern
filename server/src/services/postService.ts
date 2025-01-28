@@ -30,20 +30,9 @@ export const getPostsFromFollowing = async (
 };
 
 const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
-    let authorName: string | undefined;
+    const user = await UserModel.findById(post.author_id);
+    const username = user?.username;
 
-    if (typeof post.author_id === 'object' && 'username' in post.author_id) {
-        authorName = post.author_id.username;
-    } else {
-        const author = await UserModel.findById(post.author_id);
-        authorName = author?.username;
-        if (!authorName) {
-            throw new BadRequestError({
-                code: 404,
-                message: `Missing authorname on post: ${post._id}`,
-            });
-        }
-    }
     const likesOnPost = await LikeModel.find({ post: post._id })
         .select('user')
         .exec();
@@ -53,7 +42,7 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
     return {
         id: post._id,
         author_id: post.author_id,
-        author_name: authorName,
+        author_name: username,
         title: post.title,
         description: post.description,
         location: post.location,
@@ -132,15 +121,13 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
                 'user',
             );
             const userIds = likesOnPost.map((like) => like.user);
+            const user = await UserModel.findById(post.author_id);
+            const username = user?.username;
 
             return {
                 id: post._id,
                 author_id: post.author_id,
-                author_name:
-                    typeof post.author_id === 'object' &&
-                    'username' in post.author_id
-                        ? post.author_id.username
-                        : undefined,
+                author_name: username,
                 title: post.title,
                 description: post.description,
                 location: post.location,
@@ -196,15 +183,6 @@ export const updatePost = async (
         throw new BadRequestError({
             code: 403,
             message: 'No permission to update this post!',
-            logging: true,
-        });
-    }
-
-    const existingPost = await PostModel.findOne({ _id: post_id, author_id });
-    if (!existingPost) {
-        throw new BadRequestError({
-            code: 404,
-            message: 'Post not found',
             logging: true,
         });
     }
@@ -289,7 +267,6 @@ export const filterPosts = async (options: {
             { description: { $regex: search, $options: 'i' } },
         ],
     })
-        .populate('author_id', 'username')
         .skip((page - 1) * limit)
         .limit(limit)
         .sort(sortCriteria)
@@ -309,15 +286,13 @@ export const filterPosts = async (options: {
                 'user',
             );
             const userIds = likesOnPost.map((like) => like.user);
+            const user = await UserModel.findById(post.author_id);
+            const username = user?.username;
 
             return {
                 id: post._id,
                 author_id: post.author_id,
-                author_name:
-                    typeof post.author_id === 'object' &&
-                    'username' in post.author_id
-                        ? post.author_id.username
-                        : undefined,
+                author_name: username,
                 title: post.title,
                 description: post.description,
                 location: post.location,

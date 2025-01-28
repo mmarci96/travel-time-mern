@@ -95,21 +95,19 @@ router.get(
     },
 );
 
-router.put(
+router.patch(
     '/:postId',
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const { postId } = req.params;
             const author_id = req.userId as Types.ObjectId;
-            const author_name = req.username;
             const { title, description, location, image_url } = req.body;
             const update = {
                 title,
                 description,
                 location,
                 image_url,
-                author_name,
             };
             const updatedPost = await updatePost(
                 new Types.ObjectId(postId),

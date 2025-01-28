@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
-import useAuthContext from '../../hooks/useAuthContext.js';
+import LoadAnimation from '../common/LoadAnimation.jsx';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, currentUserId, onDeleteCount }) => {
     const [likedByUser, setLikedByUser] = useState(false);
+    const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
-    const { currentUserId } = useAuthContext();
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });
@@ -17,10 +17,12 @@ const PostCard = ({ post }) => {
             console.log(post.likes);
             post.likes.filter((like) => like !== currentUserId);
             setLikedByUser(false);
+            setLikeCount((prev) => prev - 1);
         }
         if (method === 'POST') {
             console.log(data);
             setLikedByUser(true);
+            setLikeCount((prev) => prev + 1);
         }
     };
     useEffect(() => {
@@ -59,19 +61,45 @@ const PostCard = ({ post }) => {
                             className="mt-2 ml-1 text-red-600 cursor-pointer hover:scale-[1.1] duration-300 ease-in hover:animate-bounce"
                         />
                     )}
-                    <p className="mt-4 ml-1">{post.likes.length}</p>
+                    <p className="mt-2 ml-2 text-xl italic">{likeCount}</p>
 
-                    <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 p-2 px-4 mx-4 rounded-xl">
-                        <Link to={`/profile/${post.author_id._id}`}>
+                    <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 mx-4 rounded-xl">
+                        <Link to={`/profile/${post.author_id}`}>
                             By: {post.author_name}
                         </Link>
                     </h4>
-                    <h3 className="text-md m-2 p-2 mb-1 italic">
+                    <h3 className="text-lg mt-2  italic">
                         {new Date(post?.created_at).toDateString()}{' '}
                     </h3>
+                    {post.author_id === currentUserId && (
+                        <div className="ml-auto mr-0">
+                            <button
+                                onClick={() => {
+                                    sendRequest(
+                                        `/api/posts/${post.id}`,
+                                        'DELETE',
+                                    ).then(() =>
+                                        onDeleteCount((prev) => prev + 1),
+                                    );
+                                }}
+                            >
+                                <FaTrashAlt
+                                    size={28}
+                                    className="text-red-600 mx-2 my-1"
+                                />
+                            </button>
+
+                            <Link to={`/post/edit/${post.id}`}>
+                                <FaEdit
+                                    size={28}
+                                    className="text-slate-600 mx-2 my-1"
+                                />
+                            </Link>
+                        </div>
+                    )}
                 </span>
             ) : (
-                <p>looking for author .. .</p>
+                <LoadAnimation />
             )}
         </div>
     );

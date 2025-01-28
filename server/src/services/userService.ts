@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import BadRequestError from '../errors/BadRequestError';
@@ -193,7 +193,7 @@ export const updateUser = async (
     return updatedUser;
 };
 
-export const getUserById = async (userId: Schema.Types.ObjectId) => {
+export const getUserById = async (userId: Types.ObjectId) {
     const user = await UserModel.findById(userId);
     if (!user) {
         throw new BadRequestError({

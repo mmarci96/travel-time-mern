@@ -1,20 +1,39 @@
 import dotenv from 'dotenv';
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker';
 import { UserModel } from '../model/UserModel';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 import { PostModel } from '../model/PostModel';
 import { CommentModel } from '../model/CommentModel';
+import { FollowModel } from '../model/FollowModel';
+import { LikeModel } from '../model/LikeModel';
 
 dotenv.config();
 
 // MongoDB Connection
 const mongoUri = process.env.MONGO_URI || '';
+const USER_COUNT = 50;
+const POST_COUNT = 50;
 
 mongoose
     .connect(mongoUri)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
+
+const createExampleUser = async () => {
+    const existing = await UserModel.find({email: "testuser@example.com"})
+    if(existing){
+        console.log("Example user already exists with email: testuser@example.com");
+        return
+    }
+    const exampleUser = new UserModel({
+        email: 'testuser@example.com',
+        password: 'password123',
+        username: 'example_username'
+    })
+
+    return await exampleUser.save()
+}
 
 const generateFakeUsers = async (count: number) => {
     await UserDetailsModel.deleteMany();
@@ -51,56 +70,97 @@ const generateFakeUsers = async (count: number) => {
     return await UserModel.insertMany(fakeUsers);
 };
 
-const generateFakePosts = async (
-    count: number,
-    userId: Schema.Types.ObjectId,
-    username: string,
-) => {
+const generateFakePosts = async (count: number, users: any[]) => {
     await PostModel.deleteMany();
-    const posts = Array.from({ length: count }).map(() => ({
-        author_id: userId,
-        author_name: username,
-        title: faker.lorem.sentence(),
-        description: faker.lorem.sentence(),
-        image_url: faker.image.urlPicsumPhotos({
-            width: 400,
-            height: 420,
-            grayscale: false,
-            blur: 0,
-        }),
-        location: faker.lorem.sentence(),
-    }));
+    const posts = Array.from({ length: count }).map(() => {
+        const randomUser = faker.helpers.arrayElement(users);
+        return {
+            author_id: randomUser._id,
+            author_name: randomUser.username,
+            title: faker.lorem.sentence(),
+            description: faker.lorem.paragraph(),
+            image_url: faker.image.urlPicsumPhotos({
+                width: 400,
+                height: 420,
+                grayscale: false,
+                blur: 0,
+            }),
+            location: faker.lorem.sentence(),
+        };
+    });
 
     console.log(`${count} fake posts created!`);
     return await PostModel.insertMany(posts);
 };
 
-const generateFakeComments = async (
-    userId: Schema.Types.ObjectId,
-    username: string,
-    posts: Array<Schema.Types.ObjectId>,
-) => {
+const generateFakeComments = async (users: any[], posts: any[]) => {
     await CommentModel.deleteMany();
-    const comments = posts.map((postId) => ({
-        author_id: userId,
-        author_name: username,
-        post_id: postId,
-        content: faker.lorem.sentence(),
-    }));
+    const comments = posts.flatMap((post) => {
+        const numComments = faker.number.int({ min: 1, max: 5 });
+        return Array.from({ length: numComments }).map(() => {
+            const randomUser = faker.helpers.arrayElement(users);
+            return {
+                author_id: randomUser._id,
+                author_name: randomUser.username,
+                post_id: post._id,
+                content: faker.lorem.sentence(),
+            };
+        });
+    });
+
     console.log(`Created ${comments.length} comments`);
     await CommentModel.insertMany(comments);
 };
 
+const generateFakeLikes = async (users: any[], posts: any[]) => {
+    await LikeModel.deleteMany();
+    const likes = posts.flatMap((post) => {
+        const numLikes = faker.number.int({ min: 1, max: 10 });
+        return Array.from({ length: numLikes }).map(() => {
+            const randomUser = faker.helpers.arrayElement(users);
+            return {
+                user: randomUser._id,
+                post: post._id,
+            };
+        });
+    });
+
+    console.log(`Created ${likes.length} likes`);
+    await LikeModel.insertMany(likes);
+};
+
+const generateFakeFollows = async (users: any[]) => {
+    await FollowModel.deleteMany();
+    const follows = users.flatMap((user) => {
+        const numFollows = faker.number.int({ min: 1, max: 5 });
+        return Array.from({ length: numFollows })
+            .map(() => {
+                const randomUser = faker.helpers.arrayElement(users);
+                // Avoid self-follow
+                if (randomUser._id.equals(user._id)) {
+                    return null;
+                }
+                return {
+                    follower: user._id,
+                    following: randomUser._id,
+                };
+            })
+            .filter(Boolean);
+    });
+
+    console.log(`Created ${follows.length} follow relationships`);
+    await FollowModel.insertMany(follows);
+};
+
 const runSeeder = async () => {
     try {
-        const users = await generateFakeUsers(50); // Adjust the count as needed
-        const posts = await generateFakePosts(
-            20,
-            users[0]._id,
-            users[0].username,
-        );
-        const postIdList = posts.map((post) => post.id);
-        await generateFakeComments(users[0]._id, users[0].username, postIdList);
+        const users = await generateFakeUsers(USER_COUNT); 
+        const posts = await generateFakePosts(POST_COUNT, users);
+        await generateFakeComments(users, posts);
+        await generateFakeLikes(users, posts);
+        await generateFakeFollows(users);
+        const exampleUser = await createExampleUser()
+        console.log("Example user created for testing: ", exampleUser)
     } catch (err) {
         console.error('Error while seeding data:', err);
     } finally {
