@@ -9,8 +9,7 @@ import {
 } from '../dto/user.dto';
 import { UserDetailsModel } from '../model/UserDetailsModel';
 import { getFollowers, getFollowing } from './followService';
-import { PostUpdateDTO } from '../dto/post.dto';
-import { PostModel } from '../model/PostModel';
+
 
 export const getUserInfoList = async (limit: any, page: any) => {
     if (!limit || !page) {
@@ -224,25 +223,36 @@ export const createUserDetails = async (
   userId: Types.ObjectId
 ) => {
     try {
+        // Log inputs for debugging
+        console.log('Creating user details for userId:', userId);
+        console.log('User details data:', userDetails);
+
+        // Create a new UserDetails document
         const userDetailed = new UserDetailsModel({
             ...userDetails,
-            userId,
+            userId, // Ensure userId is included if it's part of the schema
         });
 
+        // Save the UserDetails document
         const savedUserDetailed = await userDetailed.save();
+        console.log('Saved user details:', savedUserDetailed);
 
-        const user = await UserModel.findByIdAndUpdate(
+        // Update the User document with the reference to UserDetails
+        const updatedUser = await UserModel.findByIdAndUpdate(
           userId,
           { $set: { userDetails: savedUserDetailed._id } },
-          { new: true }
+          { new: true } // Return the updated document
         );
 
-        if (!user) {
+        if (!updatedUser) {
             throw new Error('User not found while updating userDetails');
         }
 
+        console.log('Updated user with details:', updatedUser);
         return savedUserDetailed;
-    } catch (error) {
-        throw new Error(`Error creating user details: `);
+    } catch (error: any) {
+        console.error('Error in createUserDetails:', error.message || error);
+        throw new Error(`Error creating user details: ${error.message || error}`);
     }
 };
+

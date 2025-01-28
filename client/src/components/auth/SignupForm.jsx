@@ -32,6 +32,7 @@ const SignupForm = () => {
             return;
         }
         console.log(data);
+
         setLoading(false);
     };
     return (

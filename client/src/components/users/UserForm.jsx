@@ -10,16 +10,16 @@ function UserForm({ user,onSubmit, onChange }) {
     >
       <FormField
         label="First name"
-        name="firstname"
+        name="first_name"
         type="text"
-        value={user?.first_name}
+        value={user?.first_name || ''}
         onChange={onChange}
       />
       <FormField
       label="Last name"
-      name="lastname"
+      name="last_name"
       type="text"
-      value={user?.last_name}
+      value={user?.last_name || ''}
       onChange={onChange}/>
         <FormField
         label="Location"

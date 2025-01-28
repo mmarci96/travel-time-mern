@@ -21,20 +21,31 @@ function UserRegistration(){
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const response = sendRequest(`/api/users/userdetails`, 'POST', userData);
+    e.preventDefault();
 
-    if (!response.ok) {
-      throw new Error('Failed to create userdetails');
+    try {
+      const response = await sendRequest(`/api/users/userdetails`, 'POST', userData);
+
+      console.log('Response:', response);
+
+      if (!response.token) {
+        throw new Error('Failed to create userdetails');
+      }
+
+      const responseData = await response.json();
+      console.log('Response Data:', responseData);
+
+      navigate('/feed');
+    } catch (error) {
+      console.error('Error during user details creation:', error);
+      alert('There was an issue submitting your details. Please try again.');
     }
-    await response.json();
-
-    navigate('/feed');
-  }
+  };
 
 
 
-    return (
+
+  return (
       <div  className='w-full flex'>
      <p>
        Please enter your details for completing the registration.
