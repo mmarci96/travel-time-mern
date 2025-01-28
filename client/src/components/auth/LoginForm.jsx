@@ -37,10 +37,15 @@ const LoginForm = () => {
             }
 
             login(data.token, data.refresh_token);
-            const current = window.location.pathname;
-            if (current === '/') {
-                navigate('/feed');
+            if (!data.hasUserDetails) {
+                navigate('/userdetails'); // Redirect to user details registration
+            } else {
+                navigate('/feed'); // Redirect to the main feed or home page
             }
+         //   const current = window.location.pathname;
+           // if (current === '/') {
+             //   navigate('/feed');
+           // }
         } catch (error) {
             setError('Something went wrong. Please try again.' + error);
         } finally {
