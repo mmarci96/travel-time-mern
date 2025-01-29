@@ -1,5 +1,3 @@
-
-
 # Travel Time MERN Stack (v2)
 
 A social media app about traveling with a TypeScript Express backend and React frontend with a MongoDB database.
@@ -70,7 +68,39 @@ In your `.env` file, make sure to set the following variables:
 
 ### Optional Features
 
-- **Image Upload**: Requires an S3 bucket and AWS credentials in your `.env` file. Skip these variables if you don't need image uploads.
+### Image upload - AWS S3 Bucket Setup & Cleanup Guide
+
+### 📌 Requirements  
+Before proceeding, ensure you have:  
+- ✅ **AWS CLI** installed and configured  
+- ✅ **An AWS IAM user** with the required permissions to create S3 buckets, IAM policies, and roles  
+
+### 🚀 Setup Instructions  
+
+1. **Choose a unique S3 bucket name** and add it to your `.env` file:  
+   ```sh
+   AWS_BUCKET_NAME=your-unique-bucket-name
+2. Make setup scrips executable (if not done already):
+    ```bash
+    chmod +x ./setup-scripts/aws_s3_setup.sh
+    chmod +x ./setup-scripts/set_temp_credentials.sh
+    chmod +x ./setup-scripts/destroy_aws_resources.sh
+    ```
+3. Run the S3 setup script to create the bucket, IAM policy, and role:
+    ```bash
+    ./setup-scripts/aws_s3_setup.sh
+    ```
+4. Assume the IAM role to obtain AWS credentials:
+    ```bash
+    source ./setup-scripts/set_temp_credentials.sh
+    ```
+5. Cleanup after use:
+    ```bash
+    unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
+
+    ./setup-scripts/destroy_aws_resources.sh
+
+    ```
 
 ---
 
