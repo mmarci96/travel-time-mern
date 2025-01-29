@@ -5,7 +5,7 @@ import LoginAlert from '../components/common/LoginAlert';
 
 const PostEditor = () => {
     const { postId } = useParams();
-    const { isAuthenticated } = useAuthContext()
+    const { isAuthenticated } = useAuthContext();
     return isAuthenticated ? <PostForm postId={postId} /> : <LoginAlert />;
 };
 

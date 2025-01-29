@@ -8,12 +8,13 @@ const Post = () => {
     const { postId } = useParams();
     const { isAuthenticated } = useAuthContext();
 
-    return (
-        isAuthenticated ?
-        <div className='flex flex-wrap justify-center m-auto min-h-[80vh]'>
+    return isAuthenticated ? (
+        <div className="flex flex-wrap justify-center m-auto min-h-[80vh]">
             <PostDetails postId={postId} />
             <CommentList postId={postId} />
-        </div> : <LoginAlert />
+        </div>
+    ) : (
+        <LoginAlert />
     );
 };
 

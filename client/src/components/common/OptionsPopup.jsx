@@ -1,11 +1,11 @@
-
 const OptionsPopup = ({ options }) => {
     return (
         options?.length > 0 && (
-            <div className="absolute flex flex-col bg-white rounded-lg px-[6px] py-1 ring-1 ring-cyan-200 w-[200px] z-10"
+            <div
+                className="absolute flex flex-col bg-white rounded-lg px-[6px] py-1 ring-1 ring-cyan-200 w-[200px] z-10"
                 style={{
                     bottom: '100%', // Move the popup above the parent
-                    right: '0',     // Align the popup to the right edge of the parent
+                    right: '0', // Align the popup to the right edge of the parent
                 }}
             >
                 {options.map((option, index) => (
@@ -24,4 +24,3 @@ const OptionsPopup = ({ options }) => {
 };
 
 export default OptionsPopup;
-

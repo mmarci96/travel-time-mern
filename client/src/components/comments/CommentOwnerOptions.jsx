@@ -8,7 +8,11 @@ import {
 import OptionsPopup from '../common/OptionsPopup';
 import useAuthRequest from '../../hooks/useAuthRequest';
 
-const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {}, onEditing }) => {
+const CommentOwnerOptions = ({
+    commentId,
+    onDeleteCount = () => {},
+    onEditing,
+}) => {
     const [toggleOptions, setToggleOptions] = useState(false);
     const { sendRequest } = useAuthRequest();
 
@@ -17,12 +21,8 @@ const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {}, onEditing })
     };
 
     const handleDelete = async () => {
-        const body = {comment_id : commentId}
-        const deletePost = await sendRequest(
-            `/api/comments`,
-            'DELETE',
-            body
-        );
+        const body = { comment_id: commentId };
+        const deletePost = await sendRequest(`/api/comments`, 'DELETE', body);
         if (deletePost) {
             onDeleteCount((prev) => prev + 1);
         }
@@ -30,8 +30,8 @@ const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {}, onEditing })
 
     const handleEdit = () => {
         //TODO make a popup imput field to edit or switch out the component
-        onEditing(true)
-        handleToggle()
+        onEditing(true);
+        handleToggle();
     };
 
     const handleReport = () => {

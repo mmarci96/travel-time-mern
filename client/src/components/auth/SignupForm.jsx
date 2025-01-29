@@ -2,7 +2,7 @@ import { useState } from 'react';
 import FormField from '../common/FormField.jsx';
 import Button from '../common/Button.jsx';
 
-const SignupForm = ({onSuccess}) => {
+const SignupForm = ({ onSuccess }) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ const SignupForm = ({onSuccess}) => {
             return;
         }
         console.log(data);
-        onSuccess(true)
+        onSuccess(true);
 
         setLoading(false);
     };

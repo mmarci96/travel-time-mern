@@ -11,9 +11,7 @@ const PostDetails = ({ postId }) => {
             data ? setPostData(data) : null,
         );
     }, []);
-    return (
-        <>{postData ? <PostCard post={postData} /> : <LoadAnimation/>}</>
-    );
+    return <>{postData ? <PostCard post={postData} /> : <LoadAnimation />}</>;
 };
 
 export default PostDetails;

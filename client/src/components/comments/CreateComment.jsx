@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import Button from '../common/Button.jsx';
@@ -52,4 +51,3 @@ const CreateComment = ({ postId, onCreateCount }) => {
 };
 
 export default CreateComment;
-
