@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
+import LoadAnimation from '../common/LoadAnimation.jsx';
 import PostCard from './PostCard.jsx';
 
 const PostDetails = ({ postId }) => {
@@ -11,7 +12,7 @@ const PostDetails = ({ postId }) => {
         );
     }, []);
     return (
-        <div>{postData ? <PostCard post={postData} /> : <>Loading...</>}</div>
+        <>{postData ? <PostCard post={postData} /> : <LoadAnimation/>}</>
     );
 };
 

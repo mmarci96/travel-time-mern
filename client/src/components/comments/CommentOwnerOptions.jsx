@@ -8,7 +8,7 @@ import {
 import OptionsPopup from '../common/OptionsPopup';
 import useAuthRequest from '../../hooks/useAuthRequest';
 
-const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {} }) => {
+const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {}, onEditing }) => {
     const [toggleOptions, setToggleOptions] = useState(false);
     const { sendRequest } = useAuthRequest();
 
@@ -30,6 +30,8 @@ const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {} }) => {
 
     const handleEdit = () => {
         //TODO make a popup imput field to edit or switch out the component
+        onEditing(true)
+        handleToggle()
     };
 
     const handleReport = () => {

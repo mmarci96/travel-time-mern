@@ -1,10 +1,12 @@
+import { useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
 import CommentOwnerOptions from "./CommentOwnerOptions";
 
 const CommentCard = ({ comment, onDeleteCount }) => {
+    const [editing, setEditing] = useState(false);
     const { currentUserId } = useAuthContext()
     return (
-        <div className="mx-auto flex justify-start my-1 p-2 w-full bg-slate-100 bg-opacity-90">
+        <div className="mx-auto flex justify-start my-1 p-2 w-full bg-slate-100 bg-opacity-90 rounded-lg ring-1 ring-slate-200">
             <p className="mx-2 text-md  italic">{comment.content},</p>
             <p className="italic text-md">
                 {comment.author_name},
