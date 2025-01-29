@@ -16,7 +16,7 @@ const PostList = () => {
     const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(false);
     const [deleteCount, setDeleteCount] = useState(0);
-    const { token, currentUserId } = useAuthContext();
+    const { token, currentUserId, isAuthenticated } = useAuthContext();
 
     const { sendRequest } = useAuthRequest();
 
@@ -28,7 +28,7 @@ const PostList = () => {
         sendRequest(url, 'GET').then((data) =>
             data ? setPosts(data.posts) : setPosts([]),
         );
-    }, [filters, limit, sort, asc, search, deleteCount]);
+    }, [filters, limit, sort, asc, search, deleteCount, isAuthenticated]);
 
     const toggleSortOrder = () => {
         setAsc(!asc);
@@ -39,8 +39,8 @@ const PostList = () => {
 
     return (
         <div className="flex flex-col items-center">
-            {token ? (
-                showControls ? (
+            
+            {showControls ? (
                     <PostControls
                         search={search}
                         setSearch={setSearch}
@@ -59,10 +59,7 @@ const PostList = () => {
                     >
                         Show controls
                     </button>
-                )
-            ) : (
-                <LoginAlert />
-            )}
+                )}
 
             <ul>
                 {posts?.length > 0 ? (
@@ -76,13 +73,13 @@ const PostList = () => {
                         </li>
                     ))
                 ) : (
-                    <LoadAnimation />
+                     <LoadAnimation />
                 )}
             </ul>
 
             <div className="pagination-controls">
                 <Button onClick={handleNextPage} children="More" />
-            </div>
+            </div> 
         </div>
     );
 };

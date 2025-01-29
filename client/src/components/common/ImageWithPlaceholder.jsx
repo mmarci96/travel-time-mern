@@ -5,7 +5,7 @@ const ImageWithPlaceholder = ({ alt, image_url }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-        <div className="relative">
+        <div className="relative w-full h-[64vh] hover:scale-105 overflow-hidden rounded-xl ease-in duration-300 ring-1 ring-slate-200 hover:shadow-lg ">
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg">
                     <LoadAnimation />
@@ -16,8 +16,8 @@ const ImageWithPlaceholder = ({ alt, image_url }) => {
                 loading="lazy"
                 alt={alt}
                 src={image_url}
-                className={`hover:shadow-lg mx-auto hover:shadow-slate-900 ease-in duration-200 rounded-lg shadow-md shadow-black mb-4
-                min-w-[320px] min-h-[320px] max-h-[600px] max-w-[420px] w-full  ${
+                className={`mx-auto hover:shadow-slate-900  ease-in duration-200 rounded-lg shadow-md shadow-black mb-4
+                object-cover w-full h-full  ${
                     isLoading ? 'invisible' : 'visible'
                 }`}
                 onLoad={() => setIsLoading(false)}
