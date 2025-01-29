@@ -29,12 +29,12 @@ const CommentOwnerOptions = ({
     };
 
     const handleEdit = () => {
-        //TODO make a popup imput field to edit or switch out the component
         onEditing(true);
         handleToggle();
     };
 
     const handleReport = () => {
+        //TODO: Need to be implemented on server side first!
         console.log('I dont have money for mods anyway lol');
     };
 
