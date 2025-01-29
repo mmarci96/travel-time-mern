@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button.jsx';
-import { AuthContext } from '../../context/AuthContext';
 import FormField from '../common/FormField.jsx';
+import useAuthContext from '../../hooks/useAuthContext.js';
 
 const LoginForm = () => {
     const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ const LoginForm = () => {
         password: '',
     });
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext);
+    const { saveToken } = useAuthContext();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +36,7 @@ const LoginForm = () => {
                 return;
             }
 
-            login(data.token, data.refresh_token);
+            saveToken(data.token, data.refresh_token);
 
             if (!data.hasUserDetails) {
                 navigate('/userdetails');

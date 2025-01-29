@@ -8,10 +8,7 @@ import {
 import OptionsPopup from '../common/OptionsPopup';
 import useAuthRequest from '../../hooks/useAuthRequest';
 
-
-const CommentOwnerOptions = ({ 
-    commentId, onDeleteCount = () => {} 
-}) => {
+const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {} }) => {
     const [toggleOptions, setToggleOptions] = useState(false);
     const { sendRequest } = useAuthRequest();
 
@@ -20,7 +17,10 @@ const CommentOwnerOptions = ({
     };
 
     const handleDelete = async () => {
-        const deletePost = await sendRequest(`/api/comments/${commentId}`, 'DELETE');
+        const deletePost = await sendRequest(
+            `/api/comments/${commentId}`,
+            'DELETE',
+        );
         if (deletePost) {
             onDeleteCount((prev) => prev + 1);
         }
@@ -65,8 +65,6 @@ const CommentOwnerOptions = ({
             {toggleOptions && <OptionsPopup options={options} />}
         </div>
     );
+};
 
-
-}
-
-export default CommentOwnerOptions
+export default CommentOwnerOptions;

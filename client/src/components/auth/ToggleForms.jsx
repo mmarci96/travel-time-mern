@@ -10,7 +10,7 @@ const ToggleForms = () => {
     };
     return (
         <div className="flex flex-col items-center my-2 mx-auto  rounded-lg min-w-[280px] max-w-[600px]">
-            {hasAccount ? <LoginForm /> : <SignupForm />}
+            {hasAccount ? <LoginForm /> : <SignupForm onSuccess={setHasAccount} />}
             <p>
                 {hasAccount
                     ? "Don't have an account yet?"
