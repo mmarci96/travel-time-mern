@@ -21,13 +21,22 @@ A social media app about traveling with a TypeScript Express backend and React f
 
 ## Collaboration
 
-Here the collaboration info...
+- Sárosdi Márton: https://github.com/mmarci96
+ [![LinkedIn][linkedin-shield]][linkedin-url-m]
+- dr. Ditrói-Tóth Zsuzsa: https://github.com/DTZsuzsi
+[![LinkedIn][linkedin-shield]][linkedin-url-d]
+ 
+  
 
 ## Features
 
-Here goes the features of the site...
+We started to develop a social website focused on travelling and sharing experience. After registration the users can:
+- post about their travels,
+- follow fellow travellers,
+- like, comment others' posts,
+- search for countries, posts.
 
----
+We implemented basic security system and picture sharing.
 
 ### Prerequisites
 
@@ -202,3 +211,4 @@ The seeded database includes:
 - **JSX/TypeScript**: `camelCase`, `Capital`
 - **Models**: `Capital`, singular form
 
+[linkedin-url-d]: https://www.linkedin.com/in/zsuzsa-ditroi-toth-8b339a54/
