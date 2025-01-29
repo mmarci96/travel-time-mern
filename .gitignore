@@ -146,3 +146,87 @@ img_uploads_temp
 # Client-specific build directories
 dist-ssr
 *.local
+
+
+
+
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Crash log for debugging
+crash.log
+
+# Ignore Terraform variable files with sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files (typically not checked in)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore generated plan files
+*.tfplan
+
+# Ignore .terraform directory
+.terraform/
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+terraform.tfstate.**
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Crash log for debugging
+crash.log
+
+# Ignore Terraform variable files with sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files (typically not checked in)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore generated plan files
+*.tfplan
+
+# Ignore .terraform directory
+.terraform/
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+terraform.tfstate.**
+
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Crash log for debugging
+crash.log
+
+# Ignore Terraform variable files with sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files (typically not checked in)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore generated plan files
+*.tfplan
+
+# Ignore .terraform directory
+.terraform/
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+terraform.tfstate.**
+
