@@ -17,9 +17,11 @@ const CommentOwnerOptions = ({ commentId, onDeleteCount = () => {} }) => {
     };
 
     const handleDelete = async () => {
+        const body = {comment_id : commentId}
         const deletePost = await sendRequest(
-            `/api/comments/${commentId}`,
+            `/api/comments`,
             'DELETE',
+            body
         );
         if (deletePost) {
             onDeleteCount((prev) => prev + 1);
