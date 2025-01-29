@@ -21,10 +21,13 @@ A social media app about traveling with a TypeScript Express backend and React f
 
 ## Collaboration
 
-- Sárosdi Márton: https://github.com/mmarci96
- [![LinkedIn][linkedin-shield]][linkedin-url-m]
-- dr. Ditrói-Tóth Zsuzsa: https://github.com/DTZsuzsi
-[![LinkedIn][linkedin-shield]][linkedin-url-d]
+- **dr. Ditrói-Tóth Zsuzsa**   
+  GitHub: https://github.com/DTZsuzsi  
+  [![LinkedIn][linkedin-shield]][linkedin-url-d]
+- **Sárosdi Márton**  
+  GitHub: https://github.com/mmarci96  
+  Email: sarosdimarci@gmail.com  
+  [![LinkedIn][linkedin-shield]][linkedin-url-ms]
  
   
 
@@ -211,4 +214,9 @@ The seeded database includes:
 - **JSX/TypeScript**: `camelCase`, `Capital`
 - **Models**: `Capital`, singular form
 
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/m%C3%A1t%C3%A9-pojbics/
 [linkedin-url-d]: https://www.linkedin.com/in/zsuzsa-ditroi-toth-8b339a54/
+[linkedin-url-ms]: https://www.linkedin.com/in/maton-sarosdi
