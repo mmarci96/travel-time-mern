@@ -9,8 +9,7 @@ const MyAccount = () => {
     const [change, setChange] = useState(true);
     const { currentUserId, isAuthenticated } = useAuthContext();
 
-    return (
-        isAuthenticated ?
+    return isAuthenticated ? (
         <div>
             {change ? (
                 <div>
@@ -22,7 +21,9 @@ const MyAccount = () => {
                     <UserForm />
                 </div>
             )}
-        </div> : <LoginAlert />
+        </div>
+    ) : (
+        <LoginAlert />
     );
 };
 

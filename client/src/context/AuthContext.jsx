@@ -19,10 +19,13 @@ export const AuthProvider = ({ children }) => {
     const { sendRequest } = useAuthRequest();
 
     const saveToken = (token, refreshToken, expiryTime) => {
-        const expiryTimestamp = expiryTime ? Date.now() + expiryTime * 1000 : null;
+        const expiryTimestamp = expiryTime
+            ? Date.now() + expiryTime * 1000
+            : null;
         localStorage.setItem('token', token);
         localStorage.setItem('refresh_token', refreshToken);
-        expiryTimestamp && localStorage.setItem('token_expiry', expiryTimestamp);
+        expiryTimestamp &&
+            localStorage.setItem('token_expiry', expiryTimestamp);
 
         setToken(token);
         setIsAuthenticated(true);
@@ -44,7 +47,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
             }
         } catch (error) {
-            console.error("Failed to fetch user ID:", error);
+            console.error('Failed to fetch user ID:', error);
             deleteToken();
         } finally {
             setLoading(false);
@@ -71,10 +74,16 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ token, currentUserId, isAuthenticated, saveToken, deleteToken, loading }}
+            value={{
+                token,
+                currentUserId,
+                isAuthenticated,
+                saveToken,
+                deleteToken,
+                loading,
+            }}
         >
             {children}
         </AuthContext.Provider>
     );
 };
-

@@ -7,7 +7,7 @@ import LoginAlert from '../components/common/LoginAlert';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
-    const { isAuthenticated } = useAuthContext()
+    const { isAuthenticated } = useAuthContext();
     const { error, loading, sendRequest } = useAuthRequest();
 
     const handleMarkRead = async (notificationId) => {
@@ -38,8 +38,7 @@ const Notifications = () => {
             .catch((e) => console.error(e));
     }, []);
 
-    return (
-        isAuthenticated ?
+    return isAuthenticated ? (
         <div className="w-screen flex flex-col items-center p-4 bg-gray-100 ">
             <h1 className="text-2xl font-bold mb-4">Notifications</h1>
             {loading && <LoadAnimation />}
@@ -66,7 +65,9 @@ const Notifications = () => {
                     </p>
                 )
             )}
-        </div> : <LoginAlert />
+        </div>
+    ) : (
+        <LoginAlert />
     );
 };
 

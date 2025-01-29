@@ -13,15 +13,15 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });
+        if (!data) {
+            return;
+        }
         if (method === 'DELETE') {
-            console.log('curr id', currentUserId);
-            console.log(post.likes);
             post.likes.filter((like) => like !== currentUserId);
             setLikedByUser(false);
             setLikeCount((prev) => prev - 1);
         }
         if (method === 'POST') {
-            console.log(data);
             setLikedByUser(true);
             setLikeCount((prev) => prev + 1);
         }
@@ -33,7 +33,7 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
     }, [currentUserId]);
 
     return (
-        <div className="m-4 p-1 border-2 rounded-xl shadow-slate-400 shadow-md min-w-[320px] max-w-[420px] mx-auto">
+        <div className="my-4 p-1 ring-1 rounded-xl max-h-[640px] shadow-slate-400 shadow-md min-w-[320px] w-[60vw] max-w-[480px] mx-auto">
             <Link to={`/post/${post.id}`}>
                 <ImageWithPlaceholder
                     alt={post.title}

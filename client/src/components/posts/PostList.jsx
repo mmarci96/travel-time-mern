@@ -39,27 +39,26 @@ const PostList = () => {
 
     return (
         <div className="flex flex-col items-center">
-            
             {showControls ? (
-                    <PostControls
-                        search={search}
-                        setSearch={setSearch}
-                        sort={sort}
-                        setSort={setSort}
-                        asc={asc}
-                        toggleSortOrder={toggleSortOrder}
-                        filters={filters}
-                        setFilters={setFilters}
-                        toggleControls={toggleControls}
-                    />
-                ) : (
-                    <button
-                        onClick={toggleControls}
-                        className="p-1 px-2 bg-cyan-500 text-white hover:bg-cyan-600 transition duration-300 ease-in-out mx-auto mt-4 rounded-xl"
-                    >
-                        Show controls
-                    </button>
-                )}
+                <PostControls
+                    search={search}
+                    setSearch={setSearch}
+                    sort={sort}
+                    setSort={setSort}
+                    asc={asc}
+                    toggleSortOrder={toggleSortOrder}
+                    filters={filters}
+                    setFilters={setFilters}
+                    toggleControls={toggleControls}
+                />
+            ) : (
+                <button
+                    onClick={toggleControls}
+                    className="p-1 px-2 bg-cyan-500 text-white hover:bg-cyan-600 transition duration-300 ease-in-out mx-auto mt-4 rounded-xl"
+                >
+                    Show controls
+                </button>
+            )}
 
             <ul>
                 {posts?.length > 0 ? (
@@ -73,13 +72,13 @@ const PostList = () => {
                         </li>
                     ))
                 ) : (
-                     <LoadAnimation />
+                    <LoadAnimation />
                 )}
             </ul>
 
             <div className="pagination-controls">
                 <Button onClick={handleNextPage} children="More" />
-            </div> 
+            </div>
         </div>
     );
 };

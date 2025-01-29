@@ -5,7 +5,7 @@ import LoginAlert from '../components/common/LoginAlert';
 const Profile = () => {
     const { userId } = useParams();
     const { isAuthenticated } = useAuthContext();
- 
+
     return isAuthenticated ? <UserProfile userId={userId} /> : <LoginAlert />;
 };
 
