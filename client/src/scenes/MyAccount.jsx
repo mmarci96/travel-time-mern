@@ -3,12 +3,13 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import UserForm from '../components/users/UserUpdate.jsx';
 import useAuthContext from '../hooks/useAuthContext.js';
+import LoginAlert from '../components/common/LoginAlert.jsx';
 
 const MyAccount = () => {
     const [change, setChange] = useState(true);
-    const { currentUserId } = useAuthContext();
+    const { currentUserId, isAuthenticated } = useAuthContext();
 
-    return (
+    return isAuthenticated ? (
         <div>
             {change ? (
                 <div>
@@ -21,6 +22,8 @@ const MyAccount = () => {
                 </div>
             )}
         </div>
+    ) : (
+        <LoginAlert />
     );
 };
 

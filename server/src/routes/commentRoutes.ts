@@ -47,10 +47,11 @@ router.patch(
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const author_id = req.userId as Types.ObjectId;
-            const { content, post_id } = req.body;
+            const { content, comment_id } = req.body;
+
             const updatedComment = await updateComment(
                 author_id,
-                post_id,
+                comment_id,
                 content,
             );
             res.status(200).send(updatedComment);

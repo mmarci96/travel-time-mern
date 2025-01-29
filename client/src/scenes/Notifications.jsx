@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import useAuthRequest from '../hooks/useAuthRequest';
 import NotificationCard from '../components/notifications/NotificationCard';
 import LoadAnimation from '../components/common/LoadAnimation';
+import useAuthContext from '../hooks/useAuthContext';
+import LoginAlert from '../components/common/LoginAlert';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
+    const { isAuthenticated } = useAuthContext();
     const { error, loading, sendRequest } = useAuthRequest();
 
     const handleMarkRead = async (notificationId) => {
@@ -35,7 +38,7 @@ const Notifications = () => {
             .catch((e) => console.error(e));
     }, []);
 
-    return (
+    return isAuthenticated ? (
         <div className="w-screen flex flex-col items-center p-4 bg-gray-100 ">
             <h1 className="text-2xl font-bold mb-4">Notifications</h1>
             {loading && <LoadAnimation />}
@@ -63,6 +66,8 @@ const Notifications = () => {
                 )
             )}
         </div>
+    ) : (
+        <LoginAlert />
     );
 };
 

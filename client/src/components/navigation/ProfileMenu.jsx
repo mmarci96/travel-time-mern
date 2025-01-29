@@ -1,10 +1,9 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { CgProfile } from 'react-icons/cg';
-import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext.jsx';
+import useAuthContext from '../../hooks/useAuthContext';
 
 export default function ProfileMenu({ user }) {
-    const { logout } = useContext(AuthContext);
+    const { deleteToken } = useAuthContext();
 
     return (
         <Menu as="div" className="relative ml-3">
@@ -38,7 +37,7 @@ export default function ProfileMenu({ user }) {
                 </MenuItem>
                 <MenuItem>
                     <button
-                        onClick={logout}
+                        onClick={deleteToken}
                         className="block px-4 py-2 text-base text-black hover:bg-gray-500"
                         role="menuitem"
                     >
