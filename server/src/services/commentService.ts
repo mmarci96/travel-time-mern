@@ -96,21 +96,12 @@ export const deleteComment = async (
 };
 
 export const updateComment = async (
-    comment_id: Types.ObjectId,
     author_id: Types.ObjectId,
+    comment_id: Types.ObjectId,
     content: string,
 ) => {
     if (!comment_id || !author_id || !content) {
         throwMissingArgsError('commentid, or author id or content');
-    }
-
-    const comment = await CommentModel.findOne({ _id: comment_id, author_id });
-    if (!comment) {
-        throw new BadRequestError({
-            code: 403,
-            message: 'No permission to update this comment',
-            logging: true,
-        });
     }
 
     const updatedComment = await CommentModel.findByIdAndUpdate(
