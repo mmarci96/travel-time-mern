@@ -13,15 +13,15 @@ const PostCard = ({ post, currentUserId, onDeleteCount }) => {
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });
+        if (!data) {
+            return;
+        }
         if (method === 'DELETE') {
-            console.log('curr id', currentUserId);
-            console.log(post.likes);
             post.likes.filter((like) => like !== currentUserId);
             setLikedByUser(false);
             setLikeCount((prev) => prev - 1);
         }
         if (method === 'POST') {
-            console.log(data);
             setLikedByUser(true);
             setLikeCount((prev) => prev + 1);
         }

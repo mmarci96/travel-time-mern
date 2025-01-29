@@ -24,8 +24,7 @@ const CommentCard = ({ comment, onDeleteCount }) => {
                     </p>
                 </>
             )}
-            {comment.author_id === currentUserId &&
-              !editing &&   (
+            {comment.author_id === currentUserId && !editing && (
                 <div className="ml-auto">
                     <CommentOwnerOptions
                         commentId={comment.id}
