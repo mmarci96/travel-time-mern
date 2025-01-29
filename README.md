@@ -21,10 +21,13 @@ A social media app about traveling with a TypeScript Express backend and React f
 
 ## Collaboration
 
-- Sárosdi Márton: https://github.com/mmarci96
- [![LinkedIn][linkedin-shield]][linkedin-url-m]
-- dr. Ditrói-Tóth Zsuzsa: https://github.com/DTZsuzsi
-[![LinkedIn][linkedin-shield]][linkedin-url-d]
+- **dr. Ditrói-Tóth Zsuzsa**   
+    GitHub: https://github.com/DTZsuzsi  
+    [![LinkedIn][linkedin-shield]][linkedin-url-d]
+- **Sárosdi Márton**  
+    GitHub: https://github.com/mmarci96  
+    Email: sarosdimarci@gmail.com  
+    [![LinkedIn][linkedin-shield]][linkedin-url-ms]
  
   
 
