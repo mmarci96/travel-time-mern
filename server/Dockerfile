@@ -1,3 +1,4 @@
+
 FROM node:23.4.0-alpine AS builder
 
 WORKDIR /app
@@ -5,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-RUN npm install 
+RUN npm install
 
 COPY src ./src
 
@@ -15,7 +16,10 @@ FROM node:23.4.0-alpine AS runtime
 
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+RUN npm ci --omit=dev
+
 COPY --from=builder /app/dist ./dist
 
 USER node
