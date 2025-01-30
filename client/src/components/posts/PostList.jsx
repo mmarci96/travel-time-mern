@@ -15,7 +15,7 @@ const PostList = () => {
     const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(false);
     const [deleteCount, setDeleteCount] = useState(0);
-    const { token, currentUserId, isAuthenticated } = useAuthContext();
+    const { currentUserId, isAuthenticated } = useAuthContext();
 
     const { sendRequest } = useAuthRequest();
 
@@ -65,7 +65,6 @@ const PostList = () => {
                         <li key={post.id}>
                             <PostCard
                                 post={post}
-                                currentUserId={currentUserId}
                                 onDeleteCount={setDeleteCount}
                             />
                         </li>

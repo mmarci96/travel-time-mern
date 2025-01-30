@@ -32,7 +32,7 @@ const UserProfile = ({ userId }) => {
         const fetchUserDetails = async () => {
             try {
                 const { user } = await sendRequest(
-                    `/api/users/${currentUserId}`,
+                    `/api/users/${userId}`,
                     'GET',
                 );
                 if (user) {
@@ -66,10 +66,9 @@ const UserProfile = ({ userId }) => {
             <div
                 className="relative bg-cover bg-center h-56"
                 style={{
-                    backgroundImage: `url(${
-                        profileData?.avatar_url ||
+                    backgroundImage: `url(${profileData?.avatar_url ||
                         'https://picsum.photos/800/400'
-                    })`,
+                        })`,
                 }}
             >
                 <img
