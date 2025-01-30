@@ -152,16 +152,6 @@ export const deletePost = async (
         });
     }
 
-    const post = await PostModel.findOne({ _id: post_id, author_id });
-
-    if (!post) {
-        throw new BadRequestError({
-            code: 403,
-            message: 'No permission to delete this post',
-            logging: true,
-        });
-    }
-
     await PostModel.findByIdAndDelete(post_id);
 
     return { message: 'Post deleted successfully', status: 202 };
