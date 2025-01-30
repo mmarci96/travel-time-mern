@@ -146,3 +146,5 @@ img_uploads_temp
 # Client-specific build directories
 dist-ssr
 *.local
+
+terraform
