@@ -5,7 +5,7 @@ import NotificationIndicator from '../notifications/NotificationIndicator';
 const BotNavBar = () => {
     return (
         <nav className="bg-white fixed bottom-0 w-full h-[64px]  flex justify-center border-t-8 border-secondary">
-            <div className="h-16 flex  bg-white w-[80vw] ml-auto mr-auto ">
+            <div className="h-12 flex  bg-white w-[80vw] ml-auto mr-auto ">
                 <Link to="/feed" className="flex items-center m-auto">
                     <NavBarIcon icon={<FaHome size={24} />} text="Home" />
                 </Link>
