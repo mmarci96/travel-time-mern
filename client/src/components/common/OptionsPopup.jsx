@@ -18,14 +18,13 @@ const OptionsPopup = ({ options }) => {
         options?.length > 0 && (
             <div
                 ref={popupRef}
-                className={`absolute flex flex-col bg-white rounded-lg px-2 py-1 ring-1 ring-cyan-200 w-[200px] z-10 shadow-lg 
-                transition-all duration-200 ease-out transform ${
-                    isVisible
+                className={`absolute flex flex-col bg-white rounded-lg px-2 py-1 ring-1 ring-cyan-200 w-[200px] z-50 shadow-lg 
+                transition-all duration-200 ease-out transform ${isVisible
                         ? 'opacity-100 scale-100 translate-y-0'
                         : positionUp
-                          ? 'opacity-0 scale-95 translate-y-2'
-                          : 'opacity-0 scale-95 -translate-y-2'
-                }`}
+                            ? 'opacity-0 scale-95 translate-y-2'
+                            : 'opacity-0 scale-95 -translate-y-2'
+                    }`}
                 style={{
                     right: '0',
                     ...(positionUp ? { bottom: '100%' } : {}),
