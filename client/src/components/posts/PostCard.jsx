@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import LoadAnimation from '../common/LoadAnimation.jsx';
 import PostOwnerOptions from './PostOwnerOptions.jsx';
+import useAuthContext from '../../hooks/useAuthContext.js';
 
-const PostCard = ({ post, currentUserId, onDeleteCount }) => {
+const PostCard = ({ post, onDeleteCount }) => {
     const [likedByUser, setLikedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
+    const { currentUserId } = useAuthContext()
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });
