@@ -4,7 +4,6 @@ import TopNavBar from './components/navigation/TopNavBar.jsx';
 import BotNavBar from './components/navigation/BotNavBar.jsx';
 import LoadAnimation from './components/common/LoadAnimation.jsx';
 import UserRegistration from './components/users/UserRegistration.jsx';
-import AnimatedComponent from './components/common/AnimatedComponent.jsx';
 
 const Home = lazy(() => import('./scenes/Home'));
 const PageNotFound = lazy(() => import('./scenes/PageNotFound'));
@@ -21,26 +20,23 @@ const PostEditor = lazy(() => import('./scenes/PostEditor.jsx'));
 function App() {
     return (
         <BrowserRouter>
-            <AnimatedComponent children={
-                <>
-                    <TopNavBar />
-                    <Suspense fallback={<LoadAnimation />}>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/feed" element={<Feed />} />
-                            <Route path="/create" element={<Create />} />
-                            <Route path="/my-account" element={<MyAccount />} />
-                            <Route path="/notifications" element={<Notifications />} />
-                            <Route path="/discover" element={<Discover />} />
-                            <Route path="/profile/:userId" element={<Profile />} />
-                            <Route path="/post/:postId" element={<Post />} />
-                            <Route path="/post/edit/:postId" element={<PostEditor />} />
-                            <Route path="*" element={<PageNotFound />} />
-                            <Route path="/test" element={<TesterScene />} />
-                            <Route path="/userdetails" element={<UserRegistration />} />
-                        </Routes>
-                    </Suspense>
-                </>} />
+            <TopNavBar />
+            <Suspense fallback={<LoadAnimation />}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/feed" element={<Feed />} />
+                    <Route path="/create" element={<Create />} />
+                    <Route path="/my-account" element={<MyAccount />} />
+                    <Route path="/notifications" element={<Notifications />} />
+                    <Route path="/discover" element={<Discover />} />
+                    <Route path="/profile/:userId" element={<Profile />} />
+                    <Route path="/post/:postId" element={<Post />} />
+                    <Route path="/post/edit/:postId" element={<PostEditor />} />
+                    <Route path="*" element={<PageNotFound />} />
+                    <Route path="/test" element={<TesterScene />} />
+                    <Route path="/userdetails" element={<UserRegistration />} />
+                </Routes>
+            </Suspense>
             <BotNavBar />
         </BrowserRouter>
     );

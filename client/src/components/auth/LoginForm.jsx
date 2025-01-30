@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button.jsx';
-import FormField from '../common/FormField.jsx';
 import useAuthContext from '../../hooks/useAuthContext.js';
+import UniversalForm from '../common/UniversalForm.jsx';
 
 const LoginForm = () => {
     const [error, setError] = useState(null);
@@ -51,29 +51,14 @@ const LoginForm = () => {
     };
 
     return (
-        <form
+        <UniversalForm
             onSubmit={handleSubmit}
-            className="min-w-[280px] max-w-[480px] w-full"
-        >
-            <FormField
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <FormField
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            {error && <p className="text-red-500">{error}</p>}
-            <Button type="submit" disabled={loading}>
-                {loading ? 'Logging in...' : 'Login'}
-            </Button>
-        </form>
+            formData={formData}
+            onChange={handleChange}
+            loading={loading}
+            error={error}
+            submitText="Login"
+        />
     );
 };
 

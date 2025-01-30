@@ -21,9 +21,9 @@ const ToggleForms = () => {
                     : 'Already have an account?'}
             </p>
             <Button
-                children={hasAccount ? 'Register' : 'Log in'}
+                children={hasAccount ? 'Create account' : 'Sign in'}
                 onClick={handleToggle}
-                color={'green'}
+                color={'cyan'}
             />
         </div>
     );
