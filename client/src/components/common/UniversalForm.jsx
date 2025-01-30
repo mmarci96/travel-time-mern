@@ -1,4 +1,5 @@
 import FormField from './FormField';
+import LoadAnimation from './LoadAnimation';
 
 const UniversalForm = ({
     onSubmit,
@@ -39,12 +40,16 @@ const UniversalForm = ({
                         />
                     ),
                 )}
-                <button
-                    type="submit"
-                    className="rounded-lg mx-auto bg-green-400 text-white font-bold hover:bg-green-600 px-3 py-2 m-4"
-                >
-                    {loading ? 'Loading...' : 'Submit'}
-                </button>
+                {loading ? (
+                    <LoadAnimation />
+                ) : (
+                    <button
+                        type="submit"
+                        className="rounded-lg mx-auto bg-green-400 text-white font-bold hover:bg-green-600 px-3 py-2 m-4"
+                    >
+                        Submit
+                    </button>
+                )}
             </form>
             {error && (
                 <p className="text-red-500 font-bolder text-lg">{error}</p>

@@ -3,7 +3,6 @@ import useAuthRequest from '../../hooks/useAuthRequest.js';
 import useAuthContext from '../../hooks/useAuthContext.js';
 import LoadAnimation from '../common/LoadAnimation.jsx';
 import PostCard from './PostCard.jsx';
-import LoginAlert from '../common/LoginAlert.jsx';
 import Button from '../common/Button.jsx';
 import PostControls from './PostControls.jsx';
 
@@ -12,7 +11,7 @@ const PostList = () => {
     const [search, setSearch] = useState('');
     const [limit, setLimit] = useState(8);
     const [sort, setSort] = useState('created_at');
-    const [asc, setAsc] = useState(false);
+    const [asc, setAsc] = useState(true);
     const [filters, setFilters] = useState(null);
     const [showControls, setShowControls] = useState(false);
     const [deleteCount, setDeleteCount] = useState(0);
