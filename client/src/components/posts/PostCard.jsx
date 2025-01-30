@@ -11,7 +11,7 @@ const PostCard = ({ post, onDeleteCount }) => {
     const [likedByUser, setLikedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
-    const { currentUserId } = useAuthContext()
+    const { currentUserId } = useAuthContext();
     const handleLike = async (method) => {
         const postId = post.id;
         const data = await sendRequest('/api/likes', method, { postId });

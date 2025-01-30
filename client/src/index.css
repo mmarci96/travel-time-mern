@@ -6,38 +6,31 @@
   html {
     font-family: 'Inter', sans-serif;
   }
+
   body {
     padding-bottom: 80px;
     background-color: white;
   }
 }
+
 @layer components {
   .btn {
     @apply bg-cyan-500 text-white font-bold py-2 px-4 rounded hover:bg-cyan-700 transition duration-300 ease-in-out;
   }
+
   form {
     @apply flex flex-col rounded p-4 mx-auto;
   }
+
   .navbar-icon {
-    @apply relative flex items-center justify-center
-    h-12 w-12 mt-2 mb-2 mx-auto
-    bg-cyan-300 hover:bg-cyan-600
-    text-slate-800 hover:text-white
-    hover:rounded-xl rounded-3xl
-    transition-all duration-300 ease-linear
-    cursor-pointer shadow-lg;
+    @apply relative flex items-center justify-center h-10 w-10 mt-2 mb-2 mx-auto bg-cyan-300 hover:bg-cyan-600 text-slate-800 hover:text-white hover:rounded-xl rounded-3xl transition-all duration-300 ease-linear cursor-pointer shadow-lg;
   }
 
   .navbar-tooltip {
-    @apply absolute w-auto p-2 m-2 min-w-max -top-12 rounded-md shadow-md
-    text-white bg-gray-900
-    text-xs font-bold
-    transition-all duration-100 scale-0 origin-top;
+    @apply absolute w-auto p-2 m-2 min-w-max -top-12 rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-top;
   }
 
   .navbar-hr {
-    @apply bg-cyan-700
-    border border-gray-200 rounded-full
-    mx-2;
+    @apply bg-cyan-700 border border-gray-200 rounded-full mx-2;
   }
 }
