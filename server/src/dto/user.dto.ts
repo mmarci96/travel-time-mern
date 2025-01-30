@@ -59,7 +59,7 @@ export interface UserDetailsNewDTO {
 }
 
 export interface UserDetailsRequestDTO {
-    id: Schema.Types.ObjectId;
+    id: Types.ObjectId;
     first_name?: string;
     last_name?: string;
     birthdate?: Date | null;
