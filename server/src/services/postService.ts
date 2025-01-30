@@ -151,6 +151,14 @@ export const deletePost = async (
             logging: true,
         });
     }
+    const post = await PostModel.findById(post_id);
+    
+    if (post?.author_id.toString() !== author_id.toString()) {
+        throw new BadRequestError({
+            code: 403,
+            message: 'Unauthorized to delete post!',
+        });
+    }
 
     await PostModel.findByIdAndDelete(post_id);
 
@@ -169,11 +177,11 @@ export const updatePost = async (
             logging: true,
         });
     }
-    if (!author_id) {
+    const post = await PostModel.findById(post_id);
+    if (post?.author_id.toString() !== author_id.toString()) {
         throw new BadRequestError({
             code: 403,
-            message: 'No permission to update this post!',
-            logging: true,
+            message: 'Unauthorized to edit post!',
         });
     }
 
