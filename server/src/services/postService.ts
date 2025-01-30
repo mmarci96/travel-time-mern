@@ -151,16 +151,17 @@ export const deletePost = async (
             logging: true,
         });
     }
-    const post = await PostModel.findById(post_id);
     
-    if (post?.author_id.toString() !== author_id.toString()) {
+    const deleteState = await PostModel.findByIdAndDelete(
+        { _id: post_id, author_id }
+    );
+    if(!deleteState){
         throw new BadRequestError({
             code: 403,
-            message: 'Unauthorized to delete post!',
+            message: 'Unauthorized or post not found!',
         });
     }
-
-    await PostModel.findByIdAndDelete(post_id);
+    
 
     return { message: 'Post deleted successfully', status: 202 };
 };
@@ -177,27 +178,17 @@ export const updatePost = async (
             logging: true,
         });
     }
-    const post = await PostModel.findById(post_id);
-    if (post?.author_id.toString() !== author_id.toString()) {
-        throw new BadRequestError({
-            code: 403,
-            message: 'Unauthorized to edit post!',
-        });
-    }
 
-    const updatedPost = await PostModel.findByIdAndUpdate(
-        post_id,
-        {
-            ...updateData,
-            updated_at: new Date(),
-        },
-        { new: true },
+    const updatedPost = await PostModel.findOneAndUpdate(
+        { _id: post_id, author_id }, 
+        { ...updateData, updated_at: new Date() },
+        { new: true } 
     );
+
     if (!updatedPost) {
         throw new BadRequestError({
-            code: 400,
-            message: 'Failed to update post',
-            logging: true,
+            code: 403, // Change to 403 if unauthorized, 400 if post doesn't exist
+            message: 'Unauthorized or post not found!',
         });
     }
 
