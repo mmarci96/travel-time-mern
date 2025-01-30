@@ -6,8 +6,8 @@ export default function ProfileMenu({ user }) {
     const { deleteToken } = useAuthContext();
 
     return (
-        <Menu as="div" className="relative ml-3">
-            <MenuButton className="relative mt-3 mr-3 flex rounded-full text-sm focus:outline-none">
+        <Menu as="div" className="relative my-auto">
+            <MenuButton className="relative mr-2 flex rounded-full text-sm focus:outline-none">
                 <CgProfile size={36} />
             </MenuButton>
             <MenuItems
