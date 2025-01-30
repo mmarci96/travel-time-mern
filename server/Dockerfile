@@ -1,17 +1,24 @@
-
-FROM node:23.4.0-alpine AS backend
+FROM node:23.4.0-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-
 COPY tsconfig.json ./
 
-RUN npm install
+RUN npm install 
 
 COPY src ./src
 
 RUN npm run build
+
+FROM node:23.4.0-alpine AS runtime
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+USER node
 
 CMD ["node", "dist/app.js"]
 
