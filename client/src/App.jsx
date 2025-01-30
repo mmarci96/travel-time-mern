@@ -40,8 +40,8 @@ function App() {
                             <Route path="/userdetails" element={<UserRegistration />} />
                         </Routes>
                     </Suspense>
-                    <BotNavBar />
                 </>} />
+            <BotNavBar />
         </BrowserRouter>
     );
 }
