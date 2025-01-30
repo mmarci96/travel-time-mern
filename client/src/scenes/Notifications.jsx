@@ -4,6 +4,7 @@ import NotificationCard from '../components/notifications/NotificationCard';
 import LoadAnimation from '../components/common/LoadAnimation';
 import useAuthContext from '../hooks/useAuthContext';
 import LoginAlert from '../components/common/LoginAlert';
+import AnimatedComponent from '../components/common/AnimatedComponent';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
@@ -48,16 +49,20 @@ const Notifications = () => {
                 </p>
             )}
             {notifications && notifications.length > 0 ? (
-                <ul className="w-full">
-                    {notifications.map((notification) => (
-                        <li key={notification.id} className="mb-4">
-                            <NotificationCard
-                                notification={notification}
-                                onMarkAsRead={handleMarkRead}
-                            />
-                        </li>
-                    ))}
-                </ul>
+                <AnimatedComponent
+                    children={
+                        <ul className="w-full">
+                            {notifications.map((notification) => (
+                                <li key={notification.id} className="mb-4">
+                                    <NotificationCard
+                                        notification={notification}
+                                        onMarkAsRead={handleMarkRead}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                />
             ) : (
                 !loading && (
                     <p className="text-center text-gray-500">

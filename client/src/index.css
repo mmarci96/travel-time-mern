@@ -13,6 +13,16 @@
   }
 }
 
+@layer utilities {
+  .animate-fade-in {
+    @apply opacity-0 scale-95 translate-y-2 transition-all duration-200 ease-out;
+  }
+
+  .animate-fade-in-active {
+    @apply opacity-100 scale-100 translate-y-0;
+  }
+}
+
 @layer components {
   .btn {
     @apply bg-cyan-500 text-white font-bold py-2 px-4 rounded hover:bg-cyan-700 transition duration-300 ease-in-out;

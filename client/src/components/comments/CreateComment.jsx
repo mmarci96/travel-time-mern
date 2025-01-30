@@ -26,11 +26,11 @@ const CreateComment = ({ postId, onCreateCount }) => {
 
     return (
         <form
-            className="flex flex-row w-[60vw] min-w-[320px] max-w-[480px] items-center justify-between p-3 border-t border-gray-300 bg-white mt-2"
+            className="flex flex-row w-full mx-2 items-center justify-between p-3 border-t border-gray-300 bg-white mt-auto"
             onSubmit={handleSubmit}
         >
             <input
-                className="flex-1 mr-2 p-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="flex-1 mr-2 p-2 text-md border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
                 type="text"
                 name="content"
                 placeholder="Write a comment..."
