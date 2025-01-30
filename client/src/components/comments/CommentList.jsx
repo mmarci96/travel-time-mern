@@ -27,10 +27,8 @@ const CommentList = ({ postId }) => {
 
     return (
         <div className="flex flex-col ring-1 rounded-lg p-1 shadow-slate-400 shadow-md my-4 items-center mx-auto w-[64vw] min-w-[360px] max-w-[480px] max-h-[640px] ">
-            {/* The list of comments */}
             <ul className="flex flex-col items-center overflow-y-auto h-[64vh] w-full ">
-                {comments &&
-                    comments.length &&
+                {comments ?
                     comments.map((comment) => (
                         <li
                             key={comment.id}
@@ -41,10 +39,10 @@ const CommentList = ({ postId }) => {
                                 onDeleteCount={setCommandCounter}
                             />
                         </li>
-                    ))}
+                    )) : <p className='italic text-slate-600 m-4 mr-auto'> Nobody has commented on this post yet...</p>
+                }
             </ul>
 
-            {/* The comment form */}
             <CreateComment postId={postId} onCreateCount={setCommandCounter} />
         </div>
     );
