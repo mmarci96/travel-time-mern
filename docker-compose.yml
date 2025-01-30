@@ -13,13 +13,14 @@ services:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - JWT_REFRESH_SECRET_KEY=${JWT_REFRESH_SECRET_KEY}
-      - UPLOAD_PATH=${UPLOAD_PATH}
       - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      - AWS_REGION=${AWS_REGION}
     depends_on:
       - mongodb
-    command: ["sh", "-c", "npm run seed && node dist/app"]
+    # command: ["sh", "-c", "npm run seed && node dist/app"]
 
   frontend:
     build:
@@ -29,6 +30,18 @@ services:
       - travel-time-server
     ports:
       - "80:80"  
+
+  seeder:
+    build:
+      context: ./server  # Same as backend build
+    container_name: seeder
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    command: ["sh", "-c", "node dist/scripts/seed.js"]
+    restart: "no"  # Ensures it runs only once and exits
+
 
 volumes:
   mongo-data:
