@@ -28,7 +28,6 @@ const SignupForm = ({ onSuccess }) => {
             setError(data.error.message);
             return;
         }
-        console.log(data);
         onSuccess(true);
 
         setLoading(false);
