@@ -4,23 +4,24 @@ import useNotificationContext from '../../hooks/useNotificationContext';
 import useAuthContext from '../../hooks/useAuthContext';
 
 const NotificationIndicator = () => {
-    const { notificationCounter, updateNotificationCounter } = useNotificationContext()
+    const { notificationCounter, updateNotificationCounter } =
+        useNotificationContext();
     const { sendRequest } = useAuthRequest();
-    const { currentUserId } = useAuthContext()
+    const { currentUserId } = useAuthContext();
 
     useEffect(() => {
         const fetchNotificationCount = async () => {
-            const data = await sendRequest('/api/notifications/unread', 'GET')
+            const data = await sendRequest('/api/notifications/unread', 'GET');
             if (!data) {
-                updateNotificationCounter(0)
-                return
+                updateNotificationCounter(0);
+                return;
             }
             if (data.notifications) {
-                updateNotificationCounter(data.notifications)
+                updateNotificationCounter(data.notifications);
             }
-        }
+        };
 
-        fetchNotificationCount()
+        fetchNotificationCount();
     }, [currentUserId]);
 
     return (

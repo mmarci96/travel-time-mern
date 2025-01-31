@@ -151,17 +151,17 @@ export const deletePost = async (
             logging: true,
         });
     }
-    
-    const deleteState = await PostModel.findByIdAndDelete(
-        { _id: post_id, author_id }
-    );
-    if(!deleteState){
+
+    const deleteState = await PostModel.findByIdAndDelete({
+        _id: post_id,
+        author_id,
+    });
+    if (!deleteState) {
         throw new BadRequestError({
             code: 403,
             message: 'Unauthorized or post not found!',
         });
     }
-    
 
     return { message: 'Post deleted successfully', status: 202 };
 };
@@ -180,9 +180,9 @@ export const updatePost = async (
     }
 
     const updatedPost = await PostModel.findOneAndUpdate(
-        { _id: post_id, author_id }, 
+        { _id: post_id, author_id },
         { ...updateData, updated_at: new Date() },
-        { new: true } 
+        { new: true },
     );
 
     if (!updatedPost) {

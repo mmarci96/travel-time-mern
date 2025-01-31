@@ -17,9 +17,7 @@ const CommentCard = ({ comment, onDeleteCount }) => {
                 />
             ) : (
                 <>
-                    <p className="mx-2 text-md  italic">
-                        {comment.content},
-                    </p>
+                    <p className="mx-2 text-md  italic">{comment.content},</p>
                     <p className="italic text-md">
                         {comment.author_name},
                         {new Date(comment?.created_at).toDateString()}

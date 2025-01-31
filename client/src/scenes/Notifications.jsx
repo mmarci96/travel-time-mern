@@ -28,7 +28,7 @@ const Notifications = () => {
                         : notification,
                 ),
             );
-            updateNotificationCounter(prevCount => prevCount - 1)
+            updateNotificationCounter((prevCount) => prevCount - 1);
         }
     };
 

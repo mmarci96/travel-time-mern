@@ -74,9 +74,10 @@ export const deleteComment = async (
         throwMissingArgsError('author id or comment id');
     }
 
-    const result = await CommentModel.findByIdAndDelete(
-        { _id: comment_id, author_id }
-    );
+    const result = await CommentModel.findByIdAndDelete({
+        _id: comment_id,
+        author_id,
+    });
     if (!result) {
         throw new BadRequestError({
             code: 404,
