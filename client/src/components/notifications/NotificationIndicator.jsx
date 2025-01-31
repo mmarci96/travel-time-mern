@@ -1,23 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest';
+import useNotificationContext from '../../hooks/useNotificationContext';
+import useAuthContext from '../../hooks/useAuthContext';
 
 const NotificationIndicator = () => {
-    const [notificationCounter, setNotificationCounter] = useState(0);
+    const { notificationCounter, updateNotificationCounter } = useNotificationContext()
     const { sendRequest } = useAuthRequest();
+    const { currentUserId } = useAuthContext()
 
     useEffect(() => {
-        sendRequest('/api/notifications/unread', 'GET')
-            .then((data) =>
-                data.notifications
-                    ? setNotificationCounter(data.notifications)
-                    : setNotificationCounter(0),
-            )
-            .catch((e) => console.error(e));
-    }, []);
+        const fetchNotificationCount = async () => {
+            const data = await sendRequest('/api/notifications/unread', 'GET')
+            if (!data) {
+                updateNotificationCounter(0)
+                return
+            }
+            if (data.notifications) {
+                updateNotificationCounter(data.notifications)
+            }
+        }
+
+        fetchNotificationCount()
+    }, [currentUserId]);
 
     return (
         notificationCounter > 0 && (
-            <div className="rounded-full bg-red-500 text-white p-2 font-bold w-8 h-8 flex items-center justify-center">
+            <div className="rounded-full bg-red-500 text-white p-2 font-bold w-6 h-6 flex items-center justify-center absolute top-1 ml-6 mr-auto">
                 {notificationCounter}
             </div>
         )

@@ -5,8 +5,8 @@ export const AuthContext = createContext({
     token: null,
     currentUserId: null,
     isAuthenticated: false,
-    saveToken: () => {},
-    deleteToken: () => {},
+    saveToken: () => { },
+    deleteToken: () => { },
     loading: true,
 });
 
@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token_expiry');
         setToken(null);
         setIsAuthenticated(false);
+        setCurrentUserId(null)
     };
 
     const getUserId = async () => {

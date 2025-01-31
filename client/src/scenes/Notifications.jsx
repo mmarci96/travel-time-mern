@@ -5,11 +5,13 @@ import LoadAnimation from '../components/common/LoadAnimation';
 import useAuthContext from '../hooks/useAuthContext';
 import LoginAlert from '../components/common/LoginAlert';
 import AnimatedComponent from '../components/common/AnimatedComponent';
+import useNotificationContext from '../hooks/useNotificationContext';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
     const { isAuthenticated } = useAuthContext();
     const { error, loading, sendRequest } = useAuthRequest();
+    const { updateNotificationCounter } = useNotificationContext();
 
     const handleMarkRead = async (notificationId) => {
         const data = { notificationId };
@@ -26,6 +28,7 @@ const Notifications = () => {
                         : notification,
                 ),
             );
+            updateNotificationCounter(prevCount => prevCount - 1)
         }
     };
 
