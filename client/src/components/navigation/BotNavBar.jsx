@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { FaPlusSquare, FaSearch, FaUser, FaHome, FaBell } from 'react-icons/fa';
 import NotificationIndicator from '../notifications/NotificationIndicator';
+import useAuthContext from '../../hooks/useAuthContext';
 
 const BotNavBar = () => {
+    const { isAuthenticated } = useAuthContext()
     return (
+        isAuthenticated &&
         <nav className="bg-white fixed bottom-0 w-full h-[64px]  flex justify-center border-t-8 border-secondary">
             <div className="h-12 flex  bg-white w-[80vw] ml-auto mr-auto ">
                 <Link to="/feed" className="flex items-center m-auto">
