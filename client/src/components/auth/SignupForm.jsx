@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import FormField from '../common/FormField.jsx';
-import Button from '../common/Button.jsx';
+import UniversalForm from '../common/UniversalForm';
 
 const SignupForm = ({ onSuccess }) => {
     const [error, setError] = useState(null);
@@ -29,42 +28,19 @@ const SignupForm = ({ onSuccess }) => {
             setError(data.error.message);
             return;
         }
-        console.log(data);
         onSuccess(true);
 
         setLoading(false);
     };
     return (
-        <form
+        <UniversalForm
             onSubmit={handleSubmit}
-            className="min-w-[280px] max-w-[480px] w-full"
-        >
-            <FormField
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <FormField
-                name="username"
-                label="Username"
-                type="text"
-                value={formData.username}
-                onChange={handleChange}
-            />
-            <FormField
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            <Button type={'submit'}>
-                {loading ? 'Signing up...' : 'Signup'}
-            </Button>
-        </form>
+            formData={formData}
+            onChange={handleChange}
+            loading={loading}
+            error={error}
+            submitText="Sign up!"
+        />
     );
 };
 

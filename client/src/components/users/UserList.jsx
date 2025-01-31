@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useAuthRequest from '../../hooks/useAuthRequest';
 import UserInfoCard from './UserInfoCard';
 import LoadAnimation from '../common/LoadAnimation';
+import AnimatedComponent from '../common/AnimatedComponent';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -34,13 +35,17 @@ const UserList = () => {
             )}
 
             {!loading && !error && users.length > 0 && (
-                <ul className="flex flex-wrap justify-around gap-4">
-                    {users.map((userInfo) => (
-                        <li key={userInfo.id}>
-                            <UserInfoCard userInfo={userInfo} />
-                        </li>
-                    ))}
-                </ul>
+                <AnimatedComponent
+                    children={
+                        <ul className="flex flex-wrap justify-around gap-4">
+                            {users.map((userInfo) => (
+                                <li key={userInfo.id}>
+                                    <UserInfoCard userInfo={userInfo} />
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                />
             )}
 
             {!loading && !error && users.length === 0 && (
