@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token_expiry');
         setToken(null);
         setIsAuthenticated(false);
+        setCurrentUserId(null);
     };
 
     const getUserId = async () => {

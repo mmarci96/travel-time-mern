@@ -48,7 +48,7 @@ router.patch(
         try {
             const author_id = req.userId as Types.ObjectId;
             const { content, comment_id } = req.body;
-            
+
             const updatedComment = await updateComment(
                 author_id,
                 comment_id,

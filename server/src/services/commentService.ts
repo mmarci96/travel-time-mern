@@ -74,20 +74,14 @@ export const deleteComment = async (
         throwMissingArgsError('author id or comment id');
     }
 
-    const comment = await CommentModel.findOne({ _id: comment_id, author_id });
-
-    if (!comment)
-        throw new BadRequestError({
-            code: 403,
-            message: 'No permission to delete this comment',
-            logging: true,
-        });
-
-    const result = await CommentModel.findByIdAndDelete(comment_id);
+    const result = await CommentModel.findByIdAndDelete({
+        _id: comment_id,
+        author_id,
+    });
     if (!result) {
         throw new BadRequestError({
             code: 404,
-            message: 'Comment not found',
+            message: 'Comment not found or you are unauthorized!',
             logging: true,
         });
     }
@@ -105,7 +99,7 @@ export const updateComment = async (
     }
 
     const updatedComment = await CommentModel.findByIdAndUpdate(
-        comment_id,
+        { _id: comment_id, author_id },
         { content, updated_at: new Date() },
         { new: true },
     );
@@ -113,7 +107,7 @@ export const updateComment = async (
     if (!updatedComment) {
         throw new BadRequestError({
             code: 404,
-            message: 'Comment not found',
+            message: 'Comment not found or you are unauthorized!',
             logging: true,
         });
     }

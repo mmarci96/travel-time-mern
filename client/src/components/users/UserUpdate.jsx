@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext.js';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
-import Button from '../common/Button.jsx';
 import UserForm from './UserForm.jsx';
 
 function UserUpdate({}) {
@@ -57,7 +56,7 @@ function UserUpdate({}) {
                 }
 
                 const { posts } = await sendRequest(
-                    `/api/posts/by-author/${userId}`,
+                    `/api/posts/by-author/${currentUserId}`,
                     'GET',
                 );
                 if (posts) {

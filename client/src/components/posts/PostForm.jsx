@@ -51,10 +51,8 @@ const PostForm = ({ postId }) => {
             } else {
                 response = await sendRequest('/api/posts', 'POST', formData);
                 const id = response.id;
-                setTimeout(() => {
-                    navigate(`/post/edit/${id}`);
-                    window.location.reload();
-                }, 2000);
+
+                id && navigate(`/post/${id}`);
             }
 
             if (!response || response.error) {

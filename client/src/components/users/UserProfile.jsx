@@ -32,7 +32,7 @@ const UserProfile = ({ userId }) => {
         const fetchUserDetails = async () => {
             try {
                 const { user } = await sendRequest(
-                    `/api/users/${currentUserId}`,
+                    `/api/users/${userId}`,
                     'GET',
                 );
                 if (user) {

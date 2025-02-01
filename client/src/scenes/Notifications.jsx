@@ -4,11 +4,14 @@ import NotificationCard from '../components/notifications/NotificationCard';
 import LoadAnimation from '../components/common/LoadAnimation';
 import useAuthContext from '../hooks/useAuthContext';
 import LoginAlert from '../components/common/LoginAlert';
+import AnimatedComponent from '../components/common/AnimatedComponent';
+import useNotificationContext from '../hooks/useNotificationContext';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
     const { isAuthenticated } = useAuthContext();
     const { error, loading, sendRequest } = useAuthRequest();
+    const { updateNotificationCounter } = useNotificationContext();
 
     const handleMarkRead = async (notificationId) => {
         const data = { notificationId };
@@ -25,6 +28,7 @@ const Notifications = () => {
                         : notification,
                 ),
             );
+            updateNotificationCounter((prevCount) => prevCount - 1);
         }
     };
 
@@ -48,16 +52,20 @@ const Notifications = () => {
                 </p>
             )}
             {notifications && notifications.length > 0 ? (
-                <ul className="w-full">
-                    {notifications.map((notification) => (
-                        <li key={notification.id} className="mb-4">
-                            <NotificationCard
-                                notification={notification}
-                                onMarkAsRead={handleMarkRead}
-                            />
-                        </li>
-                    ))}
-                </ul>
+                <AnimatedComponent
+                    children={
+                        <ul className="w-full">
+                            {notifications.map((notification) => (
+                                <li key={notification.id} className="mb-4">
+                                    <NotificationCard
+                                        notification={notification}
+                                        onMarkAsRead={handleMarkRead}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                />
             ) : (
                 !loading && (
                     <p className="text-center text-gray-500">

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npm run format && vite",
-    "build": "npm run format && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write ."
