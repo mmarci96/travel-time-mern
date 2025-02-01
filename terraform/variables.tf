@@ -10,6 +10,17 @@ variable "aws_profile" {
   default     = "default"
 }
 
+variable "role_name_prefix" {
+  description = "Prefix for the IAM role name"
+  type        = string
+  default     = "eks-"
+}
+
+variable "environment" {
+  description = "Deployment environment"
+  type        = string
+  default     = "dev"
+}
 
 variable "cluster_name" {
   type        = string
