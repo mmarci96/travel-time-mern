@@ -14,7 +14,9 @@ FROM nginx:alpine
 
 COPY  --from=client ./app/dist /usr/share/nginx/html
 
-COPY default.conf /etc/nginx/conf.d/default.conf
+ARG nginx_config=nginx.conf
+
+COPY $nginx_config /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
