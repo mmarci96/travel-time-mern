@@ -40,8 +40,20 @@ variable "desired_node_count" {
   default     = 3
 }
 
-variable "instance_type" {
-  type        = string
-  description = "Instance type for worker nodes"
-  default     = "t3.medium"
+variable "ecr_repositories" {
+  type        = map(string)
+  description = "Map of repository names and their configurations"
+  default = {
+    "traveltime-client-ecr" = "TravelTime Client Repository"
+    "traveltime-server-ecr" = "TravelTime Server Repository"
+  }
 }
+
+variable "docker_images" {
+  description = "Map of Docker image names to their corresponding directories"
+  type = map(object({
+    directory       = string
+    repository_name = string
+  }))
+}
+
