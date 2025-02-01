@@ -13,3 +13,7 @@ module "eks" {
   source = "./modules/eks"
 }
 
+module "k8s" {
+    source = "./modules/k8s"
+}
+
