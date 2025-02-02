@@ -16,7 +16,7 @@ COPY  --from=client ./app/dist /usr/share/nginx/html
 
 ARG nginx_config=nginx.conf
 
-COPY $nginx_config /etc/nginx/conf.d/default.conf
+COPY ./$nginx_config /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
