@@ -53,7 +53,10 @@ const getS3Client = async () => {
     });
 };
 
-export const getStorage = () => multer({ storage: multer.memoryStorage() });
+export const getStorage = () => multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+});
 
 /**
  * Uploads a file to S3 with assumed IAM role.

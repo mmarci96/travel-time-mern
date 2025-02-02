@@ -1,21 +1,22 @@
 variable "cluster_name" {
-    type = string
-    default = "traveltime-eks-cluster"
+  type    = string
+  default = "traveltime-eks-cluster"
 }
 
 variable "mongo_uri" {
-    type = string
+  type = string
 }
 
 variable "jwt" {
-    type = string
+  type = string
 }
 
 variable "aws_region" {
-    type = string
-    default = "eu-north-1"
+  type    = string
+  default = "eu-north-1"
 }
 
 variable "img_storage_s3_bucket_name" {
-    type = string
+  type    = string
+  default = "travel-time-img-bucket"
 }
