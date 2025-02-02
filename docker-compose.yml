@@ -5,10 +5,10 @@ services:
     volumes:
       - mongo-data:/data/db
 
-  travel-time-server:
+  traveltime-server:
     build:
       context: ./server
-    container_name: travel-time-server
+    container_name: traveltime-server
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
@@ -20,17 +20,14 @@ services:
       - AWS_REGION=${AWS_REGION}
     depends_on:
       - mongodb
-      # command: ["sh", "-c", "npm run seed && node dist/app"]
 
 
   frontend:
     build:
       context: ./client
-      args:
-        nginx_conf: nginxlocal.conf
     container_name: frontend
     depends_on:
-      - travel-time-server
+      - traveltime-server
     ports:
       - "80:80"
 

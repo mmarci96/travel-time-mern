@@ -64,6 +64,11 @@ resource "kubernetes_deployment" "traveltime_client" {
                     name = "traveltime-client"
                     image = "390403884602.dkr.ecr.eu-north-1.amazonaws.com/traveltime-client:latest"
 
+                    env = {
+                        name = "ENV"
+                        value = "kubernetes"
+                    }
+
                     resources {
                         requests = {
                             cpu = "500m"
