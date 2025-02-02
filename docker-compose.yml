@@ -20,18 +20,20 @@ services:
       - AWS_REGION=${AWS_REGION}
     depends_on:
       - mongodb
-    # command: ["sh", "-c", "npm run seed && node dist/app"]
+      # command: ["sh", "-c", "npm run seed && node dist/app"]
+
 
   frontend:
     build:
       context: ./client
+      args:
+        nginx_conf: nginxlocal.conf
     container_name: frontend
-    args:
-      nginx_conf: nginx.conf.localhost
     depends_on:
       - travel-time-server
     ports:
-      - "80:80"  
+      - "80:80"
+
 
   seeder:
     build:
