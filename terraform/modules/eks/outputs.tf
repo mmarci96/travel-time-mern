@@ -18,4 +18,12 @@ output "cluster_name" {
   value       = module.eks.cluster_name
 }
 
+output "cluster_iam_role_arn" {
+  description = "Cluster IAM role ARN"
+  value       = module.eks.cluster_iam_role_arn
+}
+
+output "eks_module_outputs" {
+  value = module.eks
+}
 
