@@ -12,18 +12,17 @@ module "vpc" {
 module "eks" {
     source = "./modules/eks"
 }
-
 resource "aws_iam_role" "travel_time_server_s3_role" {
     name               = "TravelTimeServerS3AccessRole"
     assume_role_policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
             {
-                Effect = "Allow"
+                Effect    = "Allow"
                 Principal = {
                     Federated = "cognito-identity.amazonaws.com"
                 }
-                Action = "sts:AssumeRoleWithWebIdentity"
+                Action    = "sts:AssumeRoleWithWebIdentity"
                 Condition = {
                     StringEquals = {
                         "cognito-identity.amazonaws.com:aud" = "travel-time-server-s3-access-role"
@@ -31,13 +30,12 @@ resource "aws_iam_role" "travel_time_server_s3_role" {
                 }
             },
             {
-                Effect = "Allow"
+                Effect    = "Allow"
                 Principal = {
-                    AWS = "arn:aws:iam::390403884602:user/sarosdimarci@gmail.com"
+                    AWS = data.aws_iam_user.current_user.arn
                 }
-                Action = "sts:AssumeRole"
+                Action    = "sts:AssumeRole"
             },
-            # Dynamically adding EKS Managed Node Group Role ARNs
             {
                 Action    = "sts:AssumeRole"
                 Effect    = "Allow"
@@ -50,27 +48,27 @@ resource "aws_iam_role" "travel_time_server_s3_role" {
             }
         ]
     })
-
-    inline_policy {
-        name = "TravelTimeS3BucketAccessPolicy"
-        policy = jsonencode({
-            Version = "2012-10-17"
-            Statement = [
-                {
-                    Effect   = "Allow"
-                    Action   = [
-                        "s3:ListBucket",
-                        "s3:GetObject",
-                        "s3:PutObject",
-                        "s3:DeleteObject"
-                    ]   
-                    Resource = [
-                        "arn:aws:s3:::travel-time-img-bucket",
-                        "arn:aws:s3:::travel-time-img-bucket/*"
-                    ]
-                }
-            ]
-        })
-    }
 }
 
+resource "aws_iam_role_policy" "travel_time_s3_bucket_access_policy" {
+    name   = "TravelTimeS3BucketAccessPolicy"
+    role   = aws_iam_role.travel_time_server_s3_role.id
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Effect   = "Allow"
+                Action   = [
+                    "s3:ListBucket",
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject"
+                ]
+                Resource = [
+                    "arn:aws:s3:::travel-time-img-bucket",
+                    "arn:aws:s3:::travel-time-img-bucket/*"
+                ]
+            }
+        ]
+    })
+}
