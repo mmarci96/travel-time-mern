@@ -46,7 +46,8 @@ const PostCard = ({ post, onDeleteCount }) => {
                         />
                     </Link>
                     <span className="flex flex-col">
-                        <h3 className="post-title text-lg px-2  mb-1 max-h-[16vh] overflow-hidden text-ellipsis">
+                        <h3 className="post-title text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
+
                             {post.title}
                         </h3>
                     </span>
