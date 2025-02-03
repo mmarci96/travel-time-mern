@@ -21,7 +21,8 @@ A social media app about traveling with a **TypeScript Express backend** and **R
    - [Image Upload - AWS S3 Bucket Setup & Cleanup Guide](#image-upload---aws-s3-bucket-setup--cleanup-guide)
      - [Requirements](#requirements)
      - [Setup Instructions](#setup-instructions)
-7. [Naming Conventions](#naming-conventions)
+7. [Demo](#demo)
+8. [Naming Conventions](#naming-conventions)
 
 ## Collaboration
 
@@ -46,7 +47,7 @@ We started to develop a social website focused on travelling and sharing experie
 
 We implemented a **basic security system** and **picture sharing**.
 
-Technologies & Tools Used:   
+Technologies & Tools Used:  
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
@@ -57,9 +58,11 @@ Technologies & Tools Used:
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Terraform](https://img.shields.io/badge/Terraform-623CE4?style=for-the-badge&logo=terraform&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+
 ---
 
 ## Quick start
+
 ### Prerequisites
 
 Ensure the following are installed on your system:
@@ -71,11 +74,11 @@ Ensure the following are installed on your system:
 ### Docker Compose setup
 
 1. Verify installations:
-    ```bash
-    node -v
-    npm -v
-    docker -v
-    ```
+   ```bash
+   node -v
+   npm -v
+   docker -v
+   ```
 2. Copy the `.env.sample` file and rename it to `.env`:
 
    ```bash
@@ -127,7 +130,7 @@ In your `.env` file, make sure to set the following variables:
 
 Before proceeding, ensure you have:
 
-- ✅  **AWS CLI** installed and configured
+- ✅ **AWS CLI** installed and configured
 - ✅ **An AWS IAM user** with the required permissions to create **S3 buckets**, **IAM policies**, and **roles**
 
 ### Setup Instructions
@@ -159,6 +162,10 @@ Before proceeding, ensure you have:
    ```
 
 ---
+
+## Demo
+
+![Demo](./demo.gif)
 
 ## Naming Conventions
 
