@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Date, Types } from 'mongoose';
 
 interface ICountry extends Document {
   _id: Types.ObjectId;
-  country_name: string;
+  name: string;
   capital: string;
   continent: string;
   subregion: string;
@@ -16,15 +16,15 @@ interface ICountry extends Document {
 }
 
 const countrySchema =new Schema({
-  country_name: {type: String, required: true},
+  name: {type: String, required: true},
   capital: {type: String, required: true},
   continent: {type: String, required: true},
   subregion: {type: String, required: true},
   population: {type: String, required: true},
-  language: {type: String, required: true},
+  language: {type: String, required: false},
   start_of_week: {type: String, required: true},
   timezones: {type: String, required: true},
-  currency: {type: String, required: true},
+  currency: {type: String, required: false},
   created_at: {type: Date, default: Date.now},
   updated_at: {type: Date},
 })
