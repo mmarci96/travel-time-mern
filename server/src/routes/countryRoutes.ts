@@ -19,4 +19,16 @@ router.get(
     },
 );
 
+router.get(
+    '/:country_id',
+    authenticateToken,
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const country = await CountryModel.findById(req.params.country_id);
+            res.status(200).json({ country });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 export default router;

@@ -7,7 +7,7 @@ import countriesData from '../data/countries.json';
 
 const mongoUri =
     process.env.MONGO_URI ||
-    'mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db';
+    '';
 
 if (!mongoUri) {
     console.error('MongoDB URI is missing. Please check your .env file.');
