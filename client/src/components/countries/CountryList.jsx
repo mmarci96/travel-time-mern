@@ -11,24 +11,24 @@ function CountryList() {
   const [countries, setCountries] = useState([]);
   //const [search, setSearch] = useState('');
   //const [limit, setLimit] = useState(8);
- // const [sort, setSort] = useState('created_at');
+  // const [sort, setSort] = useState('created_at');
   //const [asc, setAsc] = useState(true);
   //const [showControls, setShowControls] = useState(false);
-  const {  isAuthenticated } = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
 
   const { sendRequest } = useAuthRequest();
 
   useEffect(() => {
     let url = `/api/countries/all`
 
-   // ?page=${1}&limit=${limit}&search=${search}&sort=${sort}&asc=${asc}`;
+    // ?page=${1}&limit=${limit}&search=${search}&sort=${sort}&asc=${asc}`;
 
     sendRequest(url, 'GET').then((data) =>
       data ? setCountries(data.countries) : setCountries([]),
     );
   }, [isAuthenticated]);
 
- // limit, sort, asc, search,
+  // limit, sort, asc, search,
 
   //const toggleSortOrder = () => {
   //  setAsc(!asc);
@@ -39,25 +39,29 @@ function CountryList() {
 
   return (
 
-      <ul>
+    <div className="container mx-auto p-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {countries?.length > 0 ? (
           countries.map((country) => (
-            <li key={country.id}>
-              <CountryCardLittle
-                country={country}
-               // onDeleteCount={setDeleteCount}
-              />
+            <li key={country.id} className="flex justify-center">
+              <CountryCardLittle country={country} />
             </li>
           ))
         ) : (
           <LoadAnimation />
         )}
-      </ul>);
+      </ul>
+    </div>
 
-    //  <div className="pagination-controls">
-      //  <Button onClick={handleNextPage} children="More" />
-      //</div>
-   // </div>
+
+  )
+
+
+  //  <div className="pagination-controls">
+  //  <Button onClick={handleNextPage} children="More" />
+  //</div>
+  // </div>
 
 }
+
 export default CountryList;
