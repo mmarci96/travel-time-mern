@@ -17,7 +17,7 @@ const assumeRole = async () => {
     try {
         const params = {
             RoleArn: AWS_ROLE_ARN!,
-            RoleSessionName: "S3UploadSession",
+            RoleSessionName: 'S3UploadSession',
         };
         console.log(AWS_ROLE_ARN);
 
@@ -25,10 +25,13 @@ const assumeRole = async () => {
         const response = await stsClient.send(command);
 
         if (!response.Credentials) {
-            throw new Error("Failed to assume IAM role. No credentials returned.");
+            throw new Error(
+                'Failed to assume IAM role. No credentials returned.',
+            );
         }
 
-        const { AccessKeyId, SecretAccessKey, SessionToken } = response.Credentials;
+        const { AccessKeyId, SecretAccessKey, SessionToken } =
+            response.Credentials;
 
         return {
             accessKeyId: AccessKeyId!,
@@ -36,7 +39,7 @@ const assumeRole = async () => {
             sessionToken: SessionToken!,
         };
     } catch (error) {
-        console.error("Error assuming IAM role:", error);
+        console.error('Error assuming IAM role:', error);
         throw error;
     }
 };
@@ -53,10 +56,11 @@ const getS3Client = async () => {
     });
 };
 
-export const getStorage = () => multer({
-    storage: multer.memoryStorage(),
-    limits: { fileSize: 10 * 1024 * 1024 },
-});
+export const getStorage = () =>
+    multer({
+        storage: multer.memoryStorage(),
+        limits: { fileSize: 10 * 1024 * 1024 },
+    });
 
 /**
  * Uploads a file to S3 with assumed IAM role.
@@ -80,7 +84,7 @@ const uploadFileToS3 = async (file: Express.Multer.File) => {
             url: `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${key}`,
         };
     } catch (error) {
-        console.error("Error uploading file to S3:", error);
+        console.error('Error uploading file to S3:', error);
         throw error;
     }
 };
@@ -108,7 +112,9 @@ export const mapUploadedFiles = async (
  */
 export const saveImage = async (filename: string, url: string) => {
     if (!filename || !url) {
-        throw new Error('Something went wrong uploading the image; filename or URL missing');
+        throw new Error(
+            'Something went wrong uploading the image; filename or URL missing',
+        );
     }
 
     const image = new ImageModel({
@@ -118,4 +124,3 @@ export const saveImage = async (filename: string, url: string) => {
 
     return await image.save();
 };
-

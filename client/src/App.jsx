@@ -4,6 +4,8 @@ import TopNavBar from './components/navigation/TopNavBar.jsx';
 import BotNavBar from './components/navigation/BotNavBar.jsx';
 import LoadAnimation from './components/common/LoadAnimation.jsx';
 import UserRegistration from './components/users/UserRegistration.jsx';
+import CountriesPage from './scenes/CountriesPage.jsx';
+import CountryDetail from './scenes/CountryDetail.jsx';
 
 const Home = lazy(() => import('./scenes/Home'));
 const PageNotFound = lazy(() => import('./scenes/PageNotFound'));
@@ -35,6 +37,8 @@ function App() {
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/test" element={<TesterScene />} />
                     <Route path="/userdetails" element={<UserRegistration />} />
+                    <Route path="/countries" element={<CountriesPage />} />
+                    <Route path="/countries/:country_id" element={<CountryDetail />} />
                 </Routes>
             </Suspense>
             <BotNavBar />
