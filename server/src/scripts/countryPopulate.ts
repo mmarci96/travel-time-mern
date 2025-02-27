@@ -5,9 +5,7 @@ import mongoose from 'mongoose';
 import { CountryModel } from '../model/CountryModel';
 import countriesData from '../data/countries.json';
 
-const mongoUri =
-    process.env.MONGO_URI ||
-    '';
+const mongoUri = process.env.MONGO_URI || '';
 
 if (!mongoUri) {
     console.error('MongoDB URI is missing. Please check your .env file.');

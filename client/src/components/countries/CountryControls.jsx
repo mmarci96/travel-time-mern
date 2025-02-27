@@ -40,9 +40,10 @@ const CountryControls = ({
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >
+          <option value="ABC">Sort alphabetically</option>
           <option value="continent">Sort by continent</option>
           <option value="subregion">Sort by subregion</option>
-          <option value="timezones">Sort by timezones</option>
+
         </select>
 
         <button

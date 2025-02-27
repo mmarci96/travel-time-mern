@@ -1,8 +1,8 @@
 import express, { Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import { authenticateToken } from '../middleware/authenticateToken';
-import { filterPosts } from '../services/postService';
 import { CountryModel } from '../model/CountryModel';
+import { filterCountries } from '../services/CountryService';
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get(
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const countries = await CountryModel.find();
+            const countries = await filterCountries(req.query);
             res.status(200).json({ countries });
         } catch (err) {
             next(err);
