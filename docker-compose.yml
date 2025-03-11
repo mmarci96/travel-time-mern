@@ -18,6 +18,8 @@ services:
       - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
       - AWS_REGION=${AWS_REGION}
       - AWS_ROLE_ARN=${AWS_ROLE_ARN}
+      - LOCAL_STORAGE_PATH=${LOCAL_STORAGE_PATH}
+      - STORAGE_TYPE=${STORAGE_TYPE}
     depends_on:
       - mongodb
 

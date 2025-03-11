@@ -22,6 +22,9 @@ RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
+RUN mkdir -p /app/img_uploads_temp && \
+    chown -R node:node /app/img_uploads_temp
+
 USER node
 
 CMD ["node", "dist/index.js"]
