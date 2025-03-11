@@ -24,7 +24,6 @@ services:
     depends_on:
       - mongodb
 
-
   frontend:
     build:
       context: ./client
@@ -35,7 +34,6 @@ services:
       - traveltime-server
     ports:
       - "80:80"
-
 
   seeder:
     build:
