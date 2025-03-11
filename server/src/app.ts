@@ -9,6 +9,8 @@ import followRoutes from './routes/followRoutes';
 import likeRoutes from './routes/likeRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import errorHandler from './middleware/errorHandler';
+import { config } from './config';
+import path from 'path';
 
 const app = express();
 
@@ -22,6 +24,12 @@ app.use(cors(options));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+const { STORAGE_TYPE, LOCAL_STORAGE_PATH } = config;
+if (STORAGE_TYPE === 'local') {
+    const staticPath = path.resolve(LOCAL_STORAGE_PATH);
+    app.use('/uploads', express.static(staticPath));
+    console.log(`Serving local files from ${staticPath}`);
+}
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);

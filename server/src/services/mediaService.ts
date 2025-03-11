@@ -1,18 +1,45 @@
-import dotenv from 'dotenv';
+import fs from 'fs/promises';
+import path from 'path';
 import multer from 'multer';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import { ImageModel } from '../model/ImageModel';
+import { config } from '../config';
+import { Types } from 'mongoose';
 
-dotenv.config();
-
-const { AWS_BUCKET_NAME, AWS_REGION, AWS_ROLE_ARN } = process.env;
+const {
+    STORAGE_TYPE,
+    LOCAL_STORAGE_PATH,
+    AWS_BUCKET_NAME,
+    AWS_REGION,
+    AWS_ROLE_ARN,
+    HOST,
+    PORT,
+} = config;
 
 const stsClient = new STSClient({ region: AWS_REGION });
 
-/**
- * Assumes an AWS IAM role and retrieves temporary credentials.
- */
+const uploadToLocal = async (file: Express.Multer.File) => {
+    try {
+        const randomId = new Types.UUID();
+        const filename = `${randomId}_${file.originalname}`;
+        const uploadPath = path.join(LOCAL_STORAGE_PATH, filename);
+
+        await fs.mkdir(LOCAL_STORAGE_PATH, { recursive: true });
+
+        await fs.writeFile(uploadPath, file.buffer);
+
+        const LOCAL_STORAGE_BASE_URL = `http://${HOST}:${PORT}/uploads`;
+        return {
+            filename,
+            url: `${LOCAL_STORAGE_BASE_URL}/${filename}`,
+        };
+    } catch (error) {
+        console.error('Local file upload failed:', error);
+        throw error;
+    }
+};
+
 const assumeRole = async () => {
     try {
         const params = {
@@ -44,9 +71,6 @@ const assumeRole = async () => {
     }
 };
 
-/**
- * Initializes an S3 client using assumed IAM role credentials.
- */
 const getS3Client = async () => {
     const credentials = await assumeRole();
 
@@ -62,9 +86,6 @@ export const getStorage = () =>
         limits: { fileSize: 10 * 1024 * 1024 },
     });
 
-/**
- * Uploads a file to S3 with assumed IAM role.
- */
 const uploadFileToS3 = async (file: Express.Multer.File) => {
     try {
         const key = `${file.fieldname}_dateVal_${Date.now()}_${file.originalname}`;
@@ -89,9 +110,6 @@ const uploadFileToS3 = async (file: Express.Multer.File) => {
     }
 };
 
-/**
- * Maps and uploads multiple files.
- */
 export const mapUploadedFiles = async (
     files: unknown,
 ): Promise<{ name: string; url: string }[]> => {
@@ -99,17 +117,23 @@ export const mapUploadedFiles = async (
         throw new Error('Invalid files: files should be an array.');
     }
 
+    if (STORAGE_TYPE === 's3') {
+        return Promise.all(
+            (files as Express.Multer.File[]).map(async (file) => {
+                const { filename, url } = await uploadFileToS3(file);
+                return { name: filename, url };
+            }),
+        );
+    }
+
     return Promise.all(
         (files as Express.Multer.File[]).map(async (file) => {
-            const { filename, url } = await uploadFileToS3(file);
+            const { filename, url } = await uploadToLocal(file);
             return { name: filename, url };
         }),
     );
 };
 
-/**
- * Saves image metadata to the database.
- */
 export const saveImage = async (filename: string, url: string) => {
     if (!filename || !url) {
         throw new Error(
@@ -124,5 +148,3 @@ export const saveImage = async (filename: string, url: string) => {
 
     return await image.save();
 };
-
-export const uploadImageLocally = async();
