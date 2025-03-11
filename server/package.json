@@ -1,13 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "src/app.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/app.js",
+    "start": "node dist/index.js",
     "build": "tsc",
     "format": "prettier --write .",
-    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node -r dotenv/config' src/app.ts",
+    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node -r dotenv/config' src/index.ts",
     "seed": "ts-node -r dotenv/config src/scripts/seed.ts",
     "predev": "npm run format"
   },
