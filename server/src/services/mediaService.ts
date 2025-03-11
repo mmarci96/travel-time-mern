@@ -10,11 +10,10 @@ import { Types } from 'mongoose';
 const {
     STORAGE_TYPE,
     LOCAL_STORAGE_PATH,
+    LOCAL_STORAGE_BASE_URL,
     AWS_BUCKET_NAME,
     AWS_REGION,
     AWS_ROLE_ARN,
-    HOST,
-    PORT,
 } = config;
 
 const stsClient = new STSClient({ region: AWS_REGION });
@@ -29,7 +28,6 @@ const uploadToLocal = async (file: Express.Multer.File) => {
 
         await fs.writeFile(uploadPath, file.buffer);
 
-        const LOCAL_STORAGE_BASE_URL = `http://${HOST}:${PORT}/uploads`;
         return {
             filename,
             url: `${LOCAL_STORAGE_BASE_URL}/${filename}`,

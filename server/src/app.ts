@@ -27,7 +27,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const { STORAGE_TYPE, LOCAL_STORAGE_PATH } = config;
 if (STORAGE_TYPE === 'local') {
     const staticPath = path.resolve(LOCAL_STORAGE_PATH);
-    app.use('/uploads', express.static(staticPath));
+    app.use('/api/uploads', express.static(staticPath));
     console.log(`Serving local files from ${staticPath}`);
 }
 

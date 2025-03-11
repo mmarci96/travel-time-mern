@@ -13,4 +13,5 @@ export const config = {
     AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME as string,
     STORAGE_TYPE: process.env.STORAGE_TYPE as string,
     LOCAL_STORAGE_PATH: process.env.LOCAL_STORAGE_PATH as string,
+    LOCAL_STORAGE_BASE_URL: process.env.LOCAL_STORAGE_BASE_URL as string,
 };
