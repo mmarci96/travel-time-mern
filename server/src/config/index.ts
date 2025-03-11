@@ -11,4 +11,5 @@ export const config = {
     AWS_REGION: process.env.AWS_REGION as string,
     AWS_ROLE_ARN: process.env.AWS_ROLE_ARN as string,
     AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME as string,
+    STORAGE_TYPE: process.env.STORAGE_TYPE as string,
 };

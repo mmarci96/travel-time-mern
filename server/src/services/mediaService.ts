@@ -124,3 +124,5 @@ export const saveImage = async (filename: string, url: string) => {
 
     return await image.save();
 };
+
+export const uploadImageLocally = async();
