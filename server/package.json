@@ -8,7 +8,7 @@
     "build": "tsc",
     "format": "prettier --write .",
     "dev": "nodemon --watch 'src/**/*' --exec 'ts-node -r dotenv/config' src/index.ts",
-    "seed": "ts-node -r dotenv/config src/scripts/seed.ts",
+    "seed": "ts-node -r dotenv/config scripts/seed.ts",
     "predev": "npm run format"
   },
   "keywords": [],
