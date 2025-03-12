@@ -19,7 +19,7 @@ function CountryList() {
   const { sendRequest } = useAuthRequest();
 
   useEffect(() => {
-    let url = `/api/countries/all?page=${1}&limit=${limit}&search=${search}&sort=${sort}&asc=${asc}`;
+    let url = `/api/countries?page=${1}&limit=${limit}&search=${search}&sort=${sort}&asc=${asc}`;
 
     sendRequest(url, 'GET').then((data) =>
       data ? setCountries(data.countries) : setCountries([]),

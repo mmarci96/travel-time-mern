@@ -7,7 +7,7 @@ import { filterCountries } from '../services/CountryService';
 const router = express.Router();
 
 router.get(
-    '/all',
+    '/',
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
