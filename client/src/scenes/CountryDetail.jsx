@@ -6,37 +6,34 @@ import { Link, useParams } from 'react-router-dom';
 import Button from '../components/common/Button.jsx';
 
 function CountryDetail() {
-  const [country, setCountry] =useState(null);
+    const [country, setCountry] = useState(null);
 
-  const {  isAuthenticated } = useAuthContext();
-  const {country_id}=useParams();
+    const { isAuthenticated } = useAuthContext();
+    const { country_id } = useParams();
 
-  const { sendRequest } = useAuthRequest();
+    const { sendRequest } = useAuthRequest();
 
-  useEffect(() => {
-    let url = `/api/countries/${country_id}`
-console.log(url);
+    useEffect(() => {
+        let url = `/api/countries/${country_id}`;
+        console.log(url);
 
-    sendRequest(url, 'GET').then((data) =>
-      data ? setCountry(data.country): setCountry([]),
+        sendRequest(url, 'GET').then((data) =>
+            data ? setCountry(data.country) : setCountry([]),
+        );
+    }, [isAuthenticated, country_id]);
+
+    return (
+        <div className="flex flex-col items-center">
+            <div className="mt-4">
+                <Link to="/countries">
+                    <Button>Back to countries</Button>
+                </Link>
+            </div>
+            <div className="flex justify-center items-center mt-8">
+                <CountryDetailsCard country={country} />
+            </div>
+        </div>
     );
-  }, [isAuthenticated, country_id]);
-
-  return (
-
-    <div className="flex flex-col items-center">
-      <div className="mt-4">
-        <Link to="/countries">
-          <Button >Back to countries</Button>
-        </Link>
-      </div>
-      <div className="flex justify-center items-center mt-8">
-        <CountryDetailsCard country={country} />
-      </div>
-    </div>
-
-
-  )
 }
 
 export default CountryDetail;
