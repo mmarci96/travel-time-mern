@@ -1,11 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import mongoose from 'mongoose';
 import { CountryModel } from '../model/CountryModel';
 import countriesData from '../../data/countries.json';
+import { config } from '../config';
 
-const mongoUri = process.env.MONGO_URI || '';
+const mongoUri = config.MONGO_URI;
 
 if (!mongoUri) {
     console.error('MongoDB URI is missing. Please check your .env file.');

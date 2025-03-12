@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker';
@@ -8,10 +7,10 @@ import { PostModel } from '../model/PostModel';
 import { CommentModel } from '../model/CommentModel';
 import { FollowModel } from '../model/FollowModel';
 import { LikeModel } from '../model/LikeModel';
+import { config } from '../config';
 
-dotenv.config();
 
-const mongoUri = process.env.MONGO_URI || '';
+const mongoUri = config.MONGO_URI; 
 const USER_COUNT = 50;
 const POST_COUNT = 50;
 
