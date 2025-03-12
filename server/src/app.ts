@@ -1,7 +1,5 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
-import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
@@ -11,11 +9,10 @@ import followRoutes from './routes/followRoutes';
 import likeRoutes from './routes/likeRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import errorHandler from './middleware/errorHandler';
-
-dotenv.config();
+import { config } from './config';
+import path from 'path';
 
 const app = express();
-const { MONGO_URI, PORT = 8080 } = process.env;
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:80'];
 
@@ -27,6 +24,12 @@ app.use(cors(options));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+const { STORAGE_TYPE, LOCAL_STORAGE_PATH } = config;
+if (STORAGE_TYPE === 'local') {
+    const staticPath = path.resolve(LOCAL_STORAGE_PATH);
+    app.use('/api/uploads', express.static(staticPath));
+    console.log(`Serving local files from ${staticPath}`);
+}
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
@@ -36,26 +39,10 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/follows', followRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.get('/api/hello', (req, res) => {
-    res.send('Hello world!');
+app.get('/health', (req, res) => {
+    res.status(200).send({ message: 'ok' });
 });
 
 app.use(errorHandler);
 
-const main = async () => {
-    const url = MONGO_URI;
-    if (!url) {
-        console.error('Missing MONGO_URL environment variable');
-        process.exit(1);
-    }
-    await mongoose.connect(url);
-
-    app.listen(PORT as number, '0.0.0.0', () => {
-        console.log('App is listening on ', PORT);
-    });
-};
-
-main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+export default app;
