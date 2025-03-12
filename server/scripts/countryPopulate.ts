@@ -1,9 +1,18 @@
 import mongoose from 'mongoose';
-import { CountryModel } from '../model/CountryModel';
-import countriesData from '../../data/countries.json';
-import { config } from '../config';
+import { CountryModel } from '../src/model/CountryModel';
+import countriesData from '../data/countries.json';
+import { config } from '../src/config';
 
 const mongoUri = config.MONGO_URI;
+interface CountryData {
+    name: string;
+    capitals: string[];
+    continents: string[];
+    subregion: string;
+    population: number;
+    startOfWeek: string;
+    timezones: string[];
+}
 
 if (!mongoUri) {
     console.error('MongoDB URI is missing. Please check your .env file.');
@@ -21,7 +30,7 @@ mongoose
 const createCountry = async () => {
     try {
         await CountryModel.insertMany(
-            countriesData.map((country) => ({
+            countriesData.map((country: CountryData) => ({
                 name: country.name.common,
                 capital: country.capitals[0] || 'no capital',
                 continent: country.continents[0],

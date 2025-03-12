@@ -1,16 +1,15 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker';
-import { UserModel } from '../model/UserModel';
-import { UserDetailsModel } from '../model/UserDetailsModel';
-import { PostModel } from '../model/PostModel';
-import { CommentModel } from '../model/CommentModel';
-import { FollowModel } from '../model/FollowModel';
-import { LikeModel } from '../model/LikeModel';
-import { config } from '../config';
+import { UserModel } from '../src/model/UserModel';
+import { UserDetailsModel } from '../src/model/UserDetailsModel';
+import { PostModel } from '../src/model/PostModel';
+import { CommentModel } from '../src/model/CommentModel';
+import { FollowModel } from '../src/model/FollowModel';
+import { LikeModel } from '../src/model/LikeModel';
+import { config } from '../src/config';
 
-
-const mongoUri = config.MONGO_URI; 
+const mongoUri = config.MONGO_URI;
 const USER_COUNT = 50;
 const POST_COUNT = 50;
 
