@@ -1,9 +1,9 @@
 import BadRequestError from '../errors/BadRequestError';
+import { parseFilterOptions } from './helperFunctions';
 import { CountryModel } from '../model/CountryModel';
 
 import { Types } from 'mongoose';
-import { LikeModel } from '../model/LikeModel';
-import { UserModel } from '../model/UserModel';
+
 
 export const getAllCountries = async () => {
     try {
@@ -57,47 +57,6 @@ export const getCountryById = async (country_id: string) => {
     return result;
 };
 
-const parseFilterOptions = (options: {
-    page?: string;
-    limit?: string;
-    search?: string;
-    sort?: string;
-    asc?: string;
-}) => {
-    const {
-        page = '1',
-        limit = '10',
-        search = '',
-        sort = 'ABC',
-        asc = 'false',
-    } = options;
-
-    const parsedPage = parseInt(page, 10);
-    const parsedLimit = parseInt(limit, 10);
-    const parsedAsc = asc === 'false';
-
-    if (isNaN(parsedPage) || parsedPage < 1) {
-        throw new BadRequestError({
-            code: 400,
-            message: 'Invalid page number. Must be a positive integer.',
-        });
-    }
-
-    if (isNaN(parsedLimit) || parsedLimit < 1) {
-        throw new BadRequestError({
-            code: 400,
-            message: 'Invalid limit. Must be a positive integer.',
-        });
-    }
-
-    return {
-        page: parsedPage,
-        limit: parsedLimit,
-        search,
-        sort,
-        asc: parsedAsc,
-    };
-};
 
 export const filterCountries = async (options: {
     page?: string;
