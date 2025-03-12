@@ -1,9 +1,9 @@
-
-FROM node:23.4.0-alpine AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
+
 COPY tsconfig.json ./
 
 RUN npm install
@@ -12,7 +12,7 @@ COPY src ./src
 
 RUN npm run build
 
-FROM node:23.4.0-alpine AS runtime
+FROM node:18-alpine AS runtime
 
 WORKDIR /app
 
@@ -22,7 +22,10 @@ RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
+RUN mkdir -p /app/img_uploads_temp && \
+    chown -R node:node /app/img_uploads_temp
+
 USER node
 
-CMD ["node", "dist/app.js"]
+CMD ["node", "dist/index.js"]
 
