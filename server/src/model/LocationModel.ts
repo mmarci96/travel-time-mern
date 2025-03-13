@@ -2,7 +2,7 @@ import mongoose, { Date, Document, Schema, Types } from 'mongoose';
 
 interface ILocation extends Document {
   _id: Types.ObjectId;
-  cityName: string;
+  city_name: string;
   country: string;
   latitude: number;
   longitude: number;
@@ -12,7 +12,7 @@ interface ILocation extends Document {
 }
 
 const LocationSchema = new Schema({
-  cityName: { type: String, required: true },
+  city_name: { type: String, required: true },
   country: { type: String, required: true },
   latitude: { type: Number, required: false },
   longitude: { type: Number, required: false },
