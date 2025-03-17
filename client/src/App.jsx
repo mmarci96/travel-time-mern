@@ -38,7 +38,10 @@ function App() {
                     <Route path="/test" element={<TesterScene />} />
                     <Route path="/userdetails" element={<UserRegistration />} />
                     <Route path="/countries" element={<CountriesPage />} />
-                    <Route path="/countries/:country_id" element={<CountryDetail />} />
+                    <Route
+                        path="/countries/:country_id"
+                        element={<CountryDetail />}
+                    />
                 </Routes>
             </Suspense>
             <BotNavBar />

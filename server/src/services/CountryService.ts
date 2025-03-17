@@ -4,7 +4,6 @@ import { CountryModel } from '../model/CountryModel';
 
 import { Types } from 'mongoose';
 
-
 export const getAllCountries = async () => {
     try {
         const countries = await CountryModel.find();
@@ -56,7 +55,6 @@ export const getCountryById = async (country_id: string) => {
     };
     return result;
 };
-
 
 export const filterCountries = async (options: {
     page?: string;

@@ -1,9 +1,7 @@
 import CountryList from '../components/countries/CountryList.jsx';
 
 function CountriesPage() {
-  return (
-    <CountryList/>
-  )
+    return <CountryList />;
 }
 
 export default CountriesPage;

@@ -7,7 +7,6 @@ import { FollowModel } from '../model/FollowModel';
 import { LikeModel } from '../model/LikeModel';
 import { parseFilterOptions } from './helperFunctions';
 
-
 export const getPostsFromFollowing = async (
     userId: Types.ObjectId,
 ): Promise<any[]> => {
@@ -196,8 +195,6 @@ export const updatePost = async (
 
     return updatedPost;
 };
-
-
 
 export const filterPosts = async (options: {
     page?: string;
