@@ -12,6 +12,7 @@ import likeRoutes from './routes/likeRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import errorHandler from './middleware/errorHandler';
 import countryRoutes from './routes/countryRoutes';
+import locationRoutes from './routes/locationRoutes';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/follows', followRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/locations', locationRoutes)
 app.get('/api/hello', (req, res) => {
     res.send('Hello world!');
 });

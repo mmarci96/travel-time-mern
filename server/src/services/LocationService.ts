@@ -37,7 +37,7 @@ export const getLocationByCityName = async (city_name: string) => {
     })
   }
 
-  const location = await LocationModel.find({city_name: city_name});
+  const location = await LocationModel.findOne({city_name: city_name});
   if (!location) {
     throw new BadRequestError({
       code: 404,
