@@ -1,13 +1,12 @@
 import { UserModel } from '../model/UserModel';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import BadRequestError from '../errors/BadRequestError';
 import { Types } from 'mongoose';
-dotenv.config();
+import { config } from '../config';
 
-const secret_key = process.env.JWT_SECRET_KEY || 'abc';
-const refresh_secret_key = process.env.JWT_REFRESH_SECRET_KEY || 'abc';
+const secret_key = config.JWT_SECRET_KEY;
+const refresh_secret_key = config.JWT_REFRESH_SECRET_KEY;
 
 export const createToken = async (
     email: string,
@@ -30,7 +29,6 @@ export const createToken = async (
         });
     }
 
-    //TODO: user role add
     const token = jwt.sign(
         { userId: user._id, role: 'user', username: user.username },
         secret_key,

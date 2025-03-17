@@ -1,7 +1,5 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
-import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import mediaRoutes from './routes/mediaRoutes';
 import userRoutes from './routes/userRoutes';
@@ -13,11 +11,10 @@ import notificationRoutes from './routes/notificationRoutes';
 import errorHandler from './middleware/errorHandler';
 import countryRoutes from './routes/countryRoutes';
 import locationRoutes from './routes/locationRoutes';
-
-dotenv.config();
+import { config } from './config';
+import path from 'path';
 
 const app = express();
-const { MONGO_URI, PORT = 8080 } = process.env;
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:80'];
 
@@ -29,9 +26,14 @@ app.use(cors(options));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+const { STORAGE_TYPE, LOCAL_STORAGE_PATH } = config;
+if (STORAGE_TYPE === 'local') {
+    const staticPath = path.resolve(LOCAL_STORAGE_PATH);
+    app.use('/api/uploads', express.static(staticPath));
+    console.log(`Serving local files from ${staticPath}`);
+}
 
 app.use('/api/users', userRoutes);
-app.use('/api/countries', countryRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/posts', postRoutes);
@@ -39,18 +41,13 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/follows', followRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/locations', locationRoutes)
-app.get('/api/hello', (req, res) => {
-    res.send('Hello world!');
+app.use('/api/locations', locationRoutes);
+
+app.use('/api/countries', countryRoutes);
+app.get('/health', (req, res) => {
+    res.status(200).send({ message: 'ok' });
 });
 
 app.use(errorHandler);
-
-const main = async () => {};
-
-main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
 
 export default app;
