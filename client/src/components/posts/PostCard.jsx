@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder';
 import LikeIcon from '../common/LikeIcon.jsx';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ const PostCard = ({ post, onDeleteCount }) => {
     const [likedByUser, setLikedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const { sendRequest } = useAuthRequest();
+    const navigate = useNavigate();
     const { currentUserId } = useAuthContext();
     const handleLike = async (method) => {
         const postId = post.id;
@@ -35,6 +36,15 @@ const PostCard = ({ post, onDeleteCount }) => {
         }
     }, [currentUserId]);
 
+
+    async function handleLocationClick(id){
+       console.log(id);
+        const location = await sendRequest(`/api/locations/${id}`, "GET" );
+        console.log(location);
+        console.log(location.location.country);
+        navigate(`/countries/${location.location.country}`);
+
+    }
     return (
         <AnimatedComponent
             children={
@@ -51,8 +61,10 @@ const PostCard = ({ post, onDeleteCount }) => {
                         </h3>
                     </span>
                     <span className="flex flex-col">
-                        <h3 className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
+                        <h3 onClick={()=>handleLocationClick(post.location_id)} className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
+
                             Location: {post.location_name}
+
                         </h3>
                     </span>
                     {post.author_id ? (

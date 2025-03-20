@@ -23,12 +23,14 @@ export const getLocationById = async (location_id: string) => {
         });
     }
 
-    return {
+    const result= {
         cityName: location.city_name,
         country: location.country,
         latitude: location.latitude,
         longitude: location.longitude,
     };
+    console.log(result);
+    return result;
 };
 
 export const getLocationByCityName = async (city_name: string) => {

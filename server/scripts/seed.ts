@@ -209,7 +209,7 @@ const generateFakeFollows = async (users: any[]) => {
 
 const runSeeder = async () => {
     try {
-       // await generateFakeLocations();
+        // await generateFakeLocations();
         const users = await generateFakeUsers(USER_COUNT);
         const posts = await generateFakePosts(POST_COUNT, users);
         await generateFakeComments(users, posts);

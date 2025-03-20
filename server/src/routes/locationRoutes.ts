@@ -21,7 +21,8 @@ router.get(
         next: NextFunction,
     ): Promise<any> => {
         try {
-            const location = getLocationById(req.params.location_id);
+            const location = await getLocationById(req.params.location_id);
+            console.log("zsuzsi", location);
             res.status(200).json({ location });
         } catch (err) {
             next(err);
