@@ -46,7 +46,7 @@ const PostCard = ({ post, onDeleteCount }) => {
     return (
         <AnimatedComponent
             children={
-                <div className="my-4 p-1 ring-1 rounded-xl max-h-[640px] h-[80vh] shadow-slate-400 shadow-md min-w-[320px] w-[60vw] max-w-[480px] mx-auto">
+                <div className="my-4 p-1 ring-1 rounded-xl max-h-[680px] h-[80vh] shadow-slate-400 shadow-md min-w-[320px] w-[60vw] max-w-[480px] mx-auto">
                     <Link to={`/post/${post.id}`}>
                         <ImageWithPlaceholder
                             alt={post.title}
