@@ -14,7 +14,8 @@ import { findCountry } from '../src/services/CountryService';
 //
 // const mongoUri = config.MONGO_URI;
 
-const mongoUri="mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db";
+const mongoUri =
+    'mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db';
 console.log(mongoUri);
 const USER_COUNT = 50;
 const POST_COUNT = 50;
@@ -25,16 +26,16 @@ mongoose
     .catch((err) => console.error('MongoDB connection error:', err));
 
 //const createExampleUser = async () => {
-  //  const examplePassword = 'password123';
-    //const salt = await bcrypt.genSalt();
-    //const hashedPassword = await bcrypt.hash(examplePassword, salt);
-    //const exampleUser = new UserModel({
-      //  email: 'testuser@example.com',
-        //password: hashedPassword,
-        //username: 'example_username',
-    //});
+//  const examplePassword = 'password123';
+//const salt = await bcrypt.genSalt();
+//const hashedPassword = await bcrypt.hash(examplePassword, salt);
+//const exampleUser = new UserModel({
+//  email: 'testuser@example.com',
+//password: hashedPassword,
+//username: 'example_username',
+//});
 
-    //return await exampleUser.save();
+//return await exampleUser.save();
 //};
 
 const generateFakeUsers = async (count: number) => {
@@ -70,49 +71,47 @@ const generateFakeUsers = async (count: number) => {
     return await UserModel.insertMany(fakeUsers);
 };
 
-const generateFakeLocations=async () => {
+const generateFakeLocations = async () => {
     await LocationModel.deleteMany();
 
-    const London= await LocationModel.create({
-        city_name: "London",
-        country: "67bdc16e61e46e6e63a0f3b8",
-        longitude:0,
-        latitude:100,
-    })
+    const London = await LocationModel.create({
+        city_name: 'London',
+        country: '67bdc16e61e46e6e63a0f3b8',
+        longitude: 0,
+        latitude: 100,
+    });
 
+    const Budapest = await LocationModel.create({
+        city_name: 'Budapest',
+        country: '67bdc16e61e46e6e63a0f3ce',
+        longitude: 1,
+        latitude: 1,
+    });
 
-    const Budapest= await LocationModel.create({
-        city_name: "Budapest",
-        country: "67bdc16e61e46e6e63a0f3ce",
-        longitude:1,
-        latitude:1,
-    })
+    const NewYork = await LocationModel.create({
+        city_name: 'New York',
+        country: '67bdc16e61e46e6e63a0f453',
+        longitude: 4,
+        latitude: 4,
+    });
 
-
-
-
-    const NewYork= await LocationModel.create({
-        city_name: "New York",
-        country:"67bdc16e61e46e6e63a0f453",
-        longitude:4,
-        latitude:4,
-    })
-
-
-
-    const Barcelona= await LocationModel.create({
-        city_name: "Barcelona",
-        country: "67bdc16e61e46e6e63a0f3ae",
-        longitude:5,
-        latitude:5,
-    })
-
-}
+    const Barcelona = await LocationModel.create({
+        city_name: 'Barcelona',
+        country: '67bdc16e61e46e6e63a0f3ae',
+        longitude: 5,
+        latitude: 5,
+    });
+};
 
 const generateFakePosts = async (count: number, users: any[]) => {
     await PostModel.deleteMany();
 
-    const locations=["67dbf05d5fce130d6abdd130", "67dbf05d5fce130d6abdd134","67dbf05d5fce130d6abdd136","67dbf05d5fce130d6abdd138"];
+    const locations = [
+        '67dbf147a5700b356055c56f',
+        '67dbf147a5700b356055c573',
+        '67dbf147a5700b356055c575',
+        '67dbf147a5700b356055c577',
+    ];
 
     const posts = Array.from({ length: count }).map(() => {
         const randomUser = faker.helpers.arrayElement(users);
@@ -127,7 +126,8 @@ const generateFakePosts = async (count: number, users: any[]) => {
                 grayscale: false,
                 blur: 0,
             }),
-            location_id: locations[Math.floor(Math.random() * locations.length)],
+            location_id:
+                locations[Math.floor(Math.random() * locations.length)],
         };
     });
 
@@ -209,14 +209,14 @@ const generateFakeFollows = async (users: any[]) => {
 
 const runSeeder = async () => {
     try {
-        await generateFakeLocations();
+       // await generateFakeLocations();
         const users = await generateFakeUsers(USER_COUNT);
         const posts = await generateFakePosts(POST_COUNT, users);
         await generateFakeComments(users, posts);
         await generateFakeLikes(users, posts);
         await generateFakeFollows(users);
 
-       // await createExampleUser();
+        // await createExampleUser();
     } catch (err) {
         console.error('Error while seeding data:', err);
     } finally {

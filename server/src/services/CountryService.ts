@@ -106,4 +106,4 @@ export const filterCountries = async (options: {
 
 export const findCountry = async (country_name: string) => {
     return CountryModel.findOne({ 'name.common': country_name });
-}
+};

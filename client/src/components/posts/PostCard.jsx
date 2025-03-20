@@ -50,6 +50,11 @@ const PostCard = ({ post, onDeleteCount }) => {
                             {post.title}
                         </h3>
                     </span>
+                    <span className="flex flex-col">
+                        <h3 className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
+                            Location: {post.location_name}
+                        </h3>
+                    </span>
                     {post.author_id ? (
                         <span className="flex items-start justify-between">
                             <div className="flex items-center">

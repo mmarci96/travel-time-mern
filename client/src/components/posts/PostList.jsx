@@ -27,6 +27,7 @@ const PostList = () => {
         sendRequest(url, 'GET').then((data) =>
             data ? setPosts(data.posts) : setPosts([]),
         );
+
     }, [filters, limit, sort, asc, search, deleteCount, isAuthenticated]);
 
     const toggleSortOrder = () => {

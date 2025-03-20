@@ -41,8 +41,8 @@ const createPostResponse = async (post: IPost): Promise<PostRequestDTO> => {
 
     const userIds = likesOnPost.map((like) => like.user);
 
-    const location= await LocationModel.findById(post.location_id);
-    const locationName=location?.city_name;
+    const location = await LocationModel.findById(post.location_id);
+    const locationName = location?.city_name;
 
     return {
         id: post._id,
@@ -130,8 +130,8 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
             const user = await UserModel.findById(post.author_id);
             const username = user?.username;
 
-            const location= await LocationModel.findById(post.location_id);
-            const locationName=location?.city_name;
+            const location = await LocationModel.findById(post.location_id);
+            const locationName = location?.city_name;
 
             return {
                 id: post._id,
@@ -140,7 +140,7 @@ export const getPostsByAuthorId = async (author_id: Types.ObjectId) => {
                 title: post.title,
                 description: post.description,
                 location_id: post.location_id,
-                location_name:locationName,
+                location_name: locationName,
                 image_url: post.image_url,
                 likes: userIds,
                 created_at: post.created_at,
@@ -245,9 +245,11 @@ export const filterPosts = async (options: {
             const userIds = likesOnPost.map((like) => like.user);
             const user = await UserModel.findById(post.author_id);
             const username = user?.username;
-
-            const location= await LocationModel.findById(post.location_id);
-            const locationName=location?.city_name;
+console.log("id", post.location_id);
+            const location = await LocationModel.findById(post.location_id);
+            console.log(location);
+            const locationName = location?.city_name;
+            console.log(locationName);
 
             return {
                 id: post._id,
