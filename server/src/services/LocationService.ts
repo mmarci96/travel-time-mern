@@ -50,3 +50,8 @@ export const getLocationByCityName = async (city_name: string) => {
     latitude: location.latitude,
     longitude: location.longitude};
 }
+
+export const getAllLocationsNames = async () => {
+  const locations = await LocationModel.find({});
+  return locations.map((location) => location.country);
+}

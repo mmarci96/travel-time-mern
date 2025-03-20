@@ -34,13 +34,13 @@ router.post(
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { image_url, title, description, location } = req.body;
+            const { image_url, title, description, location_name } = req.body;
             const authorId = req.userId as Types.ObjectId;
 
             const post: PostCreateDTO = {
                 title,
                 description,
-                location,
+                location_name,
                 image_url,
             };
 
