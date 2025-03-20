@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProfileMenu from './ProfileMenu.jsx';
 import { useContext } from 'react';
-import Button from '../common/Button.jsx';
 import { AuthContext } from '../../context/AuthContext.jsx';
 
 const TopNavBar = () => {

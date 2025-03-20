@@ -1,8 +1,5 @@
-import AnimatedComponent from '../common/AnimatedComponent.jsx';
 import { Link } from 'react-router-dom';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder.jsx';
-
-import LoadAnimation from '../common/LoadAnimation.jsx';
 
 function CountryCardLittle({ country }) {
     return (
@@ -24,7 +21,6 @@ function CountryCardLittle({ country }) {
                     Capital: {country.capital}
                 </h3>
             </div>
-            <LoadAnimation />
         </div>
     );
 }

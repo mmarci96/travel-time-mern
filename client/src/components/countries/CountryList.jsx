@@ -3,7 +3,6 @@ import useAuthContext from '../../hooks/useAuthContext.js';
 import useAuthRequest from '../../hooks/useAuthRequest.js';
 import LoadAnimation from '../common/LoadAnimation.jsx';
 import CountryCardLittle from './CountryCardLittle.jsx';
-import PostControls from '../posts/PostControls.jsx';
 import Button from '../common/Button.jsx';
 import CountryControls from './CountryControls.jsx';
 
