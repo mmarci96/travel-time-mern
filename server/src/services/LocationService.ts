@@ -23,7 +23,7 @@ export const getLocationById = async (location_id: string) => {
         });
     }
 
-    const result= {
+    const result = {
         cityName: location.city_name,
         country: location.country,
         latitude: location.latitude,
@@ -48,13 +48,16 @@ export const getLocationByCityName = async (city_name: string) => {
             message: `No location found with city name: ${city_name}`,
         });
     }
-
-    return {
+    console.log(location);
+    const result = {
         cityName: location.city_name,
         country: location.country,
         latitude: location.latitude,
         longitude: location.longitude,
+        city_id: location._id,
     };
+    console.log(result);
+    return result;
 };
 
 export const getAllLocationsNames = async () => {

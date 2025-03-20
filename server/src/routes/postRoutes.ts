@@ -34,13 +34,13 @@ router.post(
     authenticateToken,
     async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { image_url, title, description, location_name } = req.body;
+            const { image_url, title, description, location_id } = req.body;
             const authorId = req.userId as Types.ObjectId;
 
             const post: PostCreateDTO = {
                 title,
                 description,
-                location_name,
+                location_id,
                 image_url,
             };
 
@@ -102,11 +102,11 @@ router.patch(
         try {
             const { postId } = req.params;
             const author_id = req.userId as Types.ObjectId;
-            const { title, description, location, image_url } = req.body;
+            const { title, description, location_id, image_url } = req.body;
             const update = {
                 title,
                 description,
-                location,
+                location_id,
                 image_url,
             };
             const updatedPost = await updatePost(

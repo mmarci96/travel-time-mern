@@ -12,7 +12,7 @@ const PostForm = ({ postId }) => {
         title: '',
         description: '',
         image_url: '',
-        location: '',
+        location: ''
     });
     const navigate = useNavigate();
 
@@ -49,7 +49,9 @@ const PostForm = ({ postId }) => {
                     payload,
                 );
             } else {
-                response = await sendRequest('/api/posts', 'POST', formData);
+                const location = await sendRequest(`/api/locations/cityName/${formData.location}`, "GET");
+
+                response = await sendRequest('/api/posts', 'POST', { ...formData, location_id:location.location.city_id });
                 const id = response.id;
 
                 id && navigate(`/post/${id}`);
@@ -60,7 +62,6 @@ const PostForm = ({ postId }) => {
                     postId ? 'Error updating post' : 'Error creating post',
                 );
             } else {
-                console.log(response);
             }
         } catch (err) {
             console.error(err);
