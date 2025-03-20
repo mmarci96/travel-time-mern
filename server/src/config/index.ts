@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const config = {
-    PORT: process.env.PORT as string,
-    HOST: process.env.HOST as string,
+    PORT: process.env.PORT || 8080,
+    HOST: process.env.HOST || '0.0.0.0',
     MONGO_URI: process.env.MONGO_URI as string,
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY as string,
     JWT_REFRESH_SECRET_KEY: process.env.JWT_REFRESH_SECRET_KEY as string,
