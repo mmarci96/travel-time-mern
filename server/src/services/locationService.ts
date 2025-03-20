@@ -48,7 +48,6 @@ export const getLocationByCityName = async (city_name: string) => {
             message: `No location found with city name: ${city_name}`,
         });
     }
-    console.log(location);
     const result = {
         cityName: location.city_name,
         country: location.country,
@@ -56,7 +55,6 @@ export const getLocationByCityName = async (city_name: string) => {
         longitude: location.longitude,
         city_id: location._id,
     };
-    console.log(result);
     return result;
 };
 

@@ -1,9 +1,6 @@
 import express, { Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import { authenticateToken } from '../middleware/authenticateToken';
-import { LocationModel } from '../model/LocationModel';
-import { filterCountries } from '../services/CountryService';
-import { Types } from 'mongoose';
 import {
     getAllLocationsNames,
     getLocationByCityName,
