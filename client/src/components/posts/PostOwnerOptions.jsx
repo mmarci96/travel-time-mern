@@ -44,20 +44,20 @@ const PostOwnerOptions = ({ onDeleteCount, postId }) => {
             icon: <FaEdit size={18} className="text-slate-600 mx-2 my-1" />,
             text: 'Edit Post',
         },
-        {
-            onClick: handleReport,
-            icon: (
-                <FaExclamationTriangle
-                    size={18}
-                    className="text-red-600 mx-2 my-1"
-                />
-            ),
-            text: 'Report',
-        },
+        //{
+        //    onClick: handleReport,
+        //    icon: (
+        //        <FaExclamationTriangle
+        //            size={18}
+        //            className="text-red-600 mx-2 my-1"
+        //        />
+        //    ),
+        //    text: 'Report',
+        //},
     ];
 
     return (
-        <div className="relative">
+        <div className="relative ml-auto">
             <button onClick={handleToggle}>
                 <FaEllipsisV size={28} className="text-slate-600" />
             </button>

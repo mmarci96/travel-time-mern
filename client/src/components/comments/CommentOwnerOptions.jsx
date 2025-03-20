@@ -10,7 +10,7 @@ import useAuthRequest from '../../hooks/useAuthRequest';
 
 const CommentOwnerOptions = ({
     commentId,
-    onDeleteCount = () => {},
+    onDeleteCount = () => { },
     onEditing,
 }) => {
     const [toggleOptions, setToggleOptions] = useState(false);
@@ -49,16 +49,16 @@ const CommentOwnerOptions = ({
             icon: <FaEdit size={18} className="text-slate-600 mx-2 my-1" />,
             text: 'Edit comment',
         },
-        {
-            onClick: handleReport,
-            icon: (
-                <FaExclamationTriangle
-                    size={18}
-                    className="text-red-600 mx-2 my-1"
-                />
-            ),
-            text: 'Report',
-        },
+        //{
+        //onClick: handleReport,
+        //icon: (
+        //    <FaExclamationTriangle
+        //        size={18}
+        //        className="text-red-600 mx-2 my-1"
+        //    />
+        //),
+        //text: 'Report',
+        //},
     ];
 
     return (

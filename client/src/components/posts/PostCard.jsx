@@ -67,22 +67,22 @@ const PostCard = ({ post, onDeleteCount }) => {
                         </h3>
                     </span>
                     {post.author_id ? (
-                        <span className="flex items-start justify-between">
-                            <div className="flex items-center">
+                        <div className="flex items-start justify-between ">
+                            <div className="flex items-center  overflow-hidden text-ellipsis">
                                 <LikeIcon
                                     onLike={handleLike}
                                     likedByUser={likedByUser}
                                 />
-                                <p className="mt-2 ml-2 text-xl italic">
+                                <p className="mt-1 ml-2 text-xl italic">
                                     {likeCount}
                                 </p>
-                                <h4 className="text-lg italic mt-2 cursor-pointer hover:bg-gray-200 mx-4 rounded-xl">
+                                <h4 className="text-lg italic mt-1 cursor-pointer hover:bg-gray-200 mx-2 rounded-xl">
                                     <Link to={`/profile/${post.author_id}`}>
-                                        By: {post.author_name}
+                                        {post.author_name}
                                     </Link>
                                 </h4>
-                                <h3 className="text-lg mt-2  italic">
-                                    {new Date(post?.created_at).toDateString()}
+                                <h3 className="text-lg mt-1  italic">
+                                    {new Date(post?.created_at).toLocaleDateString()}
                                 </h3>
                             </div>
                             {post.author_id === currentUserId && (
@@ -93,7 +93,7 @@ const PostCard = ({ post, onDeleteCount }) => {
                                     />
                                 </div>
                             )}
-                        </span>
+                        </div>
                     ) : (
                         <LoadAnimation />
                     )}
