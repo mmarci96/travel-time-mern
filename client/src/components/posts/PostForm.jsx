@@ -51,7 +51,8 @@ const PostForm = ({ postId }) => {
             } else {
                 const location = await sendRequest(`/api/locations/cityName/${formData.location}`, "GET");
 
-                response = await sendRequest('/api/posts', 'POST', { ...formData, location_id:location.location.city_id });
+                response = await sendRequest('/api/posts', 'POST', { ...formData,
+                    location_id:location.location.city_id });
                 const id = response.id;
 
                 id && navigate(`/post/${id}`);
