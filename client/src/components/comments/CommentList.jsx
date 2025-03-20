@@ -26,7 +26,7 @@ const CommentList = ({ postId }) => {
     return (
         <AnimatedComponent
             children={
-                <div className="flex flex-col ring-1 rounded-lg p-1 shadow-slate-400 shadow-md my-4 items-center mx-auto w-[64vw] min-w-[360px] max-w-[480px] max-h-[640px] h-[80vh]">
+                <div className="flex flex-col ring-1 rounded-lg p-1 shadow-slate-400 shadow-md my-4 items-center mx-auto w-[60vw] min-w-[320px] max-w-[480px] max-h-[680px] h-[80vh]">
                     <ul className="flex flex-col items-center overflow-y-auto h-[64vh] w-full ">
                         {comments ? (
                             comments.map((comment) => (

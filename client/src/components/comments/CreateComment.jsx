@@ -30,7 +30,7 @@ const CreateComment = ({ postId, onCreateCount }) => {
             onSubmit={handleSubmit}
         >
             <input
-                className="flex-1 mr-2 p-2 text-md border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="flex-1 mr-2 w-full p-2 text-md border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
                 type="text"
                 name="content"
                 placeholder="Write a comment..."
@@ -42,7 +42,7 @@ const CreateComment = ({ postId, onCreateCount }) => {
             <Button
                 type="submit"
                 variant="primary"
-                className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 transition duration-200"
+                className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 transition duration-200 whitespace-nowrap"
             >
                 Comment
             </Button>
