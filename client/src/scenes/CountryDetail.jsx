@@ -15,7 +15,6 @@ function CountryDetail() {
 
     useEffect(() => {
         let url = `/api/countries/${country_id}`;
-        console.log(url);
 
         sendRequest(url, 'GET').then((data) =>
             data ? setCountry(data.country) : setCountry([]),

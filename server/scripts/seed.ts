@@ -9,13 +9,8 @@ import { LikeModel } from '../src/model/LikeModel';
 import { config } from '../src/config';
 //import bcrypt from 'bcrypt';
 import { LocationModel } from '../src/model/LocationModel';
-import { findCountry } from '../src/services/CountryService';
 
-//
-// const mongoUri = config.MONGO_URI;
-
-const mongoUri =
-    'mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db';
+const mongoUri = config.MONGO_URI;
 console.log(mongoUri);
 const USER_COUNT = 50;
 const POST_COUNT = 50;

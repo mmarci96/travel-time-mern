@@ -30,7 +30,7 @@ router.get(
 );
 
 router.get(
-    'cityName/:city_name',
+    '/cityName/:city_name',
     authenticateToken,
     async (
         req: AuthRequest,
@@ -38,7 +38,7 @@ router.get(
         next: NextFunction,
     ): Promise<any> => {
         try {
-            const location = getLocationByCityName(req.params.city_name);
+            const location = await getLocationByCityName(req.params.city_name);
             res.status(200).json({ location });
         } catch (err) {
             next(err);
