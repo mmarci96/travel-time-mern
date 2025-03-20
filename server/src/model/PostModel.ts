@@ -6,7 +6,7 @@ interface IPost extends Document {
     image_url: string;
     title: string;
     description?: string;
-    location?: string;
+    location?: Types.ObjectId;
     created_at: Date;
     updated_at?: Date;
 }
@@ -16,7 +16,7 @@ const postSchema = new Schema({
     image_url: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
-    location: { type: String },
+    location: { type: Types.ObjectId, required: true },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date },
 });
