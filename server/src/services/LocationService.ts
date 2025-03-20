@@ -23,7 +23,7 @@ export const getLocationById = async (location_id: string) => {
         });
     }
 
-    const result= {
+    const result = {
         cityName: location.city_name,
         country: location.country,
         latitude: location.latitude,

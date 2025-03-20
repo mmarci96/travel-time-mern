@@ -1,6 +1,5 @@
 import AnimatedComponent from '../common/AnimatedComponent.jsx';
 import ImageWithPlaceholder from '../common/ImageWithPlaceholder.jsx';
-import LoadAnimation from '../common/LoadAnimation.jsx';
 
 function CountryDetailsCard({ country }) {
     return (
@@ -38,7 +37,6 @@ function CountryDetailsCard({ country }) {
                             </h3>
                         </div>
                     </div>
-                    <LoadAnimation />
                 </div>
             }
         />
