@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker';
 import { UserModel } from '../src/model/UserModel';
@@ -8,8 +7,15 @@ import { CommentModel } from '../src/model/CommentModel';
 import { FollowModel } from '../src/model/FollowModel';
 import { LikeModel } from '../src/model/LikeModel';
 import { config } from '../src/config';
+//import bcrypt from 'bcrypt';
+import { LocationModel } from '../src/model/LocationModel';
+import { findCountry } from '../src/services/CountryService';
 
-const mongoUri = config.MONGO_URI;
+//
+// const mongoUri = config.MONGO_URI;
+
+const mongoUri="mongodb+srv://sarosdimarci4:qzDiAaBMcHE6cjU5@funcluster.tddj6.mongodb.net/travel_time_db";
+console.log(mongoUri);
 const USER_COUNT = 50;
 const POST_COUNT = 50;
 
@@ -18,18 +24,18 @@ mongoose
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
-const createExampleUser = async () => {
-    const examplePassword = 'password123';
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(examplePassword, salt);
-    const exampleUser = new UserModel({
-        email: 'testuser@example.com',
-        password: hashedPassword,
-        username: 'example_username',
-    });
+//const createExampleUser = async () => {
+  //  const examplePassword = 'password123';
+    //const salt = await bcrypt.genSalt();
+    //const hashedPassword = await bcrypt.hash(examplePassword, salt);
+    //const exampleUser = new UserModel({
+      //  email: 'testuser@example.com',
+        //password: hashedPassword,
+        //username: 'example_username',
+    //});
 
-    return await exampleUser.save();
-};
+    //return await exampleUser.save();
+//};
 
 const generateFakeUsers = async (count: number) => {
     await UserDetailsModel.deleteMany();
@@ -64,8 +70,50 @@ const generateFakeUsers = async (count: number) => {
     return await UserModel.insertMany(fakeUsers);
 };
 
+const generateFakeLocations=async () => {
+    await LocationModel.deleteMany();
+
+    const London= await LocationModel.create({
+        city_name: "London",
+        country: "67bdc16e61e46e6e63a0f3b8",
+        longitude:0,
+        latitude:100,
+    })
+
+
+    const Budapest= await LocationModel.create({
+        city_name: "Budapest",
+        country: "67bdc16e61e46e6e63a0f3ce",
+        longitude:1,
+        latitude:1,
+    })
+
+
+
+
+    const NewYork= await LocationModel.create({
+        city_name: "New York",
+        country:"67bdc16e61e46e6e63a0f453",
+        longitude:4,
+        latitude:4,
+    })
+
+
+
+    const Barcelona= await LocationModel.create({
+        city_name: "Barcelona",
+        country: "67bdc16e61e46e6e63a0f3ae",
+        longitude:5,
+        latitude:5,
+    })
+
+}
+
 const generateFakePosts = async (count: number, users: any[]) => {
     await PostModel.deleteMany();
+
+    const locations=["67dbf05d5fce130d6abdd130", "67dbf05d5fce130d6abdd134","67dbf05d5fce130d6abdd136","67dbf05d5fce130d6abdd138"];
+
     const posts = Array.from({ length: count }).map(() => {
         const randomUser = faker.helpers.arrayElement(users);
         return {
@@ -79,7 +127,7 @@ const generateFakePosts = async (count: number, users: any[]) => {
                 grayscale: false,
                 blur: 0,
             }),
-            location: faker.lorem.sentence(),
+            location_id: locations[Math.floor(Math.random() * locations.length)],
         };
     });
 
@@ -161,12 +209,14 @@ const generateFakeFollows = async (users: any[]) => {
 
 const runSeeder = async () => {
     try {
+        await generateFakeLocations();
         const users = await generateFakeUsers(USER_COUNT);
         const posts = await generateFakePosts(POST_COUNT, users);
         await generateFakeComments(users, posts);
         await generateFakeLikes(users, posts);
         await generateFakeFollows(users);
-        await createExampleUser();
+
+       // await createExampleUser();
     } catch (err) {
         console.error('Error while seeding data:', err);
     } finally {
