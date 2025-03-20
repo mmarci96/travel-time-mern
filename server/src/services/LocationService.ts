@@ -29,7 +29,6 @@ export const getLocationById = async (location_id: string) => {
         latitude: location.latitude,
         longitude: location.longitude,
     };
-    console.log(result);
     return result;
 };
 

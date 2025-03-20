@@ -37,11 +37,8 @@ const PostCard = ({ post, onDeleteCount }) => {
     }, [currentUserId]);
 
 
-    async function handleLocationClick(id){
-       console.log(id);
-        const location = await sendRequest(`/api/locations/${id}`, "GET" );
-        console.log(location);
-        console.log(location.location.country);
+    async function handleLocationClick(){
+        const location = await sendRequest(`/api/locations/${post.location_id}`, "GET" );
         navigate(`/countries/${location.location.country}`);
 
     }
@@ -61,7 +58,7 @@ const PostCard = ({ post, onDeleteCount }) => {
                         </h3>
                     </span>
                     <span className="flex flex-col">
-                        <h3 onClick={()=>handleLocationClick(post.location_id)} className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
+                        <h3 onClick={handleLocationClick} className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis">
 
                             Location: {post.location_name}
 

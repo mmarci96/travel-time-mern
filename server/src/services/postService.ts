@@ -245,11 +245,8 @@ export const filterPosts = async (options: {
             const userIds = likesOnPost.map((like) => like.user);
             const user = await UserModel.findById(post.author_id);
             const username = user?.username;
-            console.log('id', post.location_id);
             const location = await LocationModel.findById(post.location_id);
-            console.log(location);
             const locationName = location?.city_name;
-            console.log(locationName);
 
             return {
                 id: post._id,
