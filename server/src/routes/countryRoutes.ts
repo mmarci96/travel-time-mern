@@ -1,4 +1,4 @@
-import express, { Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { CountryModel } from '../model/CountryModel';
@@ -31,4 +31,29 @@ router.get(
         }
     },
 );
+
+interface CountryRequestParams {
+    country_name: string;
+}
+router.get(
+    '/countryName/:country_name',
+    async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+        try {
+            const { country_name } = req.params as { country_name: string };
+
+            const country = await CountryModel.findOne({
+                'name.common': country_name,
+            });
+
+            if (!country) {
+                return res.status(404).json({ message: 'Country not found' });
+            }
+
+            res.status(200).json({ country });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
 export default router;

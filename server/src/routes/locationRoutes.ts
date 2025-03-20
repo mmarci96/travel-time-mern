@@ -4,34 +4,53 @@ import { authenticateToken } from '../middleware/authenticateToken';
 import { LocationModel } from '../model/LocationModel';
 import { filterCountries } from '../services/CountryService';
 import { Types } from 'mongoose';
+import {
+    getAllLocationsNames,
+    getLocationByCityName,
+    getLocationById,
+} from '../services/LocationService';
 
-const router=express.Router();
+const router = express.Router();
 
 router.get(
-  '/:location_id',
-  authenticateToken,
-  async (req: AuthRequest, res: Response, next: NextFunction): Promise <any> => {
-    try {
-     const location_id= new Types.ObjectId(req.params.location_id) ;
-
-     if (!location_id){
-       return res.status(400).json({message: 'Location id not found'});
-     }
-      const location = await LocationModel.findById(location_id); // Fixed parameter name
-
-
-      if (!location) {
-        return res.status(404).json({ message: "Location not found" });
-      }
-      res.status(200).json({ location });
-    } catch (err) {
-      next(err);
-    }
-  },
+    '/:location_id',
+    authenticateToken,
+    async (
+        req: AuthRequest,
+        res: Response,
+        next: NextFunction,
+    ): Promise<any> => {
+        try {
+            const location = await getLocationById(req.params.location_id);
+            res.status(200).json({ location });
+        } catch (err) {
+            next(err);
+        }
+    },
 );
 
+router.get(
+    'cityName/:city_name',
+    authenticateToken,
+    async (
+        req: AuthRequest,
+        res: Response,
+        next: NextFunction,
+    ): Promise<any> => {
+        try {
+            const location = getLocationByCityName(req.params.city_name);
+            res.status(200).json({ location });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+router.get(
+    '/countryNames',
+    authenticateToken,
+    (req: AuthRequest, res: Response, next: NextFunction): Promise<any> => {
+        return getAllLocationsNames();
+    },
+);
 
 export default router;
-
-
-

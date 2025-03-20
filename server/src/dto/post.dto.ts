@@ -3,7 +3,7 @@ import { Date, Types } from 'mongoose';
 export interface PostCreateDTO {
     title: string;
     description?: string;
-    location?: string;
+    location_name: string;
     image_url: string;
 }
 
@@ -13,7 +13,8 @@ export interface PostRequestDTO {
     author_name?: string;
     title: string;
     description?: string;
-    location?: string;
+    location_id: Types.ObjectId;
+    location_name?: string;
     image_url: string;
     likes?: Types.ObjectId[];
     created_at: Date;
@@ -22,6 +23,6 @@ export interface PostRequestDTO {
 export interface PostUpdateDTO {
     title?: string;
     description?: string;
-    location?: string;
+    location_name: string;
     image_url?: string;
 }
