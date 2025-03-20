@@ -12,7 +12,7 @@ const PostForm = ({ postId }) => {
         title: '',
         description: '',
         image_url: '',
-        location: ''
+        location: '',
     });
     const navigate = useNavigate();
 
@@ -49,9 +49,15 @@ const PostForm = ({ postId }) => {
                     payload,
                 );
             } else {
-                const location = await sendRequest(`/api/locations/cityName/${formData.location}`, "GET");
+                const location = await sendRequest(
+                    `/api/locations/cityName/${formData.location}`,
+                    'GET',
+                );
 
-                response = await sendRequest('/api/posts', 'POST', { ...formData, location_id:location.location.city_id });
+                response = await sendRequest('/api/posts', 'POST', {
+                    ...formData,
+                    location_id: location.location.city_id,
+                });
                 const id = response.id;
 
                 id && navigate(`/post/${id}`);
