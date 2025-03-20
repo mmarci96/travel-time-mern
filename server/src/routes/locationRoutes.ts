@@ -5,7 +5,7 @@ import {
     getAllLocationsNames,
     getLocationByCityName,
     getLocationById,
-} from '../services/LocationService';
+} from '../services/locationService';
 
 const router = express.Router();
 

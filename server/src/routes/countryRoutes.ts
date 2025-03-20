@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { CountryModel } from '../model/CountryModel';
-import { filterCountries } from '../services/CountryService';
+import { filterCountries } from '../services/countryService';
 
 const router = express.Router();
 
