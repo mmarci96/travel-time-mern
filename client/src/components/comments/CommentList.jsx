@@ -10,21 +10,18 @@ const CommentList = ({ postId }) => {
     const { sendRequest } = useAuthRequest();
 
     useEffect(() => {
-        const fetchComments = async (postId) => {
-            const commentsData = await sendRequest(
-                `/api/comments/${postId}`,
-                'GET',
-            );
+        const fetchComments = async () => {
+            const commentsData = await sendRequest(`/api/comments/${postId}`, 'GET');
             if (commentsData) {
                 setComments(commentsData);
-                commentCounter === 0 && setCommandCounter(commentsData.length);
+                setCommandCounter(commentsData.length);
+            } else {
+                setComments(null)
             }
         };
 
-        if (!comments || commentCounter !== comments.length) {
-            fetchComments(postId);
-        }
-    }, [commentCounter]);
+        fetchComments();
+    }, [postId, commentCounter]);
 
     return (
         <AnimatedComponent

@@ -17,7 +17,7 @@ const CommentEditorForm = ({ commentId, content, onEdit, onDeleteCount }) => {
         e.preventDefault();
         const data = await sendRequest('/api/comments', 'PATCH', formData);
         if (data) {
-            onDeleteCount((prev) => prev + 1);
+            onDeleteCount((prev) => prev - 1);
             onEdit(false);
         }
     };
