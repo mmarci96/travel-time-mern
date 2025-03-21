@@ -11,12 +11,15 @@ const CommentList = ({ postId }) => {
 
     useEffect(() => {
         const fetchComments = async () => {
-            const commentsData = await sendRequest(`/api/comments/${postId}`, 'GET');
+            const commentsData = await sendRequest(
+                `/api/comments/${postId}`,
+                'GET',
+            );
             if (commentsData) {
                 setComments(commentsData);
                 setCommandCounter(commentsData.length);
             } else {
-                setComments(null)
+                setComments(null);
             }
         };
 

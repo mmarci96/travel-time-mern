@@ -10,7 +10,7 @@ import useAuthRequest from '../../hooks/useAuthRequest';
 
 const CommentOwnerOptions = ({
     commentId,
-    onDeleteCount = () => { },
+    onDeleteCount = () => {},
     onEditing,
 }) => {
     const [toggleOptions, setToggleOptions] = useState(false);

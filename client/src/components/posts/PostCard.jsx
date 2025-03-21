@@ -82,7 +82,9 @@ const PostCard = ({ post, onDeleteCount }) => {
                                     </Link>
                                 </h4>
                                 <h3 className="text-lg mt-1  italic">
-                                    {new Date(post?.created_at).toLocaleDateString()}
+                                    {new Date(
+                                        post?.created_at,
+                                    ).toLocaleDateString()}
                                 </h3>
                             </div>
                             {post.author_id === currentUserId && (
