@@ -61,7 +61,7 @@ const PostCard = ({ post, onDeleteCount }) => {
                     <span className="flex flex-col">
                         <h3
                             onClick={handleLocationClick}
-                            className="post-location text-lg px-2  mb-1 max-h-8 overflow-hidden text-ellipsis"
+                            className="post-location text-lg px-2 hover:bg-gray-200  mb-1 max-h-8 overflow-hidden text-ellipsis"
                         >
                             Location: {post.location_name}
                         </h3>

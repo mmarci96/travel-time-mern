@@ -54,20 +54,27 @@ const PostForm = ({ postId }) => {
                     'GET',
                 );
 
-                response = await sendRequest('/api/posts', 'POST', {
-                    ...formData,
-                    location_id: location.location.city_id,
-                });
-                const id = response.id;
+                if (location) {
+                    response = await sendRequest('/api/posts', 'POST', {
+                        ...formData,
+                        location_id: location.location.city_id,
+                    });
+                } else {
+                    response = await sendRequest('/api/posts', 'POST', {
+                        ...formData,
+                        location_id: '67dbf147a5700b356055c573',
+                    });
 
-                id && navigate(`/post/${id}`);
-            }
+                    const id = response.id;
 
-            if (!response || response.error) {
-                setError(
-                    postId ? 'Error updating post' : 'Error creating post',
-                );
-            } else {
+                    id && navigate(`/post/${id}`);
+                }
+
+                if (!response || response.error) {
+                    setError(
+                        postId ? 'Error updating post' : 'Error creating post',
+                    );
+                }
             }
         } catch (err) {
             console.error(err);
