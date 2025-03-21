@@ -33,6 +33,7 @@ resource "kubernetes_secret" "traveltime_secrets" {
     AWS_BUCKET_NAME        = var.img_storage_s3_bucket_name
     AWS_REGION             = var.aws_region
     AWS_ROLE_ARN           = "arn:aws:iam::390403884602:role/TravelTimeServerS3AccessRole"
+    STORAGE_TYPE           = "s3"
   }
 }
 

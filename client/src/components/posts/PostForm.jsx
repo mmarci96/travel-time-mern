@@ -12,7 +12,7 @@ const PostForm = ({ postId }) => {
         title: '',
         description: '',
         image_url: '',
-        location: ''
+        location: '',
     });
     const navigate = useNavigate();
 
@@ -49,19 +49,32 @@ const PostForm = ({ postId }) => {
                     payload,
                 );
             } else {
-                const location = await sendRequest(`/api/locations/cityName/${formData.location}`, "GET");
-
-                response = await sendRequest('/api/posts', 'POST', { ...formData, location_id:location.location.city_id });
-                const id = response.id;
-
-                id && navigate(`/post/${id}`);
-            }
-
-            if (!response || response.error) {
-                setError(
-                    postId ? 'Error updating post' : 'Error creating post',
+                const location = await sendRequest(
+                    `/api/locations/cityName/${formData.location}`,
+                    'GET',
                 );
-            } else {
+
+                if (location) {
+                    response = await sendRequest('/api/posts', 'POST', {
+                        ...formData,
+                        location_id: location.location.city_id,
+                    });
+                } else {
+                    response = await sendRequest('/api/posts', 'POST', {
+                        ...formData,
+                        location_id: '67dbf147a5700b356055c573',
+                    });
+
+                    const id = response.id;
+
+                    id && navigate(`/post/${id}`);
+                }
+
+                if (!response || response.error) {
+                    setError(
+                        postId ? 'Error updating post' : 'Error creating post',
+                    );
+                }
             }
         } catch (err) {
             console.error(err);

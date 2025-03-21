@@ -3,7 +3,7 @@ import Button from '../common/Button.jsx';
 
 function UserForm({ user, onSubmit, onChange }) {
     return (
-        <div>
+        <div className="w-full mx-auto">
             <form
                 onSubmit={onSubmit}
                 className="min-w-[280px] max-w-[480px] w-full"
